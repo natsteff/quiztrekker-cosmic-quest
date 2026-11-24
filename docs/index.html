@@ -16,7 +16,12 @@
   <section id="play" aria-labelledby="play-menu-title" hidden>
     <div id="game-menu" class="panel">
       <h1 id="play-menu-title" tabindex="-1">Play</h1>
-      <button id="start-quiz" class="primary">Start space quiz</button>
+      <div id="games" class="choices">
+        <button data-game="quiz">Space Quiz</button>
+        <button data-game="order">Planet Order</button>
+        <button data-game="moons">Match the Moon to Its Planet</button>
+      </div>
+      <p id="game-availability"></p>
     </div>
     <div id="quiz" hidden>
     <div class="strip"><button id="quiz-menu">Games</button><span id="progress"></span><strong id="points">0 pts</strong></div>
@@ -24,6 +29,14 @@
       <p class="eyebrow" id="topic"></p>
       <h1 id="play-title" tabindex="-1">Cosmic Quest</h1>
       <div id="choices" class="choices" aria-label="Answer choices"></div>
+      <div id="order-tools" hidden>
+        <p id="planet-sequence" role="status"></p>
+        <div class="actions">
+          <button id="order-undo">Undo</button>
+          <button id="order-clear">Clear</button>
+          <button id="order-submit" class="primary">Submit order</button>
+        </div>
+      </div>
       <div id="feedback" role="status"></div>
       <div class="actions">
         <button id="study" hidden>Open Learn card</button>
@@ -68,6 +81,11 @@
         <label><input type="radio" name="level" value="advanced"> <span><strong>Advanced</strong><small>Apply the ideas and dig into the explanation.</small></span></label>
       </fieldset>
       <fieldset>
+        <legend>Choose content</legend>
+        <p>Enable packs to add their cards and questions.</p>
+        <div id="packs"></div>
+      </fieldset>
+      <fieldset>
         <legend>Practice topics</legend>
         <p>Turn off topics you already know. All cards stay available in Learn.</p>
         <div id="filters"></div>
@@ -81,5 +99,5 @@
   <button data-view="play"><span aria-hidden="true">▶</span>Play</button>
   <button data-view="my-progress"><span aria-hidden="true">★</span>My Progress</button>
 </nav>
-<footer class="shell">Prototype 0.2.0 <span>·</span> Nate S</footer>
+<footer class="shell">Prototype 0.3.0 <span>·</span> Nate S</footer>
 </html>
