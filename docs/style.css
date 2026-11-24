@@ -74,21 +74,50 @@ button:disabled{cursor:default}
 #game-availability,#planet-sequence{color:var(--muted)}
 #order-tools .actions button:disabled{opacity:.55}
 
-.explorer-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.65rem}
 #explorer-title{font-size:clamp(1.15rem,4vw,1.75rem);margin:0}
 .explorer-note{color:var(--muted)}
 #explorer-map{display:grid;gap:.65rem}
-.orbit-region summary{cursor:pointer;font-weight:800}
-.orbit-lane{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;margin-top:.55rem;padding:.45rem;border-radius:1rem;background:linear-gradient(90deg,#232445,#11142b)}
-.orbit-lane button{display:inline-flex;align-items:center;gap:.45rem;padding:.35rem .55rem;text-align:left}
-.orbit-lane img{width:2.25rem;height:2.25rem;object-fit:cover;border-radius:50%;background:#080a17}
-.orbital-moons{display:flex;flex-wrap:wrap;gap:.35rem;padding-left:.5rem;border-left:2px solid var(--edge)}
-.orbital-moons img{width:1.55rem;height:1.55rem}
 #quiz-image{margin:0 0 .65rem}
 #quiz-image img{display:block;width:100%;height:clamp(9rem,40vw,15rem);object-fit:contain;background:#080a17;border-radius:.85rem}
 #quiz-image figcaption{font-size:.85rem;color:var(--muted);margin-top:.4rem}
-.orbit-overview h3{margin:0 0 .6rem}
-.orbit-track{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;background:repeating-radial-gradient(ellipse at 0 50%,transparent 0 16%,#6b61a63b 16.4% 17%,transparent 17.4% 22%),#10132d;border-radius:.85rem;padding:.45rem}
-.orbit-track button{display:grid;justify-items:center;gap:.2rem;padding:.35rem .1rem;background:#1b1d38e6;font-size:.85rem}
-.orbit-track img{width:clamp(1.8rem,7vw,2.6rem);aspect-ratio:1;object-fit:cover;border-radius:50%;background:#080a17}
-@media(min-width:38rem){.orbit-track{grid-template-columns:repeat(5,minmax(0,1fr))}}
+
+.learn-heading{gap:.5rem}
+.learn-heading button{flex-shrink:0}
+.card-position{font-size:.9rem;color:var(--muted);margin:0 0 .45rem;text-align:right}
+.explorer-tabs,.orbit-tools,.orbit-system-controls{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem}
+.explorer-tabs button{flex:1 1 auto;padding:.55rem}
+.explorer-tabs [aria-pressed="true"]{background:var(--violet);color:#1b1037}
+.orbit-system-controls label{flex:1;min-width:0}
+.orbit-system-controls select{flex:1;min-width:0}
+.orbit-system-controls label{margin:0}
+.orbit-tools button{min-height:2.75rem;padding:.35rem .55rem}
+.orbit-tools output{padding-inline:.35rem;color:var(--muted)}
+.orbit-viewport{position:relative;overflow:auto;overscroll-behavior:contain;height:min(70vw,34rem);min-height:15rem;border:1px solid var(--edge);border-radius:1rem;background:#090b20;scrollbar-color:#7567a9 #171a36}
+.orbit-viewport:focus-visible{outline:3px solid var(--gold)}
+.orbit-canvas{position:relative;aspect-ratio:1;width:100%;margin-inline:auto;background:radial-gradient(ellipse at center,#222049,#090b20 70%)}
+.orbit-canvas svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.orbit-canvas circle{stroke:#8c80cf;stroke-opacity:.62;stroke-width:1.35;vector-effect:non-scaling-stroke;fill:none}
+.orbit-world{position:absolute;z-index:1;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;gap:.25rem;background:#141633;border:1px solid #5d518c;padding:.25rem;min-height:2.75rem;min-width:2.75rem;border-radius:.65rem;white-space:nowrap;font-size:.74rem;color:var(--text)}
+.orbit-world:focus-visible,.orbit-world:hover{z-index:2}
+.orbit-world-dot{display:block;width:.95rem;height:.95rem;flex-shrink:0;border-radius:50%;background:radial-gradient(circle at 32% 27%,#fff9ce,var(--world-color) 45%,#302740);box-shadow:0 0 .45rem var(--world-color)}
+.orbit-world-list summary{cursor:pointer;margin-bottom:.5rem}
+.size-details{margin:.8rem 0;border-top:1px solid var(--edge);padding-top:.55rem}
+.size-details h2,.size-lineup h3{margin:0 0 .4rem}
+.comparison-pair{margin:.65rem 0;padding:.6rem;background:#11132c;border-radius:.8rem}
+.comparison-disks{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.comparison-column{text-align:center}
+.comparison-disk-area{width:min(100%,6.5rem);aspect-ratio:1;display:grid;place-items:center;margin:auto}
+.size-disk{display:block;width:var(--disk-size);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 34% 27%,#fffae7,var(--disk-color) 45%,#302740)}
+.comparison-inset{display:flex;align-items:center;justify-content:center;gap:.4rem;width:min(100%,6.5rem);min-height:1.75rem;margin:.25rem auto;border:1px dashed var(--edge);border-radius:.4rem}
+.comparison-pair figcaption{margin-top:.4rem;color:var(--muted);font-size:.9rem}
+.size-lineup ol{padding-inline-start:1.65rem;margin:0 0 1.25rem}
+.size-lineup li{margin:.3rem 0}
+.size-lineup li button{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) 4rem;align-items:center;gap:.25rem;text-align:left;font-size:.86rem;padding:.35rem}
+.lineup-graphic{width:100%;height:3.75rem;display:grid;place-items:center}
+@media(max-width:35rem){.wide-explorer-label{display:none}.size-lineup li button{grid-template-columns:repeat(3,minmax(0,1fr)) 2.5rem;font-size:.8rem}.lineup-graphic{height:2.35rem}}
+
+.orbit-distance:not(.orbit-wide-labels) .orbit-world{background:transparent;border-color:transparent}
+.orbit-distance:not(.orbit-wide-labels) .orbit-world-name{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.orbit-distance:not(.orbit-wide-labels) .orbit-world:hover .orbit-world-name,
+.orbit-distance:not(.orbit-wide-labels) .orbit-world:focus-visible .orbit-world-name{width:auto;height:auto;overflow:visible;clip-path:none;top:100%;background:#141633;padding:.15rem .3rem;border-radius:.3rem}
+.orbit-sources{margin:0;font-size:.9rem}

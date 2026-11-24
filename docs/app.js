@@ -275,6 +275,7 @@ function renderCard() {
   if (preferences.level === "advanced") back.append(make("p", card.detail));
   const source = make("a", "Read more at NASA");
   source.href = card.source;
+  appendSizeDetails(back, card);
   back.append(source);
 }
 
@@ -332,103 +333,6 @@ function updatePools() {
   if (!$("my-progress").hidden) renderProgress();
 }
 
-const explorerRegions = [
-  ["Inner Solar System", ["sun", "mercury", "venus", "earth", "mars"]],
-  ["Outer Solar System", ["jupiter", "saturn", "uranus", "neptune"]],
-  ["Dwarf planets and small worlds", ["ceres", "pluto", "haumea", "makemake", "eris", "asteroids", "comets"]]
-];
-let lastExplorerWorld = null;
-let lastExplorerButton;
-
-function renderExplorer() {
-  const map = $("explorer-map");
-  const previouslyOpen = new Map([...map.querySelectorAll("details")].map((region) => [region.dataset.region, region.open]));
-  const byId = new Map(learnCards.map((card) => [card.id, card]));
-  function worldButton(card) {
-    const button = make("button");
-    button.dataset.world = card.id;
-    const image = make("img");
-    image.src = "assets/" + artwork[card.id][0];
-    image.alt = "";
-    image.loading = "lazy";
-    button.append(image, make("span", card.title));
-    button.addEventListener("click", () => {
-      lastExplorerWorld = card.id;
-      lastExplorerButton = button;
-      showCards();
-      $("return-explorer").hidden = false;
-      selectCard(learnCards.indexOf(card));
-      $("flip-card").focus();
-    });
-    return button;
-  }
-  map.replaceChildren();
-  const overview = make("div");
-  overview.className = "panel orbit-overview";
-  overview.append(make("h3", "From the Sun outward"));
-  const track = make("div");
-  track.className = "orbit-track";
-  for (const id of solarOrder.slice(0, 9)) {
-    if (byId.has(id)) track.append(worldButton(byId.get(id)));
-  }
-  if (track.children.length) {
-    overview.append(track);
-    map.append(overview);
-  }
-  for (const [name, ids] of explorerRegions) {
-    const region = make("details");
-    region.dataset.region = name;
-    region.className = "panel orbit-region";
-    region.open = previouslyOpen.get(name) ?? true;
-    region.append(make("summary", name));
-    for (const id of ids) {
-      const object = solarById.get(id);
-      const moons = learnCards.filter((card) => card.parent === object.title ||
-        (id === "earth" && card.id === "moon") || (id === "pluto" && card.id === "charon"));
-      if (!byId.has(id) && !moons.length) continue;
-      const lane = make("div");
-      lane.className = "orbit-lane";
-      lane.append(byId.has(id) ? worldButton(object) : make("strong", object.title));
-      if (moons.length) {
-        const satellites = make("div");
-        satellites.className = "orbital-moons";
-        satellites.setAttribute("role", "group");
-        satellites.setAttribute("aria-label", `Moons of ${object.title}`);
-        satellites.append(...moons.map(worldButton));
-        lane.append(satellites);
-      }
-      region.append(lane);
-    }
-    if (region.children.length > 1) map.append(region);
-  }
-  if (!map.children.length) map.append(make("p", "Enable a Solar System content pack in Settings to explore its worlds."));
-}
-
-function showCards() {
-  $("explorer").hidden = true;
-  $("learn-cards").hidden = false;
-  $("card-position").hidden = false;
-}
-
-function openExplorer(returning) {
-  $("learn-cards").hidden = true;
-  $("card-position").hidden = true;
-  $("explorer").hidden = false;
-  const world = returning && lastExplorerWorld
-    ? lastExplorerButton?.isConnected
-      ? lastExplorerButton
-      : $("explorer-map").querySelector(`[data-world="${lastExplorerWorld}"]`)
-    : null;
-  (world || $("explorer-title")).focus();
-}
-
-$("open-explorer").addEventListener("click", () => openExplorer(false));
-$("return-explorer").addEventListener("click", () => openExplorer(true));
-$("close-explorer").addEventListener("click", () => {
-  showCards();
-  $("open-explorer").focus();
-});
-
 function updateSettings() {
   storageAvailable = save();
   $("settings-status").textContent = storageAvailable ? "Settings saved." : "Settings apply for this visit.";
@@ -448,7 +352,7 @@ $("next").addEventListener("click", () => {
 });
 $("study").addEventListener("click", () => {
   showCards();
-  $("return-explorer").hidden = true;
+  setExplorerReturn(false);
   selectCard(learnCards.indexOf(quizLearnCard));
   show("learn", false);
   $("flip-card").focus();

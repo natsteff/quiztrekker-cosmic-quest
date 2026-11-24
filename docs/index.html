@@ -7,6 +7,7 @@
 <title>QuizTrekker: Cosmic Quest</title>
 <link rel="stylesheet" href="style.css">
 <script src="content.js" defer></script>
+<script src="explorer.js" defer></script>
 <script src="app.js" defer></script>
 <header class="shell">
   <img class="logo" src="assets/logo.png" alt="QuizTrekker: Cosmic Quest">
@@ -50,12 +51,12 @@
     </div>
   </section>
   <section id="learn" aria-labelledby="learn-title">
-    <div class="strip"><h1 id="learn-title" tabindex="-1">Learn</h1><span id="card-position"></span></div>
-    <div id="learn-cards">
-    <div class="explorer-actions">
-      <button id="open-explorer">Solar System Explorer</button>
-      <button id="return-explorer" hidden>Back to Explorer</button>
+    <div class="strip learn-heading">
+      <h1 id="learn-title" tabindex="-1">Learn</h1>
+      <button id="open-explorer"><span class="wide-explorer-label">Solar System </span>Explorer</button>
     </div>
+    <div id="learn-cards">
+    <p id="card-position" class="card-position"></p>
     <article class="panel flashcard" id="flashcard">
       <button id="flip-card" aria-expanded="false" aria-controls="card-back"></button>
       <p id="card-image-info" class="image-credit"></p>
@@ -72,7 +73,12 @@
         <h2 id="explorer-title" tabindex="-1">Solar System Explorer</h2>
         <button id="close-explorer">Back to Learn</button>
       </div>
-      <p class="explorer-note">Schematic. Sizes, distances, and positions are illustrative. Select a world to open its Learn card.</p>
+      <div class="explorer-tabs" role="group" aria-label="Explorer view">
+        <button data-explorer-mode="browse" aria-pressed="true">Browse</button>
+        <button data-explorer-mode="distance" aria-pressed="false">True Distance Scale</button>
+        <button data-explorer-mode="sizes" aria-pressed="false">Planet Sizes</button>
+      </div>
+      <p id="explorer-note" class="explorer-note"></p>
       <div id="explorer-map"></div>
     </div>
   </section>
@@ -117,5 +123,5 @@
   <button data-view="play"><span aria-hidden="true">▶</span>Play</button>
   <button data-view="my-progress"><span aria-hidden="true">★</span>My Progress</button>
 </nav>
-<footer class="shell">Prototype 0.4.0 <span>·</span> Nate S</footer>
+<footer class="shell">Prototype 0.5.0 <span>·</span> Nate S</footer>
 </html>
