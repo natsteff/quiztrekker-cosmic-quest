@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "QuizTrekker CQ",
-  "short_name": "QuizTrekker CQ",
+  "name": "QT Cosmic Quest",
+  "short_name": "QT Cosmic Quest",
   "description": "Explore the science of space with flashcards and quizzes.",
   "start_url": "./",
   "scope": "./",

@@ -390,11 +390,11 @@ Object.assign(artwork, {
   "charon": ["charon.jpg", "Charon in Enhanced Color", "New Horizons enhanced-color image", "NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Institute", "https://photojournal.jpl.nasa.gov/catalog/PIA19968"],
   "ceres": ["ceres.jpg", "Ceres in Color", "Dawn approximate-color composite", "NASA/JPL-Caltech/UCLA/MPS/DLR/IDA", "https://photojournal.jpl.nasa.gov/catalog/PIA21079"],
   "pluto": ["pluto.jpg", "Pluto in True Color", "New Horizons color composite", "NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Institute", "https://photojournal.jpl.nasa.gov/catalog/PIA19857"],
-  "haumea": ["haumea.svg", "An elongated world with a thin ring", "Illustration of Haumea and its ring, not to scale"],
-  "makemake": ["makemake.svg", "A stylized disk of the dwarf planet Makemake", "Artist’s illustration; surface appearance is illustrative"],
-  "eris": ["eris.svg", "An icy world alongside its much smaller moon Dysnomia", "Illustration of Eris and Dysnomia, not to scale"],
-  "asteroids": ["asteroids.svg", "An irregular rocky body with a crater", "Illustration of a typical asteroid"],
-  "comets": ["comets.svg", "An icy nucleus with a bright coma and two tails", "Illustration of an active comet"]
+  "haumea": ["haumea.jpg", "Three points of light, with Haumea brightest in the center and its two moons nearby", "Hubble observation of Haumea, Namaka, and Hiʻiaka; surface and ring are unresolved", "NASA, ESA, and D. Ragozzine (Brigham Young University); image processing: Gladys Kober (NASA/Catholic University of America)", "https://science.nasa.gov/dwarf-planets/haumea/"],
+  "makemake": ["makemake.jpg", "A reddish dwarf planet with a smaller dark moon against a star field", "Artist’s concept of Makemake and its moon MK 2", "NASA, ESA, and A. Parker (SWRI)", "https://science.nasa.gov/image-detail/makemakemoon100mile/"],
+  "eris": ["eris.jpg", "An icy dwarf planet and its moon, with the distant Sun in the background", "Artist’s concept of Eris and Dysnomia", "NASA/JPL-Caltech", "https://science.nasa.gov/photojournal/eris-and-dysnomia-artist-concept/"],
+  "asteroids": ["asteroids.jpg", "A diamond-shaped asteroid with a rocky, boulder-covered surface", "Asteroid Bennu · OSIRIS-REx spacecraft image mosaic", "NASA/Goddard/University of Arizona", "https://science.nasa.gov/resource/bennu-mosaic/"],
+  "comets": ["comets.jpg", "Bright comet head with a tapering golden tail against the dark sky", "Comet NEOWISE · stacked photograph, cropped and resized", "Hypatia Alexandria · CC BY 2.0", "https://commons.wikimedia.org/wiki/File:Comet_NEOWISE_Close_Up_(50079181406).jpg"]
 });
 
 // NASA Planetary Fact Sheet. Diameters are equatorial; orbital distances are

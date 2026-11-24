@@ -3,13 +3,13 @@
 </p>
 <p align="center">
   <a href="https://natsteff.github.io/quiztrekker-cosmic-quest/">
-    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now, version 0.8.0" width="420">
+    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now, version 0.9.0" width="420">
   </a>
 </p>
 
 # QuizTrekker: Cosmic Quest
 
-**Current release · v0.8.0**
+**Current release · v0.9.0**
 
 Explore the Solar System and the science beyond it with illustrated flashcards, an interactive orbit map, and quizzes. On your first visit, a welcome screen explains the beginner setup: **Foundations** with **Solar System Basics** enabled. Start with the Sun, eight planets, and Earth’s Moon. Use Settings to add more moons, dwarf planets, and topics like black holes and time dilation, or switch to **Advanced** questions.
 
@@ -18,7 +18,7 @@ Explore the Solar System and the science beyond it with illustrated flashcards, 
 1. Open [Cosmic Quest](https://natsteff.github.io/quiztrekker-cosmic-quest/) on your phone.
 2. **iPhone:** In Safari, tap **Share**, choose **Add to Home Screen**, turn on **Open as Web App** if shown, then tap **Add**.
 3. **Android:** In Chrome, tap **⋮**, choose **Add to Home screen**, then follow the **Create shortcut** or **Install** option shown.
-4. Tap the **QuizTrekker CQ** icon on your Home Screen to open the game.
+4. Tap the **QT Cosmic Quest** icon on your Home Screen to open the game.
 
 The first-visit welcome also shows these steps on supported phones and tablets. An internet connection is required.
 
@@ -36,6 +36,6 @@ The first-visit welcome also shows these steps on supported phones and tablets. 
 - The black hole is a visualization credited to NASA’s Goddard Space Flight Center/Jeremy Schnittman. [Visual source](https://svs.gsfc.nasa.gov/13326/) · [NASA SVS usage guidance](https://svs.gsfc.nasa.gov/help/)
 - The planetary scale, light-year, time dilation, and expansion diagrams were drawn for Cosmic Quest.
 
-The expanded Solar System cards show their individual [NASA Photojournal](https://science.nasa.gov/photojournal/) credits and source links beside each image. Resized JPEGs keep the game lightweight. Haumea, Makemake, Eris, asteroids, and comets use labeled illustrations.
+The expanded Solar System cards show their individual [NASA Photojournal](https://science.nasa.gov/photojournal/) credits and source links beside each image. Resized JPEGs keep the game lightweight. Haumea uses a Hubble observation. Makemake and Eris use credited artist’s concepts. The Asteroids card shows the OSIRIS-REx mosaic of Bennu. The Comets card uses a cropped and resized photograph of Comet NEOWISE by Hypatia Alexandria. [Image source](https://commons.wikimedia.org/wiki/File:Comet_NEOWISE_Close_Up_%2850079181406%29.jpg) · [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
 
 Planet Size uses equatorial diameters. Orbital Distance compares orbital semimajor axes around the Sun. [NASA Planetary Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/index.html)

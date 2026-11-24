@@ -269,6 +269,11 @@ function renderCard() {
     const link = make("a", credit);
     link.href = creditUrl;
     imageInfo.append(" · ", link);
+    if (card.id === "comets") {
+      const license = make("a", "License");
+      license.href = "https://creativecommons.org/licenses/by/2.0/";
+      imageInfo.append(" · ", license);
+    }
   }
 
   const back = $("card-back");
