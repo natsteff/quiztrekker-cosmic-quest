@@ -10,15 +10,16 @@
 <script src="app.js" defer></script>
 <header class="shell">
   <img class="logo" src="assets/logo.png" alt="QuizTrekker: Cosmic Quest">
-  <nav aria-label="Game">
-    <button data-view="play" aria-current="page">Play</button>
-    <button data-view="learn">Learn</button>
-    <button data-view="settings">Settings</button>
-  </nav>
+  <button id="settings-open" class="gear" aria-label="Open settings" title="Settings">⚙</button>
 </header>
 <main class="shell">
-  <section id="play" aria-labelledby="play-title">
-    <div class="strip"><span id="progress"></span><strong id="points">0 pts</strong></div>
+  <section id="play" aria-labelledby="play-menu-title" hidden>
+    <div id="game-menu" class="panel">
+      <h1 id="play-menu-title" tabindex="-1">Play</h1>
+      <button id="start-quiz" class="primary">Start space quiz</button>
+    </div>
+    <div id="quiz" hidden>
+    <div class="strip"><button id="quiz-menu">Games</button><span id="progress"></span><strong id="points">0 pts</strong></div>
     <article class="panel">
       <p class="eyebrow" id="topic"></p>
       <h1 id="play-title" tabindex="-1">Cosmic Quest</h1>
@@ -29,13 +30,37 @@
         <button id="next" class="primary" hidden>Next question</button>
       </div>
     </article>
+    </div>
   </section>
-  <section id="learn" aria-labelledby="learn-title" hidden>
-    <h1 id="learn-title" tabindex="-1">Learn</h1>
-    <div id="library" class="library"></div>
+  <section id="learn" aria-labelledby="learn-title">
+    <div class="strip"><h1 id="learn-title" tabindex="-1">Learn</h1><span id="card-position"></span></div>
+    <article class="panel flashcard" id="flashcard">
+      <button id="flip-card" aria-expanded="false" aria-controls="card-back"></button>
+      <p id="card-image-info" class="image-credit"></p>
+      <div id="card-back" hidden></div>
+    </article>
+    <div class="card-controls">
+      <button id="previous-card" aria-label="Previous card">‹</button>
+      <label for="card-select"><span class="visually-hidden">Choose a Learn card</span><select id="card-select"></select></label>
+      <button id="next-card" aria-label="Next card">›</button>
+    </div>
   </section>
-  <section id="settings" aria-labelledby="settings-title" hidden>
-    <h1 id="settings-title" tabindex="-1">Settings</h1>
+  <section id="my-progress" aria-labelledby="my-progress-title" hidden>
+    <h1 id="my-progress-title" tabindex="-1">My Progress</h1>
+    <dl class="panel stats">
+      <div><dt>Total points</dt><dd id="total-points"></dd></div>
+      <div><dt>Cards explored</dt><dd id="cards-explored"></dd></div>
+      <div><dt>Questions answered</dt><dd id="total-answered"></dd></div>
+      <div><dt>Correct answers</dt><dd id="total-correct"></dd></div>
+      <div><dt>Best streak</dt><dd id="best-streak"></dd></div>
+    </dl>
+    <p id="progress-note"></p>
+  </section>
+  <dialog id="settings" aria-labelledby="settings-title">
+    <div class="dialog-header">
+      <h1 id="settings-title">Settings</h1>
+      <form method="dialog"><button aria-label="Close settings">✕</button></form>
+    </div>
     <div class="panel">
       <fieldset>
         <legend>Learning level</legend>
@@ -49,7 +74,12 @@
         <p id="settings-status" role="status"></p>
       </fieldset>
     </div>
-  </section>
+  </dialog>
 </main>
-<footer class="shell">Prototype 0.1.0 <span>·</span> Nate S</footer>
+<nav class="bottom-nav" aria-label="Game mode">
+  <button data-view="learn" aria-current="page"><span aria-hidden="true">▣</span>Learn</button>
+  <button data-view="play"><span aria-hidden="true">▶</span>Play</button>
+  <button data-view="my-progress"><span aria-hidden="true">★</span>My Progress</button>
+</nav>
+<footer class="shell">Prototype 0.2.0 <span>·</span> Nate S</footer>
 </html>

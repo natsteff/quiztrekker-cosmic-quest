@@ -64,3 +64,13 @@ const cards = [
     advanced: ["What happens to a light wave’s wavelength as it travels through expanding space?", "It becomes longer", "It becomes shorter", "It stays fixed", "It becomes zero"]
   }
 ];
+
+const artwork = {
+  saturn: ["saturn.jpg", "Cassini image of Saturn and its rings", "Spacecraft image, color and contrast enhanced", "NASA/JPL/Space Science Institute", "https://science.nasa.gov/image-detail/pia05380-saturn-with-rings-16x9/"],
+  planets: ["planets.svg", "Jupiter shown about eleven times wider than Earth", "Diagram of approximate relative diameters"],
+  light: ["light.svg", "Light travels from a star ten light-years away to Earth in about ten years", "Distance diagram"],
+  supernova: ["supernova.jpg", "Bright filaments and glowing gas in the Crab Nebula", "Crab Nebula supernova remnant, Webb infrared composite", "NASA, ESA, CSA, STScI, Tea Temim (Princeton University). Image processing by Joseph DePasquale (STScI)", "https://science.nasa.gov/asset/webb/crab-nebula-nircam-and-miri-image/"],
+  "black-hole": ["black-hole.jpg", "A bright, warped disk of gas surrounds the dark center of a simulated black hole", "Black hole accretion disk visualization", "NASA’s Goddard Space Flight Center/Jeremy Schnittman", "https://svs.gsfc.nasa.gov/13326/"],
+  time: ["time.svg", "An Earth clock and a traveling clock record different elapsed times", "Illustrative clock comparison after a journey"],
+  expansion: ["expansion.svg", "The same galaxies are shown farther apart at a later time", "Schematic of expansion on large scales"]
+};

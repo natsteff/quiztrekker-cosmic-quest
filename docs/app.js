@@ -8,10 +8,15 @@ try {
 } catch {
   saved = null;
 }
+const count = (value) => Number.isSafeInteger(value) && value >= 0 ? value : 0;
 const preferences = {
   level: saved?.level === "advanced" ? "advanced" : "foundations",
   topics: topicIds.filter((id) => Array.isArray(saved?.topics) && saved.topics.includes(id)),
-  points: Number.isSafeInteger(saved?.points) && saved.points >= 0 ? saved.points : 0
+  points: count(saved?.points),
+  answered: count(saved?.answered),
+  correct: count(saved?.correct),
+  bestStreak: count(saved?.bestStreak),
+  explored: cards.filter((card) => Array.isArray(saved?.explored) && saved.explored.includes(card.id)).map((card) => card.id)
 };
 if (!preferences.topics.length) preferences.topics = [...topicIds];
 
@@ -42,6 +47,10 @@ function make(tag, text) {
 let deck;
 let position;
 let answered;
+let streak = 0;
+let cardIndex = 0;
+let flipped = false;
+let storageAvailable = true;
 const tabs = [...document.querySelectorAll("[data-view]")];
 
 function show(view, focus = true) {
@@ -51,7 +60,11 @@ function show(view, focus = true) {
     if (active) tab.setAttribute("aria-current", "page");
     else tab.removeAttribute("aria-current");
   }
-  if (focus) $(view + "-title").focus();
+  if (view === "my-progress") renderProgress();
+  if (focus) {
+    const heading = view === "play" && !$("game-menu").hidden ? "play-menu-title" : view + "-title";
+    $(heading).focus();
+  }
 }
 
 function renderQuestion(focus = false) {
@@ -73,18 +86,25 @@ function renderQuestion(focus = false) {
       if (answered) return;
       answered = true;
       const right = choice === correct;
-      let stored = true;
+      preferences.answered++;
+      let award = 0;
       if (right) {
-        preferences.points += 100;
-        stored = save();
+        award = 100 + Math.min(streak * 10, 100);
+        streak++;
+        preferences.points += award;
+        preferences.correct++;
+        preferences.bestStreak = Math.max(preferences.bestStreak, streak);
+      } else {
+        streak = 0;
       }
+      storageAvailable = save();
       $("points").textContent = `${preferences.points.toLocaleString()} pts`;
       for (const option of buttons) option.disabled = true;
       buttons.find((option) => option.lastChild.textContent === correct).dataset.result = "correct";
       if (!right) button.dataset.result = "wrong";
-      const result = right ? "Correct! +100 points" : `Correct answer: ${correct}`;
+      const result = right ? `Correct! +${award} points` : `Correct answer: ${correct}`;
       $("feedback").append(make("strong", result), make("p", preferences.level === "advanced" ? card.detail : card.intro));
-      if (!stored) $("feedback").append(make("p", "Points are available for this visit. Browser storage is unavailable."));
+      if (!storageAvailable) $("feedback").append(make("p", "Points are available for this visit. Browser storage is unavailable."));
       $("study").hidden = false;
       $("next").hidden = false;
       $("next").textContent = position + 1 === deck.length ? "New round" : "Next question";
@@ -102,27 +122,67 @@ function start(previousId) {
     deck.push(deck.shift());
   }
   position = 0;
+  streak = 0;
   renderQuestion();
 }
 
-function buildLibrary() {
-  const advanced = preferences.level === "advanced";
-  $("library").replaceChildren(...cards.map((card) => {
-    const entry = make("details");
-    entry.id = "learn-" + card.id;
-    const source = make("a", "Read more at NASA");
-    source.href = card.source;
-    entry.append(make("summary", card.title), make("p", card.intro));
-    if (advanced) entry.append(make("p", card.detail));
-    entry.append(source);
-    return entry;
-  }));
+function renderCard() {
+  const card = cards[cardIndex];
+  const [file, alt, caption, credit, creditUrl] = artwork[card.id];
+  $("card-position").textContent = `${cardIndex + 1} / ${cards.length}`;
+  $("card-select").value = card.id;
+
+  const image = make("img");
+  image.src = "assets/" + file;
+  image.alt = alt;
+  const title = make("strong", card.title);
+  title.className = "card-title";
+  const hint = make("span", flipped ? "Show card front" : "Flip card");
+  hint.className = "card-action";
+  const front = $("flip-card");
+  front.replaceChildren(...(flipped ? [title, hint] : [image, title, hint]));
+  front.setAttribute("aria-expanded", String(flipped));
+
+  const imageInfo = $("card-image-info");
+  imageInfo.textContent = caption;
+  imageInfo.hidden = flipped;
+  if (credit) {
+    const link = make("a", credit);
+    link.href = creditUrl;
+    imageInfo.append(" · ", link);
+  }
+
+  const back = $("card-back");
+  back.hidden = !flipped;
+  if (!flipped) return;
+  back.replaceChildren(make("p", card.intro));
+  if (preferences.level === "advanced") back.append(make("p", card.detail));
+  const source = make("a", "Read more at NASA");
+  source.href = card.source;
+  back.append(source);
+}
+
+function selectCard(index) {
+  cardIndex = (index + cards.length) % cards.length;
+  flipped = false;
+  renderCard();
+}
+
+function renderProgress() {
+  $("total-points").textContent = preferences.points.toLocaleString();
+  $("cards-explored").textContent = `${preferences.explored.length} / ${cards.length}`;
+  $("total-answered").textContent = preferences.answered.toLocaleString();
+  $("total-correct").textContent = preferences.correct.toLocaleString();
+  $("best-streak").textContent = preferences.bestStreak.toLocaleString();
+  $("progress-note").textContent = storageAvailable
+    ? "Points and activity are saved in this browser. Activity tracking began in version 0.2.0."
+    : "Progress is available for this visit. Browser storage is unavailable.";
 }
 
 function updateSettings() {
-  const stored = save();
-  $("settings-status").textContent = stored ? "Settings saved. A new round is ready." : "Settings apply for this visit.";
-  buildLibrary();
+  storageAvailable = save();
+  $("settings-status").textContent = storageAvailable ? "Settings saved. A new round is ready." : "Settings apply for this visit.";
+  renderCard();
   start();
 }
 
@@ -137,11 +197,68 @@ $("next").addEventListener("click", () => {
   }
 });
 $("study").addEventListener("click", () => {
+  selectCard(cards.indexOf(deck[position]));
   show("learn", false);
-  const entry = $("learn-" + deck[position].id);
-  entry.open = true;
-  entry.querySelector("summary").focus();
+  $("flip-card").focus();
 });
+$("settings-open").addEventListener("click", () => $("settings").showModal());
+$("start-quiz").addEventListener("click", () => {
+  $("game-menu").hidden = true;
+  $("quiz").hidden = false;
+  $("play").setAttribute("aria-labelledby", "play-title");
+  if (!deck) start();
+  $("play-title").focus();
+});
+$("quiz-menu").addEventListener("click", () => {
+  $("quiz").hidden = true;
+  $("game-menu").hidden = false;
+  $("play").setAttribute("aria-labelledby", "play-menu-title");
+  $("start-quiz").textContent = "Resume space quiz";
+  $("play-menu-title").focus();
+});
+$("flip-card").addEventListener("click", () => {
+  flipped = !flipped;
+  const id = cards[cardIndex].id;
+  if (flipped && !preferences.explored.includes(id)) {
+    preferences.explored.push(id);
+    storageAvailable = save();
+  }
+  renderCard();
+});
+$("previous-card").addEventListener("click", () => selectCard(cardIndex - 1));
+$("next-card").addEventListener("click", () => selectCard(cardIndex + 1));
+for (const card of cards) {
+  const option = make("option", card.title);
+  option.value = card.id;
+  $("card-select").append(option);
+}
+$("card-select").addEventListener("change", (event) => selectCard(event.target.selectedIndex));
+
+let touch;
+let suppressClick = false;
+const flashcard = $("flashcard");
+flashcard.addEventListener("touchstart", (event) => {
+  suppressClick = false;
+  const point = event.touches[0];
+  touch = event.touches.length === 1 ? { x: point.clientX, y: point.clientY } : null;
+}, { passive: true });
+flashcard.addEventListener("touchcancel", () => { touch = null; });
+flashcard.addEventListener("touchend", (event) => {
+  if (!touch) return;
+  const point = event.changedTouches[0];
+  const x = point.clientX - touch.x;
+  const y = point.clientY - touch.y;
+  touch = null;
+  if (Math.abs(x) < 45 || Math.abs(x) < Math.abs(y) * 1.5) return;
+  suppressClick = true;
+  selectCard(cardIndex + (x < 0 ? 1 : -1));
+}, { passive: true });
+flashcard.addEventListener("click", (event) => {
+  if (!suppressClick || event.detail === 0) return;
+  suppressClick = false;
+  event.preventDefault();
+  event.stopPropagation();
+}, true);
 
 for (const input of document.querySelectorAll('[name="level"]')) {
   input.checked = input.value === preferences.level;
@@ -167,5 +284,4 @@ for (const id of topicIds) {
   label.append(input, make("span", topics[id]));
   $("filters").append(label);
 }
-buildLibrary();
-start();
+renderCard();
