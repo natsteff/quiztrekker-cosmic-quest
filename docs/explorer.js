@@ -139,6 +139,7 @@ let explorerCardId = null;
 let explorerScroll = 0;
 let explorerViewport;
 let explorerCanvas;
+let markerObserver;
 let explorerPlanets = new Set();
 
 function setExplorerReturn(value) {
@@ -196,9 +197,11 @@ function renderSizeLineup(map) {
     const list = make("ol");
     for (const id of ids) {
       const item = make("li");
-      const diameter = planetMeasurements[id][0];
+      const [diameter, kind] = measure(id);
       const row = makeWorldButton(id);
-      row.replaceChildren(make("strong", worldLabel(id)), make("span", numberLabel(diameter, 0) + " km"), make("span", numberLabel(diameter / earthDiameter, 2) + "× Earth"));
+      const measurement = make("span", numberLabel(diameter, 0) + " km");
+      if (id === "moon") measurement.append(make("small", kind));
+      row.replaceChildren(make("strong", worldLabel(id)), measurement, make("span", numberLabel(diameter / earthDiameter, 2) + "× Earth"));
       const graphic = make("span");
       graphic.className = "lineup-graphic";
       graphic.append(coloredDisk(id, diameter / maximum * 92));
@@ -208,9 +211,11 @@ function renderSizeLineup(map) {
     }
     panel.append(heading, list);
   }
-  lineup(sizeOrder, planetMeasurements.jupiter[0], "Smallest to largest");
-  lineup(sizeOrder.slice(0, 4), earthDiameter, "Rocky planets · magnified about 11×");
-  panel.append(sourceLink("NASA planetary measurements", sizeSources.planets));
+  lineup(["moon", ...sizeOrder, "sun"], sunDiameter, "Smallest to largest · Sun, planets, and Moon");
+  lineup(sizeOrder, planetMeasurements.jupiter[0], "Planets · magnified about 10×");
+  lineup(sizeOrder.slice(0, 4), earthDiameter, "Rocky planets · magnified about 11× from the planet view");
+  panel.append(sourceLink("NASA planetary measurements", sizeSources.planets), " · ",
+    sourceLink("Sun diameter", sizeSources.sun), " · ", sourceLink("Moon diameter", sizeSources.moons));
   map.append(panel);
 }
 
@@ -229,6 +234,26 @@ function orbitSVG(radii) {
   return svg;
 }
 
+function fitDistanceMarkers(canvas) {
+  const markers = [...canvas.querySelectorAll(".orbit-world")];
+  const width = canvas.offsetWidth;
+  const positions = markers.map((marker) => [
+    parseFloat(marker.style.left) * width / 100,
+    parseFloat(marker.style.top) * width / 100
+  ]);
+  for (const [index, marker] of markers.entries()) {
+    const [x, y] = positions[index];
+    const closest = Math.min(...positions.map(([otherX, otherY], other) =>
+      other === index ? Infinity : Math.hypot(x - otherX, y - otherY)));
+    const hitSize = Math.min(44, Math.max(2, (closest - 1) / Math.SQRT2));
+    marker.style.setProperty("--orbit-hit-size", hitSize + "px");
+    // At overview scale, move tightly clustered worlds to the full-size list.
+    const crowded = hitSize < 24;
+    marker.classList.toggle("orbit-crowded", crowded);
+    if (marker instanceof HTMLButtonElement) marker.tabIndex = crowded ? -1 : 0;
+  }
+}
+
 function applyZoom(zoom, center) {
   const viewport = explorerViewport;
   const canvas = explorerCanvas;
@@ -238,11 +263,11 @@ function applyZoom(zoom, center) {
     (viewport.scrollLeft + viewport.clientWidth / 2) / size,
     (viewport.scrollTop + viewport.clientHeight / 2) / size
   ];
-  explorerZoom = Math.min(32, Math.max(1, zoom));
+  explorerZoom = Math.min(96, Math.max(1, zoom));
   canvas.style.width = base * explorerZoom + "px";
   viewport.scrollLeft = midpoint[0] * canvas.offsetWidth - viewport.clientWidth / 2;
   viewport.scrollTop = midpoint[1] * canvas.offsetHeight - viewport.clientHeight / 2;
-  viewport.classList.toggle("orbit-wide-labels", explorerZoom >= 8);
+  if (viewport.classList.contains("orbit-distance")) fitDistanceMarkers(canvas);
   $("orbit-zoom-level").textContent = numberLabel(explorerZoom, 2) + "×";
 }
 
@@ -269,7 +294,12 @@ function renderOrbits(map, center, ids) {
   }
   if (distance) {
     const inner = make("button", "Zoom to inner planets");
-    inner.addEventListener("click", () => applyZoom(16, true));
+    inner.addEventListener("click", () => {
+      const base = Math.min(explorerViewport.clientWidth, explorerViewport.clientHeight);
+      const mercuryRadius = 345 * planetMeasurements.mercury[1] / maximum;
+      const zoom = Math.max(16, Math.ceil(46 * 800 / (base * mercuryRadius)));
+      applyZoom(zoom, true);
+    });
     tools.append(inner);
   }
   tools.append(zoomLevel);
@@ -305,6 +335,13 @@ function renderOrbits(map, center, ids) {
   explorerViewport.append(explorerCanvas);
   map.append(tools, explorerViewport);
   const viewport = explorerViewport;
+  if (distance) {
+    const canvas = explorerCanvas;
+    markerObserver = new ResizeObserver(() => {
+      if (canvas.offsetWidth) fitDistanceMarkers(canvas);
+    });
+    markerObserver.observe(canvas);
+  }
   let drag;
   viewport.addEventListener("pointerdown", (event) => {
     if (event.pointerType !== "mouse" || event.button !== 0 || event.target.closest("button")) return;
@@ -322,12 +359,13 @@ function renderOrbits(map, center, ids) {
 
 function renderExplorer() {
   const map = $("explorer-map");
+  markerObserver?.disconnect();
   map.replaceChildren();
   explorerViewport = null;
   explorerPlanets = new Set(learnCards.map((card) => card.id));
   const note = $("explorer-note");
   if (explorerMode === "sizes") {
-    note.textContent = "Compare equatorial diameters on a common scale. Saturn’s diameter excludes its rings.";
+    note.textContent = "Compare diameters on a common scale. Planets use equatorial diameter; the Moon uses mean diameter. Saturn’s rings are excluded.";
     if (explorerPlanets.has("sun")) renderSizeLineup(map);
     else map.append(make("p", "Enable Solar System Basics in Settings to compare planet sizes."));
     return;
@@ -371,7 +409,7 @@ function renderExplorer() {
     [...planetIds, ...Object.keys(dwarfOrbits)].filter((id) => explorerPlanets.has(id))
       .sort((a, b) => (planetMeasurements[a]?.[1] || dwarfOrbits[a]) - (planetMeasurements[b]?.[1] || dwarfOrbits[b]));
   if (explorerSystem) note.textContent = "Moon system schematic. Orbit spacing, positions, and icon sizes are illustrative.";
-  else if (explorerMode === "distance") note.textContent = "Each ring radius represents the orbit’s semimajor axis on one linear distance scale. Orbits are drawn as circles. Icon sizes and positions along the rings are illustrative.";
+  else if (explorerMode === "distance") note.textContent = "Each ring radius represents the orbit’s semimajor axis on one linear distance scale. Orbits are drawn as circles. Icon sizes and positions along the rings are illustrative. Zoom in or use the world list to choose a crowded marker.";
   else note.textContent = "Schematic orbit map. Sizes, spacing, and positions are illustrative. Rotate to landscape for more room.";
 
   if (ids.length || explorerPlanets.has("sun")) {
@@ -387,6 +425,7 @@ function renderExplorer() {
     }
     const list = make("details");
     list.className = "panel orbit-world-list";
+    list.open = explorerMode === "distance" && !explorerSystem;
     list.append(make("summary", "List of worlds on this map"));
     const choices = make("div");
     choices.className = "choices";

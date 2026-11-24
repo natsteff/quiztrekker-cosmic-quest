@@ -1,16 +1,33 @@
+<p align="center">
+  <img src="docs/assets/logo.png" alt="QuizTrekker: Cosmic Quest" width="500">
+</p>
+<p align="center">
+  <a href="https://natsteff.github.io/quiztrekker-cosmic-quest/">
+    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now" width="420">
+  </a>
+</p>
+
 # QuizTrekker: Cosmic Quest
 
-A mobile-first space science quiz for high-school learners and curious explorers. Flip through illustrated Learn cards, practice in Play, and track your points and activity in My Progress. Use the Settings gear to add content packs, choose a learning level, and pick which enabled topics appear in quizzes. New players start with Solar System Basics. Open Solar System Explorer from Learn to browse a schematic orbit map, zoom into a linear distance map, visit moon systems, or compare all eight planets by size without scoring. Flip a world’s Learn card for sourced measurements and visual size comparisons. Play offers Space Quiz, Planet Order, Match the Moon to Its Planet, Image Identification, Planet Size, and Orbital Distance, depending on the active topics. Every Learn card stays available regardless of your quiz filters. Progress and settings are stored in the current browser.
+Explore the Solar System and the science beyond it with illustrated flashcards, an interactive orbit map, and quizzes. Start with the Sun, eight planets, and Earth’s Moon, then add more moons, dwarf planets, and topics like black holes and time dilation as you go.
 
-## Run locally
+## Add Cosmic Quest to your Home Screen
 
-```sh
-python3 -m http.server 8001 --bind 127.0.0.1 --directory docs
-```
+1. Open [Cosmic Quest](https://natsteff.github.io/quiztrekker-cosmic-quest/) on your phone.
+2. **iPhone:** In Safari, tap **Share**, choose **Add to Home Screen**, turn on **Open as Web App** if shown, then tap **Add**.
+3. **Android:** In Chrome, tap **⋮**, choose **Add to Home screen**, then follow the **Create shortcut** or **Install** option shown.
+4. Tap the Cosmic Quest icon on your Home Screen to open the game.
 
-Open http://127.0.0.1:8001. The prototype is a static site. GitHub Pages serves the `main` branch’s `/docs` folder.
+An internet connection is required.
 
-## Learn artwork
+## How to play
+
+- **Learn** — Flip illustrated cards for facts and size comparisons. Open the **Explorer** to browse orbits and moon systems, see distances on a linear scale, or compare worlds by size.
+- **Play** — Try Space Quiz, Planet Order, Match the Moon to Its Planet, Image Identification, Planet Size, or Orbital Distance. Available games depend on the topics you enable.
+- **My Progress** — See your points, explored cards, correct answers, and best streak. The game saves progress in your current browser.
+- **Settings** — Use the gear to add content packs, switch between Foundations and Advanced, or leave familiar topics out of practice while keeping their cards in Learn.
+
+## Learn artwork and sources
 
 - Saturn is a color- and contrast-enhanced Cassini image credited to NASA/JPL/Space Science Institute. [Image source](https://science.nasa.gov/image-detail/pia05380-saturn-with-rings-16x9/) · [JPL image use policy](https://www.jpl.nasa.gov/jpl-image-use-policy/)
 - The Crab Nebula is a Webb infrared composite credited to NASA, ESA, CSA, STScI, and Tea Temim (Princeton University), with image processing by Joseph DePasquale (STScI). The bundled JPEG is resized and re-encoded. [Image source](https://science.nasa.gov/asset/webb/crab-nebula-nircam-and-miri-image/) · [STScI content use policy](https://www.stsci.edu/copyright)
