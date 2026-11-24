@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0c20">
+<meta name="description" content="Explore the science of space in a bite-sized quiz game.">
+<title>QuizTrekker: Cosmic Quest</title>
+<link rel="stylesheet" href="style.css">
+<script src="content.js" defer></script>
+<script src="app.js" defer></script>
+<header class="shell">
+  <img class="logo" src="assets/logo.png" alt="QuizTrekker: Cosmic Quest">
+  <nav aria-label="Game">
+    <button data-view="play" aria-current="page">Play</button>
+    <button data-view="learn">Learn</button>
+    <button data-view="settings">Settings</button>
+  </nav>
+</header>
+<main class="shell">
+  <section id="play" aria-labelledby="play-title">
+    <div class="strip"><span id="progress"></span><strong id="points">0 pts</strong></div>
+    <article class="panel">
+      <p class="eyebrow" id="topic"></p>
+      <h1 id="play-title" tabindex="-1">Cosmic Quest</h1>
+      <div id="choices" class="choices" aria-label="Answer choices"></div>
+      <div id="feedback" role="status"></div>
+      <div class="actions">
+        <button id="study" hidden>Open Learn card</button>
+        <button id="next" class="primary" hidden>Next question</button>
+      </div>
+    </article>
+  </section>
+  <section id="learn" aria-labelledby="learn-title" hidden>
+    <h1 id="learn-title" tabindex="-1">Learn</h1>
+    <div id="library" class="library"></div>
+  </section>
+  <section id="settings" aria-labelledby="settings-title" hidden>
+    <h1 id="settings-title" tabindex="-1">Settings</h1>
+    <div class="panel">
+      <fieldset>
+        <legend>Learning level</legend>
+        <label><input type="radio" name="level" value="foundations"> <span><strong>Foundations</strong><small>Core ideas and familiar examples.</small></span></label>
+        <label><input type="radio" name="level" value="advanced"> <span><strong>Advanced</strong><small>Apply the ideas and dig into the explanation.</small></span></label>
+      </fieldset>
+      <fieldset>
+        <legend>Practice topics</legend>
+        <p>Turn off topics you already know. All cards stay available in Learn.</p>
+        <div id="filters"></div>
+        <p id="settings-status" role="status"></p>
+      </fieldset>
+    </div>
+  </section>
+</main>
+<footer class="shell">Prototype 0.1.0 <span>·</span> Nate S</footer>
+</html>
