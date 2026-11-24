@@ -1,10 +1,14 @@
 <!doctype html>
 <html lang="en">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a0c20">
 <meta name="description" content="Explore the science of space in a bite-sized quiz game.">
 <title>QuizTrekker: Cosmic Quest</title>
+<meta name="apple-mobile-web-app-title" content="QuizTrekker CQ">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
 <link rel="stylesheet" href="style.css">
 <script src="content.js" defer></script>
 <script src="explorer.js" defer></script>
@@ -51,22 +55,29 @@
     </div>
   </section>
   <section id="learn" aria-labelledby="learn-title">
-    <div class="strip learn-heading">
-      <h1 id="learn-title" tabindex="-1">Learn</h1>
-      <button id="open-explorer"><span class="wide-explorer-label">Solar System </span>Explorer</button>
-    </div>
+    <h1 id="learn-title" class="visually-hidden" tabindex="-1">Learn</h1>
     <div id="learn-cards">
-    <p id="card-position" class="card-position"></p>
-    <article class="panel flashcard" id="flashcard">
-      <button id="flip-card" aria-expanded="false" aria-controls="card-back"></button>
-      <p id="card-image-info" class="image-credit"></p>
-      <div id="card-back" hidden></div>
-    </article>
-    <div class="card-controls">
-      <button id="previous-card" aria-label="Previous card">‹</button>
-      <label for="card-select"><span class="visually-hidden">Choose a Learn card</span><select id="card-select"></select></label>
-      <button id="next-card" aria-label="Next card">›</button>
-    </div>
+      <div class="learn-progress">
+        <span id="learn-progress-label" role="status"></span>
+        <progress id="learn-progress-bar" aria-labelledby="learn-progress-label"></progress>
+      </div>
+      <article class="panel flashcard" id="flashcard">
+        <header class="card-heading">
+          <p id="card-position" class="card-position"></p>
+          <button id="open-explorer"><span class="wide-explorer-label">Solar System </span>Explorer</button>
+        </header>
+        <button id="flip-card" aria-expanded="false" aria-controls="card-back"></button>
+        <p id="card-image-info" class="image-credit"></p>
+        <div id="card-back" hidden></div>
+        <div class="card-actions">
+          <button id="mastery">Mark as mastered</button>
+        </div>
+        <div class="card-controls">
+          <button id="previous-card" aria-label="Previous card">‹</button>
+          <label for="card-select"><span class="visually-hidden">Choose a Learn card</span><select id="card-select"></select></label>
+          <button id="next-card" aria-label="Next card">›</button>
+        </div>
+      </article>
     </div>
     <div id="explorer" hidden>
       <div class="strip">
@@ -87,6 +98,7 @@
     <dl class="panel stats">
       <div><dt>Total points</dt><dd id="total-points"></dd></div>
       <div><dt>Cards explored</dt><dd id="cards-explored"></dd></div>
+      <div><dt>Cards mastered</dt><dd id="cards-mastered"></dd></div>
       <div><dt>Questions answered</dt><dd id="total-answered"></dd></div>
       <div><dt>Correct answers</dt><dd id="total-correct"></dd></div>
       <div><dt>Best streak</dt><dd id="best-streak"></dd></div>
@@ -130,6 +142,7 @@
         <p id="settings-status" role="status"></p>
       </fieldset>
     </div>
+    <p id="app-version">Version 0.8.0</p>
   </dialog>
 </main>
 <nav class="bottom-nav" aria-label="Game mode">
@@ -137,5 +150,4 @@
   <button data-view="play"><span aria-hidden="true">▶</span>Play</button>
   <button data-view="my-progress"><span aria-hidden="true">★</span>My Progress</button>
 </nav>
-<footer class="shell">Prototype 0.7.0</footer>
 </html>

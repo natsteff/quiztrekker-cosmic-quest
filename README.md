@@ -3,11 +3,13 @@
 </p>
 <p align="center">
   <a href="https://natsteff.github.io/quiztrekker-cosmic-quest/">
-    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now" width="420">
+    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now, version 0.8.0" width="420">
   </a>
 </p>
 
 # QuizTrekker: Cosmic Quest
+
+**Current release · v0.8.0**
 
 Explore the Solar System and the science beyond it with illustrated flashcards, an interactive orbit map, and quizzes. On your first visit, a welcome screen explains the beginner setup: **Foundations** with **Solar System Basics** enabled. Start with the Sun, eight planets, and Earth’s Moon. Use Settings to add more moons, dwarf planets, and topics like black holes and time dilation, or switch to **Advanced** questions.
 
@@ -16,7 +18,7 @@ Explore the Solar System and the science beyond it with illustrated flashcards, 
 1. Open [Cosmic Quest](https://natsteff.github.io/quiztrekker-cosmic-quest/) on your phone.
 2. **iPhone:** In Safari, tap **Share**, choose **Add to Home Screen**, turn on **Open as Web App** if shown, then tap **Add**.
 3. **Android:** In Chrome, tap **⋮**, choose **Add to Home screen**, then follow the **Create shortcut** or **Install** option shown.
-4. Tap the Cosmic Quest icon on your Home Screen to open the game.
+4. Tap the **QuizTrekker CQ** icon on your Home Screen to open the game.
 
 The first-visit welcome also shows these steps on supported phones and tablets. An internet connection is required.
 
@@ -24,7 +26,7 @@ The first-visit welcome also shows these steps on supported phones and tablets. 
 
 - **Learn** — Flip illustrated cards for facts and size comparisons. Open the **Explorer** to browse orbits and moon systems, see distances on a linear scale, or compare worlds by size.
 - **Play** — Try Space Quiz, Planet Order, Match the Moon to Its Planet, Image Identification, Planet Size, or Orbital Distance. Available games depend on the topics you enable.
-- **My Progress** — See your points, explored cards, correct answers, and best streak. The game saves progress in your current browser.
+- **My Progress** — See your points, explored and mastered cards, correct answers, and best streak. The Learn progress bar switches to mastery after you mark a card as mastered. The game saves progress in your current browser.
 - **Settings** — Use the gear to add content packs, switch between Foundations and Advanced, or leave familiar topics out of practice while keeping their cards in Learn.
 
 ## Learn artwork and sources

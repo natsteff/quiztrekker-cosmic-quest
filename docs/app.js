@@ -16,6 +16,7 @@ const practiceTopics = !savedTopics ? topicIds : topicIds.filter((id) =>
   savedTopics.includes(id) ||
   (!savedPacks.length && (!originalPacks.includes(id) || (id === "scale" && savedTopics.includes("physics"))))
 );
+const savedCardIds = (ids) => allCards.filter((card) => Array.isArray(ids) && ids.includes(card.id)).map((card) => card.id);
 const preferences = {
   packs: savedPacks.length ? savedPacks : saved ? [...originalPacks] : ["solar"],
   level: saved?.level === "advanced" ? "advanced" : "foundations",
@@ -24,7 +25,8 @@ const preferences = {
   answered: count(saved?.answered),
   correct: count(saved?.correct),
   bestStreak: count(saved?.bestStreak),
-  explored: allCards.filter((card) => Array.isArray(saved?.explored) && saved.explored.includes(card.id)).map((card) => card.id)
+  explored: savedCardIds(saved?.explored),
+  mastered: savedCardIds(saved?.mastered)
 };
 if (!preferences.packs.some((id) => preferences.topics.includes(id))) {
   preferences.topics.push(preferences.packs[0]);
@@ -247,6 +249,7 @@ function renderCard() {
   const [file, alt, caption, credit, creditUrl] = artwork[card.id];
   $("card-position").textContent = `${cardIndex + 1} / ${learnCards.length}`;
   $("card-select").value = card.id;
+  renderLearnProgress();
 
   const image = make("img");
   image.src = "assets/" + file;
@@ -285,9 +288,26 @@ function selectCard(index) {
   renderCard();
 }
 
+function enabledCount(ids) {
+  return learnCards.filter((card) => ids.includes(card.id)).length;
+}
+
+function renderLearnProgress() {
+  const mastered = enabledCount(preferences.mastered);
+  const total = learnCards.length;
+  const progress = $("learn-progress-bar");
+  progress.max = total;
+  progress.value = mastered || enabledCount(preferences.explored);
+  $("learn-progress-label").textContent = `${progress.value} / ${total} cards ${mastered ? "mastered" : "explored"}`;
+  const marked = preferences.mastered.includes(learnCards[cardIndex].id);
+  $("mastery").textContent = marked ? "Undo mastery" : "Mark as mastered";
+  $("mastery").classList.toggle("is-mastered", marked);
+}
+
 function renderProgress() {
   $("total-points").textContent = preferences.points.toLocaleString();
-  $("cards-explored").textContent = `${learnCards.filter((card) => preferences.explored.includes(card.id)).length} / ${learnCards.length}`;
+  $("cards-explored").textContent = `${enabledCount(preferences.explored)} / ${learnCards.length}`;
+  $("cards-mastered").textContent = `${enabledCount(preferences.mastered)} / ${learnCards.length}`;
   $("total-answered").textContent = preferences.answered.toLocaleString();
   $("total-correct").textContent = preferences.correct.toLocaleString();
   $("best-streak").textContent = preferences.bestStreak.toLocaleString();
@@ -407,6 +427,15 @@ $("flip-card").addEventListener("click", () => {
   }
   renderCard();
 });
+$("mastery").addEventListener("click", () => {
+  const id = learnCards[cardIndex].id;
+  const index = preferences.mastered.indexOf(id);
+  if (index === -1) preferences.mastered.push(id);
+  else preferences.mastered.splice(index, 1);
+  storageAvailable = save();
+  renderLearnProgress();
+});
+
 $("previous-card").addEventListener("click", () => selectCard(cardIndex - 1));
 $("next-card").addEventListener("click", () => selectCard(cardIndex + 1));
 $("card-select").addEventListener("change", (event) => {
@@ -522,3 +551,8 @@ function showFirstLaunchWelcome() {
 }
 
 showFirstLaunchWelcome();
+
+const bottomNav = document.querySelector(".bottom-nav");
+new ResizeObserver(() => {
+  document.body.style.setProperty("--nav-height", bottomNav.offsetHeight + "px");
+}).observe(bottomNav, { box: "border-box" });
