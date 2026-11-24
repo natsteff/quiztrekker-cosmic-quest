@@ -93,6 +93,20 @@
     </dl>
     <p id="progress-note"></p>
   </section>
+  <dialog id="welcome" aria-labelledby="welcome-title" aria-describedby="welcome-intro">
+    <h2 id="welcome-title">Welcome to Cosmic Quest</h2>
+    <p id="welcome-intro">You’re starting at <strong>Foundations</strong>, a beginner level with only <strong>Solar System Basics</strong> enabled. Explore the Sun, all eight planets, and Earth’s Moon at your own pace.</p>
+    <p>Use the <strong>Settings</strong> gear to add more content packs or switch to <strong>Advanced</strong> questions whenever you’re ready.</p>
+    <section id="welcome-install" class="panel" aria-labelledby="welcome-install-title" hidden>
+      <h3 id="welcome-install-title">Add to your Home Screen</h3>
+      <p>Add a game icon for quick access. An internet connection is required.</p>
+      <p id="welcome-ios" hidden>In Safari, tap <strong>Share</strong>, choose <strong>Add to Home Screen</strong>, turn on <strong>Open as Web App</strong> if shown, then tap <strong>Add</strong>.</p>
+      <p id="welcome-android" hidden>In Chrome, tap <strong>⋮</strong>, choose <strong>Add to Home screen</strong>, then follow <strong>Create shortcut</strong> or <strong>Install</strong>.</p>
+    </section>
+    <form method="dialog" class="welcome-actions">
+      <button class="primary" autofocus>Start exploring</button>
+    </form>
+  </dialog>
   <dialog id="settings" aria-labelledby="settings-title">
     <div class="dialog-header">
       <h1 id="settings-title">Settings</h1>
@@ -123,5 +137,5 @@
   <button data-view="play"><span aria-hidden="true">▶</span>Play</button>
   <button data-view="my-progress"><span aria-hidden="true">★</span>My Progress</button>
 </nav>
-<footer class="shell">Prototype 0.6.0 <span>·</span> Nate S</footer>
+<footer class="shell">Prototype 0.7.0</footer>
 </html>

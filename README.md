@@ -9,7 +9,7 @@
 
 # QuizTrekker: Cosmic Quest
 
-Explore the Solar System and the science beyond it with illustrated flashcards, an interactive orbit map, and quizzes. Start with the Sun, eight planets, and Earth’s Moon, then add more moons, dwarf planets, and topics like black holes and time dilation as you go.
+Explore the Solar System and the science beyond it with illustrated flashcards, an interactive orbit map, and quizzes. On your first visit, a welcome screen explains the beginner setup: **Foundations** with **Solar System Basics** enabled. Start with the Sun, eight planets, and Earth’s Moon. Use Settings to add more moons, dwarf planets, and topics like black holes and time dilation, or switch to **Advanced** questions.
 
 ## Add Cosmic Quest to your Home Screen
 
@@ -18,7 +18,7 @@ Explore the Solar System and the science beyond it with illustrated flashcards, 
 3. **Android:** In Chrome, tap **⋮**, choose **Add to Home screen**, then follow the **Create shortcut** or **Install** option shown.
 4. Tap the Cosmic Quest icon on your Home Screen to open the game.
 
-An internet connection is required.
+The first-visit welcome also shows these steps on supported phones and tablets. An internet connection is required.
 
 ## How to play
 

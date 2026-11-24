@@ -35,7 +35,6 @@ input{width:1.15rem;height:1.15rem;accent-color:var(--violet)}
 small{display:block;font-size:.88rem}
 #settings-status{margin:.5rem 0 0}
 footer{text-align:center;color:var(--muted);padding:1.3rem 0 max(1.2rem,env(safe-area-inset-bottom));font-size:.85rem}
-footer span{margin-inline:.25rem}
 @media(min-width:42rem){.choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(hover:hover){button:not(:disabled):hover{filter:brightness(1.17)}}
 
@@ -123,3 +122,8 @@ button:disabled{cursor:default}
 .orbit-distance .orbit-world:focus-visible .orbit-world-name,
 .orbit-distance:not(:has(.orbit-world:focus-visible)) .orbit-world:hover .orbit-world-name{width:auto;height:auto;overflow:visible;clip-path:none;bottom:100%;background:#141633;padding:.15rem .3rem;border:1px solid #5d518c;border-radius:.3rem}
 .orbit-sources{margin:0;font-size:.9rem}
+
+#welcome-title{margin:0;font-size:clamp(1.5rem,5vw,2rem)}
+#welcome-install h3{margin:0}
+#welcome-install p:last-child{margin-bottom:0}
+.welcome-actions{display:flex;justify-content:flex-end;margin-top:1rem}

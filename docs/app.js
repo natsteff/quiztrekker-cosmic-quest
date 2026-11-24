@@ -487,3 +487,38 @@ function renderFilters() {
 
 updatePools();
 renderFilters();
+
+function showFirstLaunchWelcome() {
+  if (saved) return;
+  const welcomeKey = "quiztrekker.cosmic-quest.welcome.v1";
+  try {
+    if (localStorage.getItem(welcomeKey) === "dismissed") return;
+  } catch {
+    // Storage may be unavailable. The welcome can still be dismissed this visit.
+  }
+
+  const launchedFromHomeScreen = navigator.standalone === true ||
+    matchMedia("(display-mode: standalone)").matches ||
+    matchMedia("(display-mode: fullscreen)").matches ||
+    matchMedia("(display-mode: minimal-ui)").matches;
+  const appleMobile = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const android = /Android/i.test(navigator.userAgent);
+  if (!launchedFromHomeScreen && (appleMobile || android)) {
+    $("welcome-install").hidden = false;
+    $(appleMobile ? "welcome-ios" : "welcome-android").hidden = false;
+  }
+
+  const welcome = $("welcome");
+  welcome.addEventListener("close", () => {
+    try {
+      localStorage.setItem(welcomeKey, "dismissed");
+    } catch {
+      // Continue into the game even when browser storage is unavailable.
+    }
+    $("learn-title").focus({ preventScroll: true });
+  }, { once: true });
+  welcome.showModal();
+}
+
+showFirstLaunchWelcome();
