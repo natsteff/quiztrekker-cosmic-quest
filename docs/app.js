@@ -58,6 +58,7 @@ let learnCards = [];
 let gameMode;
 let deck;
 let orderChoices = [];
+let quizLearnCard;
 const moonParents = ["Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"];
 const planetsInOrder = solarOrder.slice(1, 9).map((id) => solarById.get(id).title);
 let position;
@@ -118,6 +119,29 @@ function updateOrderControls() {
   $("order-submit").disabled = answered || orderChoices.length !== planetsInOrder.length;
 }
 
+function imageTargets(eligible) {
+  return eligible.filter((card) => Object.hasOwn(identificationClues, card.id));
+}
+
+function comparison(card) {
+  const size = gameMode === "size";
+  const advanced = preferences.level === "advanced";
+  const metric = size ? 0 : 1;
+  const choices = [card, ...shuffle(deck.filter((other) => other !== card)).slice(0, advanced ? 3 : 1)];
+  const lower = Math.random() < .5;
+  const sorted = [...choices].sort((a, b) => planetMeasurements[a.id][metric] - planetMeasurements[b.id][metric]);
+  const correct = lower ? sorted[0] : sorted.at(-1);
+  const adjective = size ? (lower ? "smallest" : "largest") : (lower ? "shortest" : "longest");
+  const measure = size ? "equatorial diameter" : "average orbital distance from the Sun";
+  const unit = size ? "km" : "million km";
+  const values = sorted.map((item) => `${item.title}: ${planetMeasurements[item.id][metric].toLocaleString()} ${unit}`);
+  return {
+    question: [`Which planet has the ${adjective} ${measure}?`, correct.title, ...choices.filter((item) => item !== correct).map((item) => item.title)],
+    explanation: values.join(" · "),
+    learnCard: correct
+  };
+}
+
 function renderQuestion(focus = false) {
   answered = false;
   const card = deck[position];
@@ -132,6 +156,19 @@ function renderQuestion(focus = false) {
   $("choices").replaceChildren();
   $("order-tools").hidden = !isOrder;
   orderChoices = [];
+  quizLearnCard = card;
+  const isImage = gameMode === "image";
+  const figure = $("quiz-image");
+  figure.hidden = !isImage;
+  const caption = figure.querySelector("figcaption");
+  caption.hidden = true;
+  const image = figure.querySelector("img");
+  if (isImage) {
+    image.src = "assets/" + artwork[card.id][0];
+    image.alt = identificationClues[card.id];
+  } else {
+    image.removeAttribute("src");
+  }
 
   if (isOrder) {
     $("play-title").textContent = "Put all eight planets in order from the Sun.";
@@ -147,9 +184,19 @@ function renderQuestion(focus = false) {
     updateOrderControls();
   } else {
     const parent = card.parent || "Earth";
+    const compared = gameMode === "size" || gameMode === "distance" ? comparison(card) : null;
+    if (compared) quizLearnCard = compared.learnCard;
+    const imageQuestion = () => {
+      const category = (item) => item.parent ? "moon" : item.topic === "small" ? "dwarf planet" : "planet";
+      const others = deck.filter((item) => item !== card);
+      const similar = shuffle(others.filter((item) => category(item) === category(card)));
+      const rest = shuffle(others.filter((item) => category(item) !== category(card)));
+      const maximum = preferences.level === "advanced" ? 4 : 2;
+      return ["Which world is shown?", card.title, ...[...similar, ...rest].slice(0, maximum).map((item) => item.title)];
+    };
     const [question, correct, ...distractors] = isMoon
       ? [`Which planet does ${card.id === "moon" ? "the Moon" : card.title} orbit?`, parent, ...shuffle(moonParents.filter((name) => name !== parent)).slice(0, preferences.level === "advanced" ? 5 : 3)]
-      : card[preferences.level];
+      : compared?.question || (isImage ? imageQuestion() : card[preferences.level]);
     $("play-title").textContent = question;
     const buttons = shuffle([correct, ...distractors]).map((choice, index) => {
       const button = make("button");
@@ -162,7 +209,15 @@ function renderQuestion(focus = false) {
         if (!right) button.dataset.result = "wrong";
         const explanation = preferences.level === "advanced"
           ? `${card.intro} ${card.detail}` : card.intro;
-        grade(right, correct, explanation);
+        if (isImage) {
+          const [, alt, type, credit, url] = artwork[card.id];
+          image.alt = alt;
+          const source = make("a", credit);
+          source.href = url;
+          caption.replaceChildren(type + " · ", source);
+          caption.hidden = false;
+        }
+        grade(right, correct, compared?.explanation || explanation);
       });
       return button;
     });
@@ -175,7 +230,10 @@ function start(previousId) {
   const eligible = learnCards.filter((card) => preferences.topics.includes(card.topic));
   if (gameMode === "order") deck = [solarById.get("sun")];
   else if (gameMode === "moons") deck = shuffle(eligible.filter((card) => card.id === "moon" || card.parent));
-  else deck = shuffle(eligible);
+  else if (gameMode === "image") deck = shuffle(imageTargets(eligible));
+  else if (gameMode === "size" || gameMode === "distance") {
+    deck = shuffle(eligible.filter((card) => Object.hasOwn(planetMeasurements, card.id)));
+  } else deck = shuffle(eligible);
   if (deck.length > 1 && deck[0].id === previousId) {
     deck.push(deck.shift());
   }
@@ -257,7 +315,14 @@ function updatePools() {
   const moonsEnabled = learnCards.some((card) => (card.id === "moon" || card.parent) && preferences.topics.includes(card.topic));
   document.querySelector('[data-game="order"]').disabled = !orderEnabled;
   document.querySelector('[data-game="moons"]').disabled = !moonsEnabled;
-  $("game-availability").textContent = !orderEnabled || !moonsEnabled
+  const eligible = learnCards.filter((card) => preferences.topics.includes(card.topic));
+  const imageEnabled = imageTargets(eligible).length >= 2;
+  document.querySelector('[data-game="image"]').disabled = !imageEnabled;
+  for (const mode of ["size", "distance"]) {
+    document.querySelector(`[data-game="${mode}"]`).disabled = !orderEnabled;
+  }
+  renderExplorer();
+  $("game-availability").textContent = !orderEnabled || !moonsEnabled || !imageEnabled
     ? "Enable the relevant content packs and practice topics in Settings to unlock more games." : "";
   if (gameMode && document.querySelector(`[data-game="${gameMode}"]`).disabled) {
     gameMode = null;
@@ -266,6 +331,103 @@ function updatePools() {
   if (gameMode) start();
   if (!$("my-progress").hidden) renderProgress();
 }
+
+const explorerRegions = [
+  ["Inner Solar System", ["sun", "mercury", "venus", "earth", "mars"]],
+  ["Outer Solar System", ["jupiter", "saturn", "uranus", "neptune"]],
+  ["Dwarf planets and small worlds", ["ceres", "pluto", "haumea", "makemake", "eris", "asteroids", "comets"]]
+];
+let lastExplorerWorld = null;
+let lastExplorerButton;
+
+function renderExplorer() {
+  const map = $("explorer-map");
+  const previouslyOpen = new Map([...map.querySelectorAll("details")].map((region) => [region.dataset.region, region.open]));
+  const byId = new Map(learnCards.map((card) => [card.id, card]));
+  function worldButton(card) {
+    const button = make("button");
+    button.dataset.world = card.id;
+    const image = make("img");
+    image.src = "assets/" + artwork[card.id][0];
+    image.alt = "";
+    image.loading = "lazy";
+    button.append(image, make("span", card.title));
+    button.addEventListener("click", () => {
+      lastExplorerWorld = card.id;
+      lastExplorerButton = button;
+      showCards();
+      $("return-explorer").hidden = false;
+      selectCard(learnCards.indexOf(card));
+      $("flip-card").focus();
+    });
+    return button;
+  }
+  map.replaceChildren();
+  const overview = make("div");
+  overview.className = "panel orbit-overview";
+  overview.append(make("h3", "From the Sun outward"));
+  const track = make("div");
+  track.className = "orbit-track";
+  for (const id of solarOrder.slice(0, 9)) {
+    if (byId.has(id)) track.append(worldButton(byId.get(id)));
+  }
+  if (track.children.length) {
+    overview.append(track);
+    map.append(overview);
+  }
+  for (const [name, ids] of explorerRegions) {
+    const region = make("details");
+    region.dataset.region = name;
+    region.className = "panel orbit-region";
+    region.open = previouslyOpen.get(name) ?? true;
+    region.append(make("summary", name));
+    for (const id of ids) {
+      const object = solarById.get(id);
+      const moons = learnCards.filter((card) => card.parent === object.title ||
+        (id === "earth" && card.id === "moon") || (id === "pluto" && card.id === "charon"));
+      if (!byId.has(id) && !moons.length) continue;
+      const lane = make("div");
+      lane.className = "orbit-lane";
+      lane.append(byId.has(id) ? worldButton(object) : make("strong", object.title));
+      if (moons.length) {
+        const satellites = make("div");
+        satellites.className = "orbital-moons";
+        satellites.setAttribute("role", "group");
+        satellites.setAttribute("aria-label", `Moons of ${object.title}`);
+        satellites.append(...moons.map(worldButton));
+        lane.append(satellites);
+      }
+      region.append(lane);
+    }
+    if (region.children.length > 1) map.append(region);
+  }
+  if (!map.children.length) map.append(make("p", "Enable a Solar System content pack in Settings to explore its worlds."));
+}
+
+function showCards() {
+  $("explorer").hidden = true;
+  $("learn-cards").hidden = false;
+  $("card-position").hidden = false;
+}
+
+function openExplorer(returning) {
+  $("learn-cards").hidden = true;
+  $("card-position").hidden = true;
+  $("explorer").hidden = false;
+  const world = returning && lastExplorerWorld
+    ? lastExplorerButton?.isConnected
+      ? lastExplorerButton
+      : $("explorer-map").querySelector(`[data-world="${lastExplorerWorld}"]`)
+    : null;
+  (world || $("explorer-title")).focus();
+}
+
+$("open-explorer").addEventListener("click", () => openExplorer(false));
+$("return-explorer").addEventListener("click", () => openExplorer(true));
+$("close-explorer").addEventListener("click", () => {
+  showCards();
+  $("open-explorer").focus();
+});
 
 function updateSettings() {
   storageAvailable = save();
@@ -285,7 +447,9 @@ $("next").addEventListener("click", () => {
   }
 });
 $("study").addEventListener("click", () => {
-  selectCard(learnCards.indexOf(deck[position]));
+  showCards();
+  $("return-explorer").hidden = true;
+  selectCard(learnCards.indexOf(quizLearnCard));
   show("learn", false);
   $("flip-card").focus();
 });

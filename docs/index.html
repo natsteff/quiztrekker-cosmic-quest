@@ -18,6 +18,9 @@
       <h1 id="play-menu-title" tabindex="-1">Play</h1>
       <div id="games" class="choices">
         <button data-game="quiz">Space Quiz</button>
+        <button data-game="image">Image Identification</button>
+        <button data-game="size">Planet Size</button>
+        <button data-game="distance">Orbital Distance</button>
         <button data-game="order">Planet Order</button>
         <button data-game="moons">Match the Moon to Its Planet</button>
       </div>
@@ -28,6 +31,7 @@
     <article class="panel">
       <p class="eyebrow" id="topic"></p>
       <h1 id="play-title" tabindex="-1">Cosmic Quest</h1>
+      <figure id="quiz-image" hidden><img alt=""><figcaption hidden></figcaption></figure>
       <div id="choices" class="choices" aria-label="Answer choices"></div>
       <div id="order-tools" hidden>
         <p id="planet-sequence" role="status"></p>
@@ -47,6 +51,11 @@
   </section>
   <section id="learn" aria-labelledby="learn-title">
     <div class="strip"><h1 id="learn-title" tabindex="-1">Learn</h1><span id="card-position"></span></div>
+    <div id="learn-cards">
+    <div class="explorer-actions">
+      <button id="open-explorer">Solar System Explorer</button>
+      <button id="return-explorer" hidden>Back to Explorer</button>
+    </div>
     <article class="panel flashcard" id="flashcard">
       <button id="flip-card" aria-expanded="false" aria-controls="card-back"></button>
       <p id="card-image-info" class="image-credit"></p>
@@ -56,6 +65,15 @@
       <button id="previous-card" aria-label="Previous card">‹</button>
       <label for="card-select"><span class="visually-hidden">Choose a Learn card</span><select id="card-select"></select></label>
       <button id="next-card" aria-label="Next card">›</button>
+    </div>
+    </div>
+    <div id="explorer" hidden>
+      <div class="strip">
+        <h2 id="explorer-title" tabindex="-1">Solar System Explorer</h2>
+        <button id="close-explorer">Back to Learn</button>
+      </div>
+      <p class="explorer-note">Schematic. Sizes, distances, and positions are illustrative. Select a world to open its Learn card.</p>
+      <div id="explorer-map"></div>
     </div>
   </section>
   <section id="my-progress" aria-labelledby="my-progress-title" hidden>
@@ -99,5 +117,5 @@
   <button data-view="play"><span aria-hidden="true">▶</span>Play</button>
   <button data-view="my-progress"><span aria-hidden="true">★</span>My Progress</button>
 </nav>
-<footer class="shell">Prototype 0.3.0 <span>·</span> Nate S</footer>
+<footer class="shell">Prototype 0.4.0 <span>·</span> Nate S</footer>
 </html>

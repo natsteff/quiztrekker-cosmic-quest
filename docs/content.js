@@ -33,7 +33,7 @@ const cards = [
     advanced: ["A flash reaches Earth from a nearby star 10 light-years away. Roughly when did it happen?", "10 years before we saw it", "When we saw it", "1 year before we saw it", "100 years before we saw it"]
   },
   {
-    id: "supernova", topic: "stars", title: "Supernovae",
+    id: "supernova", topic: "stars", title: "What Is a Supernova?",
     intro: "A supernova is an extremely powerful stellar explosion. One way it happens is when the core of a massive star collapses.",
     detail: "Another route involves a white dwarf undergoing a runaway thermonuclear explosion. The two mechanisms can leave very different remnants.",
     source: "https://science.nasa.gov/universe/glossary/#supernova",
@@ -396,3 +396,26 @@ Object.assign(artwork, {
   "asteroids": ["asteroids.svg", "An irregular rocky body with a crater", "Illustration of a typical asteroid"],
   "comets": ["comets.svg", "An icy nucleus with a bright coma and two tails", "Illustration of an active comet"]
 });
+
+// NASA Planetary Fact Sheet. Diameters are equatorial; orbital distances are
+// semimajor axes, expressed in millions of kilometers.
+const planetMeasurements = {
+  mercury: [4879, 57.9], venus: [12104, 108.2], earth: [12756, 149.6],
+  mars: [6792, 228], jupiter: [142984, 778.5], saturn: [120536, 1432],
+  uranus: [51118, 2867], neptune: [49528, 4515]
+};
+
+// Describe visible clues without revealing the answer. Only use distinctive,
+// clearly resolved objects whose pictures show the target on its own.
+const identificationClues = {
+  mercury: "A gray globe densely covered with impact craters.",
+  earth: "A blue globe with white cloud swirls and visible land.",
+  mars: "A rust-colored globe with darker surface patches and a light polar cap.",
+  jupiter: "A striped cream-and-brown globe with an enormous oval storm.",
+  saturn: "A pale globe framed by broad bands of rings.",
+  uranus: "A pale blue-green globe with few visible markings.",
+  neptune: "A blue globe with a large dark storm and bright clouds.",
+  io: "A yellowish moon mottled with black, red, and white deposits.",
+  europa: "An icy moon crisscrossed with long reddish streaks.",
+  pluto: "A mottled world with a large, bright, heart-shaped region."
+};

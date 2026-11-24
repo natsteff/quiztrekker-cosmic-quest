@@ -1,6 +1,6 @@
 # QuizTrekker: Cosmic Quest
 
-A mobile-first space science quiz for high-school learners and curious explorers. Flip through illustrated Learn cards, practice in Play, and track your points and activity in My Progress. Use the Settings gear to add content packs, choose a learning level, and pick which enabled topics appear in quizzes. New players start with Solar System Basics. Play offers Space Quiz, Planet Order, and Match the Moon to Its Planet, depending on the active topics. Every Learn card stays available regardless of your quiz filters. Progress and settings are stored in the current browser.
+A mobile-first space science quiz for high-school learners and curious explorers. Flip through illustrated Learn cards, practice in Play, and track your points and activity in My Progress. Use the Settings gear to add content packs, choose a learning level, and pick which enabled topics appear in quizzes. New players start with Solar System Basics. Open Solar System Explorer from Learn to browse planets and moon systems without scoring. Play offers Space Quiz, Planet Order, Match the Moon to Its Planet, Image Identification, Planet Size, and Orbital Distance, depending on the active topics. Every Learn card stays available regardless of your quiz filters. Progress and settings are stored in the current browser.
 
 ## Run locally
 
@@ -18,3 +18,5 @@ Open http://127.0.0.1:8001. The prototype is a static site. GitHub Pages serves 
 - The planetary scale, light-year, time dilation, and expansion diagrams were drawn for Cosmic Quest.
 
 The expanded Solar System cards show their individual [NASA Photojournal](https://science.nasa.gov/photojournal/) credits and source links beside each image. Resized JPEGs keep the game lightweight. Haumea, Makemake, Eris, asteroids, and comets use labeled illustrations.
+
+Planet Size uses equatorial diameters. Orbital Distance compares orbital semimajor axes around the Sun. [NASA Planetary Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/index.html)

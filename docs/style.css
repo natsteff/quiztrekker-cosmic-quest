@@ -73,3 +73,22 @@ button:disabled{cursor:default}
 #game-availability:empty{display:none}
 #game-availability,#planet-sequence{color:var(--muted)}
 #order-tools .actions button:disabled{opacity:.55}
+
+.explorer-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.65rem}
+#explorer-title{font-size:clamp(1.15rem,4vw,1.75rem);margin:0}
+.explorer-note{color:var(--muted)}
+#explorer-map{display:grid;gap:.65rem}
+.orbit-region summary{cursor:pointer;font-weight:800}
+.orbit-lane{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;margin-top:.55rem;padding:.45rem;border-radius:1rem;background:linear-gradient(90deg,#232445,#11142b)}
+.orbit-lane button{display:inline-flex;align-items:center;gap:.45rem;padding:.35rem .55rem;text-align:left}
+.orbit-lane img{width:2.25rem;height:2.25rem;object-fit:cover;border-radius:50%;background:#080a17}
+.orbital-moons{display:flex;flex-wrap:wrap;gap:.35rem;padding-left:.5rem;border-left:2px solid var(--edge)}
+.orbital-moons img{width:1.55rem;height:1.55rem}
+#quiz-image{margin:0 0 .65rem}
+#quiz-image img{display:block;width:100%;height:clamp(9rem,40vw,15rem);object-fit:contain;background:#080a17;border-radius:.85rem}
+#quiz-image figcaption{font-size:.85rem;color:var(--muted);margin-top:.4rem}
+.orbit-overview h3{margin:0 0 .6rem}
+.orbit-track{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;background:repeating-radial-gradient(ellipse at 0 50%,transparent 0 16%,#6b61a63b 16.4% 17%,transparent 17.4% 22%),#10132d;border-radius:.85rem;padding:.45rem}
+.orbit-track button{display:grid;justify-items:center;gap:.2rem;padding:.35rem .1rem;background:#1b1d38e6;font-size:.85rem}
+.orbit-track img{width:clamp(1.8rem,7vw,2.6rem);aspect-ratio:1;object-fit:cover;border-radius:50%;background:#080a17}
+@media(min-width:38rem){.orbit-track{grid-template-columns:repeat(5,minmax(0,1fr))}}
