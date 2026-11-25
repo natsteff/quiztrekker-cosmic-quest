@@ -189,3 +189,16 @@ button.credit-link{display:inline;min-height:0;padding:0;background:none;border:
 .planet-type-list li{padding:.25rem .35rem}
 #planet-comparison-body .is-current{background:#382d60;color:var(--text)}
 .comparison-current{font-size:.72rem;color:var(--violet)}
+
+@media (display-mode: standalone) {
+  body {
+    background:
+      linear-gradient(to bottom, var(--bg) env(safe-area-inset-top), transparent env(safe-area-inset-top)),
+      radial-gradient(ellipse at 50% 0%, #292052 0%, transparent 39rem),
+      var(--bg);
+  }
+
+  body > header {
+    padding-top: calc(env(safe-area-inset-top) + .65rem);
+  }
+}
