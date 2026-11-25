@@ -261,6 +261,7 @@ function start(previousId) {
   roundPoints = 0;
   showQuestionCard();
   renderQuestion();
+  document.dispatchEvent(new Event("cq-round-state"));
 }
 
 function renderCard() {
@@ -413,6 +414,7 @@ function showRoundResults() {
   $("round-results").hidden = false;
   $("play").setAttribute("aria-labelledby", "round-title");
   $("round-title").focus();
+  document.dispatchEvent(new Event("cq-round-state"));
 }
 
 $("next").addEventListener("click", () => {
@@ -463,6 +465,7 @@ function openGameMenu(focus = true) {
   $("game-menu").hidden = false;
   $("play").setAttribute("aria-labelledby", "play-menu-title");
   if (focus) $("play-menu-title").focus();
+  document.dispatchEvent(new Event("cq-round-state"));
 }
 
 $("quiz-menu").addEventListener("click", () => openGameMenu());

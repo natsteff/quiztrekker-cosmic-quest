@@ -202,3 +202,8 @@ button.credit-link{display:inline;min-height:0;padding:0;background:none;border:
     padding-top: calc(env(safe-area-inset-top) + .65rem);
   }
 }
+
+#release-notice{margin:.3rem 0 .55rem;padding:.5rem .7rem;border:1px solid var(--edge);border-radius:.65rem;color:var(--violet);background:var(--panel);font-size:.85rem}
+#release-controls{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.75rem}
+#update-status{width:100%;margin:0;color:var(--muted);font-size:.85rem}
+#update-status:empty{display:none}
