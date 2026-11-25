@@ -96,8 +96,16 @@ function renderSnapshot(container, card) {
   container.replaceChildren();
   if (planet) {
     const [type, spin, orbit, , moons] = planet;
-    container.append(factRows([["Planet type", type], ["One spin", oneSpin(spin)],
-      ["One orbit", orbitTime(orbit)], ["Confirmed moons", String(moons)]], "snapshot-facts"));
+    const values = [type, oneSpin(spin), orbitTime(orbit), String(moons)];
+    const rows = planetComparisons.map((metric, index) => {
+      const button = make("button", values[index]);
+      button.className = "fact-compare";
+      button.setAttribute("aria-haspopup", "dialog");
+      button.setAttribute("aria-label", `Compare ${metric.label.toLowerCase()}: ${values[index]}`);
+      button.addEventListener("click", () => openPlanetComparison(metric, card.id));
+      return [metric.label, button];
+    });
+    container.append(factRows(rows, "snapshot-facts"));
   } else if (object) {
     const [kind, makeup] = object;
     const rows = [["Type", kind], [locationFacts.has(card.id) ? "Location" : "Makeup", makeup]];
@@ -218,4 +226,74 @@ function renderImageCreditsIndex() {
     }
     list.append(entry);
   }
+}
+
+const planetComparisons = [
+  { label: "Planet type", note: "The eight planets grouped by composition.", source: "https://science.nasa.gov/solar-system/planets/" },
+  { label: "One spin", note: "Shortest to longest rotation relative to the stars. Giant-planet periods are reference values.", source: planetFactSource, value: (facts) => Math.abs(facts[1]), display: (facts) => oneSpin(facts[1]) + (facts[1] < 0 ? " · retrograde" : "") },
+  { label: "One orbit", note: "Shortest to longest time to orbit the Sun.", source: planetFactSource, value: (facts) => facts[2], display: (facts) => orbitTime(facts[2]) },
+  { label: "Confirmed moons", note: "Most to fewest. Equal counts share a rank. Counts checked November 24, 2026.", source: moonCountSource, value: (facts) => -facts[4], display: (facts) => String(facts[4]) }
+];
+
+function planetComparisonName(id, current) {
+  const name = make("span", solarById.get(id).title);
+  if (id === current) {
+    const marker = make("small", "Current planet");
+    marker.className = "comparison-current";
+    name.append(marker);
+  }
+  return name;
+}
+
+function openPlanetComparison(metric, current) {
+  const body = $("planet-comparison-body");
+  $("planet-comparison-title").textContent = metric.label;
+  $("planet-comparison-note").textContent = metric.note;
+  $("planet-comparison-source").replaceChildren(sourceLink("Source data", metric.source));
+  body.replaceChildren();
+
+  if (metric.value) {
+    const table = make("table");
+    table.className = "planet-rank-table";
+    const header = table.createTHead().insertRow();
+    for (const label of ["Rank", "Planet", metric.label]) {
+      const heading = make("th", label);
+      heading.scope = "col";
+      header.append(heading);
+    }
+    const rows = table.createTBody();
+    const ranked = [...planetIds].sort((a, b) => metric.value(planetFacts[a]) - metric.value(planetFacts[b]));
+    let rank = 0;
+    let previous;
+    for (const [index, id] of ranked.entries()) {
+      const value = metric.value(planetFacts[id]);
+      if (value !== previous) rank = index + 1;
+      previous = value;
+      const row = rows.insertRow();
+      row.classList.toggle("is-current", id === current);
+      row.insertCell().textContent = rank;
+      const name = make("th");
+      name.scope = "row";
+      name.append(planetComparisonName(id, current));
+      row.append(name);
+      row.insertCell().textContent = metric.display(planetFacts[id]);
+    }
+    body.append(table);
+  } else {
+    const types = new Set(planetIds.map((id) => planetFacts[id][0]));
+    for (const type of types) {
+      const list = make("ul");
+      list.className = "planet-type-list";
+      for (const id of planetIds.filter((planet) => planetFacts[planet][0] === type)) {
+        const item = make("li");
+        item.classList.toggle("is-current", id === current);
+        item.append(planetComparisonName(id, current));
+        list.append(item);
+      }
+      body.append(make("h3", type === "Rocky planet" ? "Rocky planets" : type + "s"), list);
+    }
+  }
+
+  $("planet-comparison").showModal();
+  $("planet-comparison-title").focus();
 }

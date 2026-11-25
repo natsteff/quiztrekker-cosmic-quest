@@ -87,7 +87,10 @@
             <span class="mastery-icon" aria-hidden="true">🏆</span>
             <small id="mastery-label">Mark as mastered</small>
           </button>
-          <strong class="card-title" id="card-title"></strong>
+          <div class="card-identity">
+            <strong class="card-title" id="card-title"></strong>
+            <small id="planet-position" hidden></small>
+          </div>
           <button id="card-facts" aria-expanded="false" aria-controls="card-back">More facts</button>
         </div>
         <div class="card-controls">
@@ -164,7 +167,16 @@
       <summary>Image Credits</summary>
       <div id="image-credit-list"></div>
     </details>
-    <p id="app-version">Version 0.11.0</p>
+    <p id="app-version">Version 0.12.0</p>
+  </dialog>
+  <dialog id="planet-comparison" aria-labelledby="planet-comparison-title" aria-describedby="planet-comparison-note">
+    <div class="dialog-header">
+      <h2 id="planet-comparison-title" tabindex="-1"></h2>
+      <form method="dialog"><button aria-label="Close comparison">✕</button></form>
+    </div>
+    <p id="planet-comparison-note"></p>
+    <div id="planet-comparison-body"></div>
+    <p id="planet-comparison-source"></p>
   </dialog>
 </main>
 <nav class="bottom-nav" aria-label="Game mode">

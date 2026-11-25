@@ -172,3 +172,20 @@ button.credit-link{display:inline;min-height:0;padding:0;background:none;border:
 #image-credits summary{cursor:pointer;font-weight:750}
 #image-credit-list>details{margin:.55rem 0;padding:.5rem;background:#171a36;border-radius:.6rem;overflow-wrap:anywhere}
 #image-credit-list p{margin:.35rem 0}
+
+.card-identity{min-width:0}
+#planet-position{margin-top:.15rem;color:var(--violet);font-size:.78rem;font-weight:650;line-height:1.25}
+.snapshot-facts>div:has(.fact-compare){position:relative;border:1px solid var(--edge)}
+.snapshot-facts>div:has(.fact-compare:focus-visible){outline:3px solid var(--gold);outline-offset:2px}
+.fact-compare{display:block;width:100%;min-height:0;padding:0;text-align:left;border:0;border-radius:0;background:none;font:inherit;text-decoration:underline;text-underline-offset:.16em;overflow-wrap:anywhere}
+.fact-compare::after{content:"";position:absolute;inset:0;border-radius:.65rem}
+.fact-compare:focus-visible{outline:none}
+#planet-comparison-title{margin:0;line-height:1.2}
+#planet-comparison-note{color:var(--muted)}
+.planet-rank-table{width:100%;border-collapse:collapse;text-align:left}
+.planet-rank-table th,.planet-rank-table td{padding:.38rem .3rem;border-bottom:1px solid var(--edge);overflow-wrap:anywhere}
+.planet-rank-table thead th{color:var(--violet);font-size:.86rem}
+.planet-type-list{margin:.35rem 0 1rem;padding-left:1.3rem}
+.planet-type-list li{padding:.25rem .35rem}
+#planet-comparison-body .is-current{background:#382d60;color:var(--text)}
+.comparison-current{font-size:.72rem;color:var(--violet)}

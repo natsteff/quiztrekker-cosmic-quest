@@ -274,6 +274,10 @@ function renderCard() {
   image.src = "assets/" + file;
   image.alt = alt;
   $("card-title").textContent = card.title;
+  const orbitalPosition = planetIds.indexOf(card.id);
+  const ordinal = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"][orbitalPosition];
+  $("planet-position").hidden = !ordinal;
+  $("planet-position").textContent = ordinal ? ordinal + " from the Sun" : "";
   const hint = make("span", flipped ? "Show card front" : "Flip card");
   hint.className = "card-action";
   const front = $("flip-card");
