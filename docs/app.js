@@ -262,29 +262,31 @@ function renderCard() {
   front.replaceChildren(...(flipped ? [title, hint] : [image, title, hint]));
   front.setAttribute("aria-expanded", String(flipped));
 
+  const snapshot = $("card-snapshot");
+  snapshot.hidden = flipped;
+  if (!flipped) renderSnapshot(snapshot, card);
+
   const imageInfo = $("card-image-info");
   imageInfo.textContent = caption;
   imageInfo.hidden = flipped;
-  if (credit) {
-    const link = make("a", credit);
-    link.href = creditUrl;
-    imageInfo.append(" · ", link);
-    if (card.id === "comets") {
-      const license = make("a", "License");
-      license.href = "https://creativecommons.org/licenses/by/2.0/";
-      imageInfo.append(" · ", license);
-    }
-  }
 
   const back = $("card-back");
   back.hidden = !flipped;
   if (!flipped) return;
-  back.replaceChildren(make("p", card.intro));
-  if (preferences.level === "advanced") back.append(make("p", card.detail));
-  const source = make("a", "Read more at NASA");
-  source.href = card.source;
+  appendLearnFacts(back, card);
   appendSizeDetails(back, card);
-  back.append(source);
+  const references = make("div");
+  references.className = "learn-references";
+  references.append(sourceLink("Read more at NASA", card.source));
+  if (credit) {
+    const attribution = make("p", "Artwork · ");
+    attribution.append(sourceLink(credit, creditUrl));
+    references.append(attribution);
+  }
+  if (card.id === "comets") {
+    references.lastChild.append(" · ", sourceLink("CC BY 2.0 license", "https://creativecommons.org/licenses/by/2.0/"), " · Cropped and resized.");
+  }
+  back.append(references);
 }
 
 function selectCard(index) {

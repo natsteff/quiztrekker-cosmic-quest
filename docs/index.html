@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="style.css">
 <script src="content.js" defer></script>
 <script src="explorer.js" defer></script>
+<script src="learn.js" defer></script>
 <script src="app.js" defer></script>
 <header class="shell">
   <img class="logo" src="assets/logo.png" alt="QuizTrekker: Cosmic Quest">
@@ -67,6 +68,7 @@
           <button id="open-explorer"><span class="wide-explorer-label">Solar System </span>Explorer</button>
         </header>
         <button id="flip-card" aria-expanded="false" aria-controls="card-back"></button>
+        <div id="card-snapshot"></div>
         <p id="card-image-info" class="image-credit"></p>
         <div id="card-back" hidden></div>
         <div class="card-actions">
@@ -142,7 +144,7 @@
         <p id="settings-status" role="status"></p>
       </fieldset>
     </div>
-    <p id="app-version">Version 0.9.0</p>
+    <p id="app-version">Version 0.10.0</p>
   </dialog>
 </main>
 <nav class="bottom-nav" aria-label="Game mode">

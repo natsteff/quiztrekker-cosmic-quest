@@ -1,0 +1,163 @@
+"use strict";
+
+const planetFactSource = "https://nssdc.gsfc.nasa.gov/planetary/factsheet/";
+const moonCountSource = "https://ssd.jpl.nasa.gov/sats/discovery.html";
+const planetFacts = {
+  mercury: ["Rocky planet", 1407.6, 88, .330, 0, "A very thin exosphere contains oxygen, sodium, hydrogen, helium, and potassium.", "Silicate rock surrounds a disproportionately large iron-rich core.", "One spin takes about 59 Earth days. From one solar noon to the next takes about 176 Earth days."],
+  venus: ["Rocky planet", -5832.5, 224.7, 4.87, 0, "Mostly carbon dioxide, with nitrogen and clouds of sulfuric acid.", "A rocky crust and mantle surround a metallic core.", "Venus spins backward relative to its orbit. One spin takes about 243 Earth days, while solar noon returns after about 117 Earth days."],
+  earth: ["Rocky planet", 23.9, 365.2, 5.97, 1, "Mostly nitrogen and oxygen, with argon, carbon dioxide, and variable water vapor.", "A rocky crust and mantle surround an iron-rich core. Liquid water covers much of the surface.", "A spin relative to the stars takes just under 24 hours. The average solar day is 24 hours."],
+  mars: ["Rocky planet", 24.6, 687, .642, 2, "A thin atmosphere dominated by carbon dioxide, with nitrogen and argon.", "Rock and iron-rich dust cover a rocky mantle and a metallic core.", "A spin takes about 24 hours 37 minutes. A Martian solar day, called a sol, is about 24 hours 39 minutes."],
+  jupiter: ["Gas giant", 9.9, 4331, 1898, 115, "Mostly hydrogen and helium. Ammonia ice helps form the upper clouds.", "Mostly hydrogen and helium, with liquid metallic hydrogen deep inside and heavier material toward the center.", "The quoted spin is a reference period. Cloud bands at different latitudes rotate at different rates."],
+  saturn: ["Gas giant", 10.7, 10747, 568, 293, "Mostly hydrogen and helium, with traces of methane and ammonia.", "Hydrogen and helium dominate, with liquid metallic hydrogen deep inside and a region enriched in heavier materials.", "The quoted spin is approximate. Saturn has no solid surface to track, and its cloud bands rotate at different rates."],
+  uranus: ["Ice giant", -17.2, 30589, 86.8, 29, "Mostly hydrogen and helium, with methane that absorbs red light.", "An envelope of gas surrounds a hot, dense interior rich in water, methane, and ammonia above a rocky core.", "Uranus rotates on its side and in the retrograde direction. The quoted spin is a reference period."],
+  neptune: ["Ice giant", 16.1, 59800, 102, 16, "Mostly hydrogen and helium, with a smaller amount of methane.", "An envelope of gas surrounds a hot, dense interior rich in water, methane, and ammonia above heavier core material.", "The quoted spin is a reference period. Neptune’s visible atmosphere moves at different speeds with latitude."]
+};
+
+const moonOrbits = {
+  moon: 27.3, phobos: .319, deimos: 1.26, io: 1.77, europa: 3.55,
+  ganymede: 7.15, callisto: 16.69, titan: 15.95, enceladus: 1.37,
+  titania: 8.71, triton: 5.88, charon: 6.39
+};
+
+const objectFacts = {
+  sun: ["Star", "Hydrogen and helium plasma", "Energy", "Fusion in its core releases the energy that lights and warms the Solar System."],
+  moon: ["Natural satellite", "Rocky surface", "Surface", "Fine dust and broken rock cover ancient craters and darker volcanic plains."],
+  phobos: ["Natural satellite", "Irregular rocky body", "Surface", "Large impact craters and grooves mark its irregular surface."],
+  deimos: ["Natural satellite", "Irregular rocky body", "Surface", "Loose surface debris softens the outlines of many of its craters."],
+  io: ["Natural satellite", "Volcanic rocky surface", "Surface", "Volcanoes continually reshape the surface and leave colorful sulfur-rich deposits."],
+  europa: ["Natural satellite", "Water-ice shell", "Interior", "A likely salty ocean lies between the outer ice shell and the rocky interior."],
+  ganymede: ["Natural satellite", "Rock and water ice", "Interior", "Models suggest layers of ice and liquid water above its rocky interior."],
+  callisto: ["Natural satellite", "Rock and water ice", "Surface", "Its dark, densely cratered surface preserves a long history of impacts."],
+  titan: ["Natural satellite", "Thick nitrogen atmosphere", "Surface liquids", "Lakes and seas of methane and ethane collect mostly near the poles."],
+  enceladus: ["Natural satellite", "Water-ice crust", "Interior", "A salty ocean under the ice feeds plumes that escape through south-polar fractures."],
+  titania: ["Natural satellite", "Rock and water ice", "Surface", "Impact craters and large valleys mark the surface of Uranus’s largest moon."],
+  triton: ["Natural satellite", "Nitrogen ice at the surface", "Orbit direction", "Its retrograde orbit runs opposite Neptune’s spin, evidence for a likely capture."],
+  charon: ["Natural satellite", "Water ice at the surface", "Orbit", "Charon and Pluto circle their shared center of mass and keep the same faces toward one another."],
+  ceres: ["Dwarf planet", "Main asteroid belt", "Surface", "Bright salt-rich deposits in Occator Crater point to brines that reached the surface."],
+  pluto: ["Dwarf planet", "Kuiper Belt", "Surface", "Nitrogen ice fills Sputnik Planitia, the western half of Pluto’s bright heart-shaped region."],
+  haumea: ["Dwarf planet", "Kuiper Belt", "Shape and ring", "A rapid spin helps explain its elongated shape. A stellar occultation revealed its ring."],
+  makemake: ["Dwarf planet", "Kuiper Belt", "Surface", "Spectra reveal frozen methane. Hubble observations revealed a small moon."],
+  eris: ["Dwarf planet", "Beyond Neptune", "Moon", "Dysnomia’s orbit lets astronomers estimate the mass of the Eris system."],
+  asteroids: ["Small bodies", "Mostly rock or metal", "Example · Bennu", "OSIRIS-REx photographed Bennu and returned a sample to Earth. Asteroids span a wide range of sizes."],
+  comets: ["Small bodies", "Ice, dust, and rock", "Coma and tails", "Warming can release gas and dust from the nucleus. The ion tail generally points away from the Sun."]
+};
+
+const conceptExamples = {
+  planets: "Compare Earth and Jupiter by diameter. A globe about 11 times wider has roughly 11 cubed, or 1,300 times, the volume if both are treated as spheres.",
+  light: "A signal from a star 10 light-years away takes about 10 years to arrive. We see that star as it was about 10 years ago.",
+  supernova: "The Crab Nebula is debris left behind by an explosion that observers on Earth recorded in 1054. Its core contains a rapidly spinning neutron star.",
+  "black-hole": "Gas can glow brightly as it circles outside a black hole. Once light crosses the event horizon, it cannot escape to distant observers.",
+  time: "Satellite and ground clocks can accumulate different amounts of time. GPS accounts for both orbital speed and the difference in gravity.",
+  expansion: "If a light wave’s wavelength doubles while crossing expanding space, its received wavelength is twice its emitted wavelength."
+};
+
+const conceptUses = {
+  planets: "Diameter comparisons help you see how different rocky planets and giants are in size.",
+  light: "Light-years make distances between stars easier to describe.",
+  supernova: "These explosions spread material that can become part of new stars and planets.",
+  "black-hole": "Black holes let scientists study gravity in extreme conditions.",
+  time: "Accounting for clock differences helps GPS give accurate positions.",
+  expansion: "Changing wavelengths help astronomers study how the universe has expanded."
+};
+
+const locationFacts = new Set(["ceres", "pluto", "haumea", "makemake", "eris"]);
+
+function factRows(rows, className = "") {
+  const list = make("dl");
+  list.className = "learn-facts " + className;
+  for (const [label, value] of rows) {
+    const row = make("div");
+    row.append(make("dt", label));
+    const detail = make("dd");
+    detail.append(value);
+    row.append(detail);
+    list.append(row);
+  }
+  return list;
+}
+
+function orbitTime(days) {
+  return numberLabel(days, 3) + " Earth days" +
+    (days >= 365 ? " (" + numberLabel(days / 365.25, 2) + " Earth years)" : "");
+}
+
+function oneSpin(hours) {
+  const duration = Math.abs(hours);
+  return duration >= 48 ? numberLabel(duration / 24, 1) + " Earth days" : numberLabel(duration) + " Earth hours";
+}
+
+function moonParent(card) {
+  return card.id === "moon" ? "Earth" : card.id === "charon" ? "Pluto" : card.parent;
+}
+
+function renderSnapshot(container, card) {
+  const planet = planetFacts[card.id];
+  const object = objectFacts[card.id];
+  container.replaceChildren();
+  if (planet) {
+    const [type, spin, orbit, , moons] = planet;
+    container.append(factRows([["Planet type", type], ["One spin", oneSpin(spin)],
+      ["One orbit", orbitTime(orbit)], ["Confirmed moons", String(moons)]], "snapshot-facts"));
+  } else if (object) {
+    const [kind, makeup] = object;
+    const rows = [["Type", kind], [locationFacts.has(card.id) ? "Location" : "Makeup", makeup]];
+    if (moonOrbits[card.id]) {
+      rows.push(["Orbits", moonParent(card)], ["One orbit", orbitTime(moonOrbits[card.id])]);
+    }
+    container.append(factRows(rows, "snapshot-facts"));
+  } else {
+    container.append(make("p", card.intro));
+    if (conceptUses[card.id]) container.append(make("p", conceptUses[card.id]));
+  }
+}
+
+function appendLearnFacts(back, card) {
+  const planet = planetFacts[card.id];
+  const object = objectFacts[card.id];
+  back.replaceChildren();
+  if (planet) {
+    const [, spin, orbit, mass, moons, atmosphere, interior, day] = planet;
+    const examples = make("span");
+    const related = allCards.filter((candidate) => moonOrbits[candidate.id] && moonParent(candidate) === card.title);
+    for (const [index, item] of related.entries()) {
+      if (index) examples.append(", ");
+      const position = learnCards.findIndex((candidate) => candidate.id === item.id);
+      if (position < 0) examples.append(item.title);
+      else {
+        const button = make("button", item.title);
+        button.className = "related-card";
+        button.addEventListener("click", () => {
+          selectCard(position);
+          $("flip-card").focus();
+        });
+        examples.append(button);
+      }
+    }
+    const count = make("span", moons + " confirmed as of November 24, 2026. ");
+    count.append(sourceLink("Moon count source", moons === 0 || card.id === "earth" ? "https://science.nasa.gov/solar-system/moons/facts/" : moonCountSource));
+    const rows = [
+      ["Atmosphere", atmosphere], ["Surface and interior", interior],
+      ["Day and year", oneSpin(spin) + " per spin. " + orbitTime(orbit) + " per orbit. " + day],
+      ["Mass", numberLabel(mass, 3) + " × 10²⁴ kg · " + numberLabel(mass / planetFacts.earth[3], 2) + " Earth masses"],
+      ["Moons", count]
+    ];
+    if (related.length) rows.push(["Featured moons", examples]);
+    back.append(factRows(rows), sourceLink("Rotation, orbit, and mass data", planetFactSource));
+  } else if (object) {
+    const [, makeup, label, fact] = object;
+    const rows = [["Overview", card.intro], [locationFacts.has(card.id) ? "Location" : "Makeup", makeup], [label, fact]];
+    if (moonOrbits[card.id]) {
+      const orbit = make("span", orbitTime(moonOrbits[card.id]) + " around " + moonParent(card) + ". ");
+      orbit.append(sourceLink("Orbit source", "https://ssd.jpl.nasa.gov/sats/elem/"));
+      rows.push(["Orbital period", orbit]);
+    }
+    back.append(factRows(rows));
+  } else {
+    back.append(factRows([["Example", conceptExamples[card.id] || card.intro]]));
+  }
+  if (preferences.level === "advanced") {
+    back.append(factRows([["Go deeper", card.detail]]));
+  } else if (planet) {
+    back.append(factRows([["Worth knowing", card.intro]]));
+  }
+}
