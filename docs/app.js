@@ -159,6 +159,7 @@ function comparison(card) {
 }
 
 function renderQuestion(focus = false) {
+  $("question-card").scrollTop = 0;
   answered = false;
   const card = deck[position];
   const isOrder = gameMode === "order";
@@ -308,6 +309,7 @@ function renderCard() {
 }
 
 function selectCard(index) {
+  $("card-face").scrollTop = 0;
   cardIndex = (index + learnCards.length) % learnCards.length;
   flipped = false;
   recordExploration();
@@ -412,6 +414,7 @@ function showRoundResults() {
   $("round-summary").textContent = `${roundCorrect} of ${deck.length} correct · ${roundPoints.toLocaleString()} points earned this round`;
   $("question-card").hidden = true;
   $("round-results").hidden = false;
+  $("round-results").scrollTop = 0;
   $("play").setAttribute("aria-labelledby", "round-title");
   $("round-title").focus();
   document.dispatchEvent(new Event("cq-round-state"));
@@ -489,6 +492,7 @@ $("order-submit").addEventListener("click", () => {
 });
 
 function flipLearnCard() {
+  $("card-face").scrollTop = 0;
   flipped = !flipped;
   renderCard();
   if (flipped && document.activeElement === $("card-facts")) {
@@ -637,10 +641,24 @@ function fitVisibleLayout() {
     document.body.style.setProperty("--visible-height", Math.floor(height) + "px");
   }
 
+  const showingLearn = !$("learn").hidden && !$("learn-cards").hidden;
+  const showingPlay = !$("play").hidden;
+  document.body.classList.toggle("inner-scroll", height >= 460 && (showingLearn || showingPlay));
+  if (document.body.classList.contains("inner-scroll")) {
+    const scrollArea = showingLearn ? $("card-face") :
+      !$("game-menu").hidden ? $("game-menu") :
+      !$("round-results").hidden ? $("round-results") : $("question-card");
+    if (scrollArea.clientHeight < Math.min(112, scrollArea.scrollHeight)) {
+      document.body.classList.remove("inner-scroll");
+    }
+  }
+
   const image = $("flip-card").querySelector("img");
-  if (!image || !image.offsetHeight) return;
+  if (!showingLearn || !image || !image.offsetHeight) return;
   // Hold room for the complete card and navigation before sizing its artwork.
-  const cardBottom = flashcard.getBoundingClientRect().bottom + window.scrollY;
+  const face = $("card-face");
+  const overflow = Math.max(0, face.scrollHeight - face.clientHeight);
+  const cardBottom = flashcard.getBoundingClientRect().bottom + window.scrollY + overflow;
   const reservedBottom = parseFloat(getComputedStyle(document.body).paddingBottom);
   const imageSpace = height - reservedBottom - (cardBottom - image.getBoundingClientRect().height);
   flashcard.style.setProperty("--learn-image-space", Math.max(0, Math.floor(imageSpace)) + "px");
@@ -651,7 +669,7 @@ function scheduleLayoutFit() {
 }
 
 const layoutObserver = new ResizeObserver(scheduleLayoutFit);
-for (const element of [bottomNav, flashcard, document.querySelector("body > header"), $("release-notice")]) {
+for (const element of [bottomNav, flashcard, $("card-face"), $("learn-progress-label"), $("play"), $("question-card"), $("round-results"), document.querySelector("body > header"), $("release-notice")]) {
   layoutObserver.observe(element, { box: "border-box" });
 }
 window.addEventListener("resize", scheduleLayoutFit);

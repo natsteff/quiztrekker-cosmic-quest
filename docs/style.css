@@ -204,3 +204,39 @@ button.credit-link{display:inline;min-height:0;padding:0;background:none;border:
 #release-controls{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.75rem}
 #update-status{width:100%;margin:0;color:var(--muted);font-size:.85rem}
 #update-status:empty{display:none}
+
+body.inner-scroll {
+  height: var(--visible-height, 100dvh);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.inner-scroll > header, .inner-scroll #release-notice,
+.inner-scroll .learn-progress, .inner-scroll .card-heading,
+.inner-scroll .card-actions, .inner-scroll .card-controls,
+.inner-scroll #quiz-strip {
+  flex: none;
+}
+
+.inner-scroll > main, .inner-scroll #learn, .inner-scroll #learn-cards,
+.inner-scroll #flashcard, .inner-scroll #play, .inner-scroll #quiz {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.inner-scroll #card-face, .inner-scroll #game-menu,
+.inner-scroll #question-card, .inner-scroll #round-results {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior-y: contain;
+  scroll-padding-block: .65rem;
+}
+
+.inner-scroll #card-face:focus-visible,
+.inner-scroll #question-card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}

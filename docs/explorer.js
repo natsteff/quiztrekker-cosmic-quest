@@ -157,6 +157,7 @@ function showCards() {
 }
 
 function openExplorer() {
+  document.body.classList.remove("inner-scroll");
   $("learn-cards").hidden = true;
   $("open-explorer").hidden = true;
   $("explorer").hidden = false;

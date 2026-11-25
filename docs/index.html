@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="cq-release" content="0.13.1">
+<meta name="cq-release" content="0.13.2">
 <meta name="theme-color" content="#0a0c20">
 <meta name="description" content="Explore the science of space in a bite-sized quiz game.">
 <title>QuizTrekker: Cosmic Quest</title>
@@ -12,12 +12,12 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
-<link rel="stylesheet" href="style.css?v=0.13.1">
-<script src="content.js?v=0.13.1" defer></script>
-<script src="explorer.js?v=0.13.1" defer></script>
-<script src="learn.js?v=0.13.1" defer></script>
-<script src="app.js?v=0.13.1" defer></script>
-<script src="updates.js?v=0.13.1" defer></script>
+<link rel="stylesheet" href="style.css?v=0.13.2">
+<script src="content.js?v=0.13.2" defer></script>
+<script src="explorer.js?v=0.13.2" defer></script>
+<script src="learn.js?v=0.13.2" defer></script>
+<script src="app.js?v=0.13.2" defer></script>
+<script src="updates.js?v=0.13.2" defer></script>
 <header class="shell">
   <img class="logo" src="assets/logo.png" alt="QuizTrekker: Cosmic Quest">
   <button id="settings-open" class="gear" aria-label="Open settings" title="Settings">⚙</button>
@@ -39,6 +39,7 @@
       <p id="moon-availability"></p>
     </div>
     <div id="quiz" hidden>
+    <div class="strip" id="quiz-strip"><button id="quiz-menu">Games</button><span id="progress"></span><strong id="points">0 pts</strong></div>
     <section id="round-results" class="panel" aria-labelledby="round-title" hidden>
       <h1 id="round-title" tabindex="-1">Round complete</h1>
       <p id="round-summary"></p>
@@ -48,8 +49,7 @@
         <button id="play-again" class="primary">Play again</button>
       </div>
     </section>
-    <div class="strip"><button id="quiz-menu">Games</button><span id="progress"></span><strong id="points">0 pts</strong></div>
-    <article id="question-card" class="panel">
+    <article id="question-card" class="panel" tabindex="0" aria-labelledby="play-title">
       <p class="eyebrow" id="topic"></p>
       <h1 id="play-title" tabindex="-1">Cosmic Quest</h1>
       <figure id="quiz-image" hidden><img alt=""><figcaption hidden></figcaption></figure>
@@ -83,10 +83,12 @@
           <div class="card-heading-label"><span>Flip &amp; Discover</span><p id="card-position" class="card-position"></p></div>
           <button id="open-explorer"><span class="wide-explorer-label">Solar System </span>Explorer</button>
         </header>
-        <button id="flip-card" aria-expanded="false" aria-controls="card-back"></button>
-        <div id="card-snapshot"></div>
-        <p id="card-image-info" class="image-credit"></p>
-        <div id="card-back" hidden></div>
+        <div id="card-face" role="region" aria-label="Learn card content" tabindex="0">
+          <button id="flip-card" aria-expanded="false" aria-controls="card-back"></button>
+          <div id="card-snapshot"></div>
+          <p id="card-image-info" class="image-credit"></p>
+          <div id="card-back" hidden></div>
+        </div>
         <div class="card-actions">
           <button id="mastery" aria-pressed="false" aria-label="Mark as mastered">
             <span class="mastery-icon" aria-hidden="true">🏆</span>
@@ -177,7 +179,7 @@
       <button id="apply-update" type="button" class="primary" hidden>Update and reload</button>
       <p id="update-status" role="status"></p>
     </section>
-    <p id="app-version">Version 0.13.1</p>
+    <p id="app-version">Version 0.13.2</p>
   </dialog>
   <dialog id="planet-comparison" aria-labelledby="planet-comparison-title" aria-describedby="planet-comparison-note">
     <div class="dialog-header">
