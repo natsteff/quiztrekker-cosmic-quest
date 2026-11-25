@@ -460,6 +460,7 @@ for (const button of document.querySelectorAll("[data-game]")) {
     const heading = $("round-results").hidden ? $("play-title") : $("round-title");
     $("play").setAttribute("aria-labelledby", heading.id);
     heading.focus();
+    document.dispatchEvent(new Event("cq-round-state"));
   });
 }
 

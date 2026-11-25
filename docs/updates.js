@@ -21,7 +21,10 @@
   }
 
   function unfinishedRound() {
-    return Boolean(gameMode && deck?.length && (!answered || position < deck.length - 1));
+    if ($("quiz").hidden || !gameMode || !deck?.length) return false;
+    const started = position > 0 || answered || orderChoices.length > 0;
+    const completed = answered && position === deck.length - 1;
+    return started && !completed;
   }
 
   function reportAvailable() {
@@ -76,7 +79,7 @@
         available = version;
         reportAvailable();
         // Let players review a completed round or finish using Settings.
-        if (!manual && !gameMode && !$("settings").open) applyUpdate();
+        if (!manual && ($("quiz").hidden || (!answered && !unfinishedRound())) && !$("settings").open) applyUpdate();
       } else if (manual) {
         status.textContent = `You’re up to date. Version ${current}.`;
       }
