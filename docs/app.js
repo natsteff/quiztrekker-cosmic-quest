@@ -626,6 +626,34 @@ updatePools();
 renderFilters();
 
 const bottomNav = document.querySelector(".bottom-nav");
-new ResizeObserver(() => {
+const viewport = window.visualViewport;
+let layoutFrame = 0;
+
+function fitVisibleLayout() {
+  layoutFrame = 0;
   document.body.style.setProperty("--nav-height", bottomNav.offsetHeight + "px");
-}).observe(bottomNav, { box: "border-box" });
+  const height = viewport && viewport.scale === 1 ? viewport.height : document.documentElement.clientHeight;
+  if (!viewport || viewport.scale === 1) {
+    document.body.style.setProperty("--visible-height", Math.floor(height) + "px");
+  }
+
+  const image = $("flip-card").querySelector("img");
+  if (!image || !image.offsetHeight) return;
+  // Hold room for the complete card and navigation before sizing its artwork.
+  const cardBottom = flashcard.getBoundingClientRect().bottom + window.scrollY;
+  const reservedBottom = parseFloat(getComputedStyle(document.body).paddingBottom);
+  const imageSpace = height - reservedBottom - (cardBottom - image.getBoundingClientRect().height);
+  flashcard.style.setProperty("--learn-image-space", Math.max(0, Math.floor(imageSpace)) + "px");
+}
+
+function scheduleLayoutFit() {
+  if (!layoutFrame) layoutFrame = requestAnimationFrame(fitVisibleLayout);
+}
+
+const layoutObserver = new ResizeObserver(scheduleLayoutFit);
+for (const element of [bottomNav, flashcard, document.querySelector("body > header"), $("release-notice")]) {
+  layoutObserver.observe(element, { box: "border-box" });
+}
+window.addEventListener("resize", scheduleLayoutFit);
+viewport?.addEventListener("resize", scheduleLayoutFit);
+scheduleLayoutFit();

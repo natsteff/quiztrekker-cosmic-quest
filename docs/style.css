@@ -1,7 +1,8 @@
 :root{color-scheme:dark;--bg:#0a0c20;--panel:#171a36;--edge:#383758;--text:#f8f5ff;--muted:#c6c1df;--violet:#ccb9ff;--gold:#ffda72;font:100%/1.5 ui-rounded,"Avenir Next",system-ui,sans-serif}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{margin:0;min-height:100vh;color:var(--text);background:radial-gradient(ellipse at 50% 0%,#292052 0%,transparent 39rem),var(--bg)}
+html{overscroll-behavior-y:none}
+body{margin:0;min-height:100vh;min-height:var(--visible-height,100dvh);color:var(--text);background:radial-gradient(ellipse at 50% 0%,#292052 0%,transparent 39rem),var(--bg)}
 .shell{width:min(calc(100% - 2 * max(.7rem,env(safe-area-inset-left),env(safe-area-inset-right))),44rem);margin-inline:auto}
 button{font:inherit;font-weight:720;color:var(--text);background:#232445;border:1px solid var(--edge);border-radius:.85rem;min-height:2.9rem;padding:.65rem .95rem;cursor:pointer}
 button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
@@ -46,7 +47,7 @@ body>header{display:flex;align-items:center;justify-content:space-between;gap:.7
 .card-heading{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:0 .15rem .4rem}
 .card-heading button{padding:.35rem .6rem;font-size:.86rem}
 #flip-card{display:grid;justify-items:center;width:100%;padding:.45rem .45rem .35rem;gap:.23rem;overflow:hidden;text-align:center;background:#11142b;border-color:transparent}
-#flip-card img{display:block;width:100%;height:clamp(8rem,33dvh,19rem);object-fit:contain;background:#090b20;border-radius:.65rem}
+#flip-card img{display:block;width:100%;height:max(8rem,min(33dvh,19rem,var(--learn-image-space,19rem)));object-fit:contain;background:#090b20;border-radius:.65rem}
 .card-title{font-size:clamp(1.15rem,4vw,1.55rem)}
 .card-action{color:var(--violet);font-size:.9rem}
 #card-back{padding:.15rem .6rem}
@@ -133,7 +134,7 @@ button:disabled{cursor:default}
 #welcome-install p:last-child{margin-bottom:0}
 .welcome-actions{display:flex;justify-content:flex-end;margin-top:1rem}
 
-@media (orientation:landscape) and (max-height:34rem){.logo{width:5rem}#flip-card img{height:clamp(6rem,35dvh,12rem)}}
+@media (orientation:landscape) and (max-height:34rem){.logo{width:5rem}#flip-card img{height:max(6rem,min(35dvh,12rem,var(--learn-image-space,12rem)))}}
 
 .learn-facts{margin:.5rem 0;display:grid;gap:.35rem}
 .learn-facts>div{min-width:0;padding:.5rem .65rem;border-radius:.65rem;background:#11142b}
@@ -145,7 +146,7 @@ button:disabled{cursor:default}
 #card-snapshot>p{margin:.45rem .4rem;font-size:.9rem}
 .related-card{padding:.25rem .45rem;margin:.15rem 0;font-size:.88rem}
 .learn-references{padding:.55rem 0;border-top:1px solid var(--edge);font-size:.85rem;overflow-wrap:anywhere}
-@media(max-width:35rem){#flip-card img{height:clamp(7rem,27dvh,15rem)}}
+@media(max-width:35rem) and (orientation:portrait){#flip-card img{height:max(7rem,min(27dvh,15rem,var(--learn-image-space,15rem)))}}
 
 #mastery{display:inline-grid;justify-items:center;align-content:center;gap:.1rem;min-width:5.5rem;line-height:1.15;box-shadow:0 .13rem 0 #443b65}
 #mastery .mastery-icon{font-size:1.13rem}
@@ -196,10 +197,6 @@ button.credit-link{display:inline;min-height:0;padding:0;background:none;border:
       linear-gradient(to bottom, var(--bg) env(safe-area-inset-top), transparent env(safe-area-inset-top)),
       radial-gradient(ellipse at 50% 0%, #292052 0%, transparent 39rem),
       var(--bg);
-  }
-
-  body > header {
-    padding-top: calc(env(safe-area-inset-top) + .65rem);
   }
 }
 
