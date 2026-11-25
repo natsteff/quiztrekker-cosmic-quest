@@ -66,6 +66,8 @@ const planetsInOrder = solarOrder.slice(1, 9).map((id) => solarById.get(id).titl
 let position;
 let answered;
 let streak = 0;
+let roundCorrect = 0;
+let roundPoints = 0;
 let cardIndex = 0;
 let flipped = false;
 let storageAvailable = true;
@@ -79,8 +81,10 @@ function show(view, focus = true) {
     else tab.removeAttribute("aria-current");
   }
   if (view === "my-progress") renderProgress();
+  if (view === "learn") recordExploration();
   if (focus) {
-    const heading = view === "play" && !$("game-menu").hidden ? "play-menu-title" : view + "-title";
+    const heading = view !== "play" ? view + "-title" :
+      !$("game-menu").hidden ? "play-menu-title" : !$("round-results").hidden ? "round-title" : "play-title";
     $(heading).focus();
   }
 }
@@ -94,6 +98,8 @@ function grade(right, correct, explanation) {
     streak++;
     preferences.points += award;
     preferences.correct++;
+    roundCorrect++;
+    roundPoints += award;
     preferences.bestStreak = Math.max(preferences.bestStreak, streak);
   } else {
     streak = 0;
@@ -105,8 +111,10 @@ function grade(right, correct, explanation) {
   if (!storageAvailable) $("feedback").append(make("p", "Points are available for this visit. Browser storage is unavailable."));
   $("study").hidden = false;
   $("next").hidden = false;
-  $("next").textContent = position + 1 === deck.length ? "New round" : "Next question";
-  $("next").focus();
+  const final = position + 1 === deck.length;
+  $("next").textContent = final ? "Round results" : "Next question";
+  if (final) showRoundResults();
+  else $("next").focus();
 }
 
 function updateOrderControls() {
@@ -114,7 +122,13 @@ function updateOrderControls() {
     ? orderChoices.join(" → ")
     : "Select each planet from closest to farthest.";
   for (const button of $("choices").children) {
-    button.disabled = answered || orderChoices.includes(button.textContent);
+    const index = orderChoices.indexOf(button.dataset.planet);
+    const selected = index !== -1;
+    button.disabled = answered;
+    button.setAttribute("aria-pressed", String(selected));
+    button.setAttribute("aria-label", selected ? `${button.dataset.planet}, position ${index + 1}` : button.dataset.planet);
+    button.firstElementChild.textContent = selected ? String(index + 1) : "";
+    button.firstElementChild.hidden = !selected;
   }
   $("order-undo").disabled = answered || !orderChoices.length;
   $("order-clear").disabled = answered || !orderChoices.length;
@@ -175,11 +189,16 @@ function renderQuestion(focus = false) {
   if (isOrder) {
     $("play-title").textContent = "Put all eight planets in order from the Sun.";
     for (const planet of shuffle(planetsInOrder)) {
-      const button = make("button", planet);
+      const button = make("button");
+      button.dataset.planet = planet;
+      const badge = make("strong");
+      badge.setAttribute("aria-hidden", "true");
+      button.append(badge, make("span", planet));
       button.addEventListener("click", () => {
-        orderChoices.push(planet);
+        const index = orderChoices.indexOf(planet);
+        if (index === -1) orderChoices.push(planet);
+        else orderChoices.splice(index, 1);
         updateOrderControls();
-        ($("choices").querySelector("button:not(:disabled)") || $("order-submit")).focus();
       });
       $("choices").append(button);
     }
@@ -212,11 +231,8 @@ function renderQuestion(focus = false) {
         const explanation = preferences.level === "advanced"
           ? `${card.intro} ${card.detail}` : card.intro;
         if (isImage) {
-          const [, alt, type, credit, url] = artwork[card.id];
-          image.alt = alt;
-          const source = make("a", credit);
-          source.href = url;
-          caption.replaceChildren(type + " · ", source);
+          image.alt = artwork[card.id][1];
+          renderImageCredit(caption, card);
           caption.hidden = false;
         }
         grade(right, correct, compared?.explanation || explanation);
@@ -241,12 +257,15 @@ function start(previousId) {
   }
   position = 0;
   streak = 0;
+  roundCorrect = 0;
+  roundPoints = 0;
+  showQuestionCard();
   renderQuestion();
 }
 
 function renderCard() {
   const card = learnCards[cardIndex];
-  const [file, alt, caption, credit, creditUrl] = artwork[card.id];
+  const [file, alt] = artwork[card.id];
   $("card-position").textContent = `${cardIndex + 1} / ${learnCards.length}`;
   $("card-select").value = card.id;
   renderLearnProgress();
@@ -254,12 +273,14 @@ function renderCard() {
   const image = make("img");
   image.src = "assets/" + file;
   image.alt = alt;
-  const title = make("strong", card.title);
-  title.className = "card-title";
+  $("card-title").textContent = card.title;
   const hint = make("span", flipped ? "Show card front" : "Flip card");
   hint.className = "card-action";
   const front = $("flip-card");
-  front.replaceChildren(...(flipped ? [title, hint] : [image, title, hint]));
+  front.replaceChildren(...(flipped ? [hint] : [image, hint]));
+  front.setAttribute("aria-label", `${hint.textContent}: ${card.title}`);
+  $("card-facts").textContent = flipped ? "Card front" : "More facts";
+  $("card-facts").setAttribute("aria-expanded", String(flipped));
   front.setAttribute("aria-expanded", String(flipped));
 
   const snapshot = $("card-snapshot");
@@ -267,8 +288,8 @@ function renderCard() {
   if (!flipped) renderSnapshot(snapshot, card);
 
   const imageInfo = $("card-image-info");
-  imageInfo.textContent = caption;
   imageInfo.hidden = flipped;
+  if (!flipped) renderImageCredit(imageInfo, card);
 
   const back = $("card-back");
   back.hidden = !flipped;
@@ -278,21 +299,24 @@ function renderCard() {
   const references = make("div");
   references.className = "learn-references";
   references.append(sourceLink("Read more at NASA", card.source));
-  if (credit) {
-    const attribution = make("p", "Artwork · ");
-    attribution.append(sourceLink(credit, creditUrl));
-    references.append(attribution);
-  }
-  if (card.id === "comets") {
-    references.lastChild.append(" · ", sourceLink("CC BY 2.0 license", "https://creativecommons.org/licenses/by/2.0/"), " · Cropped and resized.");
-  }
   back.append(references);
 }
 
 function selectCard(index) {
   cardIndex = (index + learnCards.length) % learnCards.length;
   flipped = false;
+  recordExploration();
   renderCard();
+}
+
+function recordExploration() {
+  if ($("learn").hidden || $("learn-cards").hidden || $("welcome").open || $("settings").open) return;
+  const id = learnCards[cardIndex]?.id;
+  if (id && !preferences.explored.includes(id)) {
+    preferences.explored.push(id);
+    storageAvailable = save();
+    renderLearnProgress();
+  }
 }
 
 function enabledCount(ids) {
@@ -304,10 +328,14 @@ function renderLearnProgress() {
   const total = learnCards.length;
   const progress = $("learn-progress-bar");
   progress.max = total;
-  progress.value = mastered || enabledCount(preferences.explored);
+  const explored = enabledCount(preferences.explored);
+  progress.value = mastered || explored;
+  $("learn-explored").hidden = !mastered;
+  $("learn-explored").textContent = `${explored} / ${total} explored`;
   $("learn-progress-label").textContent = `${progress.value} / ${total} cards ${mastered ? "mastered" : "explored"}`;
   const marked = preferences.mastered.includes(learnCards[cardIndex].id);
-  $("mastery").textContent = marked ? "Undo mastery" : "Mark as mastered";
+  $("mastery-label").textContent = marked ? "Mastered ✓" : "Mark as mastered";
+  $("mastery").setAttribute("aria-pressed", String(marked));
   $("mastery").classList.toggle("is-mastered", marked);
 }
 
@@ -340,7 +368,8 @@ function updatePools() {
   $("card-select").replaceChildren(...groups.values());
   selectCard(Math.max(0, learnCards.findIndex((card) => card.id === current)));
   const orderEnabled = preferences.packs.includes("solar") && preferences.topics.includes("solar");
-  const moonsEnabled = learnCards.some((card) => (card.id === "moon" || card.parent) && preferences.topics.includes(card.topic));
+  const moonsEnabled = preferences.packs.includes("moons") && preferences.topics.includes("moons");
+  $("moon-availability").textContent = moonsEnabled ? "" : "To play Moon Match, enable Moons of Other Planets in Choose content and Practice topics.";
   document.querySelector('[data-game="order"]').disabled = !orderEnabled;
   document.querySelector('[data-game="moons"]').disabled = !moonsEnabled;
   const eligible = learnCards.filter((card) => preferences.topics.includes(card.topic));
@@ -350,7 +379,7 @@ function updatePools() {
     document.querySelector(`[data-game="${mode}"]`).disabled = !orderEnabled;
   }
   renderExplorer();
-  $("game-availability").textContent = !orderEnabled || !moonsEnabled || !imageEnabled
+  $("game-availability").textContent = !orderEnabled || !imageEnabled
     ? "Enable the relevant content packs and practice topics in Settings to unlock more games." : "";
   if (gameMode && document.querySelector(`[data-game="${gameMode}"]`).disabled) {
     gameMode = null;
@@ -368,14 +397,39 @@ function updateSettings() {
 }
 
 for (const tab of tabs) tab.addEventListener("click", () => show(tab.dataset.view));
+function showQuestionCard() {
+  $("round-results").hidden = true;
+  $("question-card").hidden = false;
+  $("play").setAttribute("aria-labelledby", "play-title");
+}
+
+function showRoundResults() {
+  $("round-summary").textContent = `${roundCorrect} of ${deck.length} correct · ${roundPoints.toLocaleString()} points earned this round`;
+  $("question-card").hidden = true;
+  $("round-results").hidden = false;
+  $("play").setAttribute("aria-labelledby", "round-title");
+  $("round-title").focus();
+}
+
 $("next").addEventListener("click", () => {
-  if (position + 1 === deck.length) {
-    start(deck[position].id);
-    $("play-title").focus();
-  } else {
+  if (position + 1 === deck.length) showRoundResults();
+  else {
     position++;
     renderQuestion(true);
   }
+});
+$("review-answer").addEventListener("click", () => {
+  showQuestionCard();
+  $("feedback").tabIndex = -1;
+  $("feedback").focus();
+});
+$("round-games").addEventListener("click", () => {
+  gameMode = null;
+  openGameMenu();
+});
+$("play-again").addEventListener("click", () => {
+  start(deck[position].id);
+  $("play-title").focus();
 });
 $("study").addEventListener("click", () => {
   showCards();
@@ -385,16 +439,18 @@ $("study").addEventListener("click", () => {
   $("flip-card").focus();
 });
 $("settings-open").addEventListener("click", () => $("settings").showModal());
+$("settings").addEventListener("close", recordExploration);
 for (const button of document.querySelectorAll("[data-game]")) {
   button.addEventListener("click", () => {
     $("game-menu").hidden = true;
     $("quiz").hidden = false;
-    $("play").setAttribute("aria-labelledby", "play-title");
     if (gameMode !== button.dataset.game) {
       gameMode = button.dataset.game;
       start();
     }
-    $("play-title").focus();
+    const heading = $("round-results").hidden ? $("play-title") : $("round-title");
+    $("play").setAttribute("aria-labelledby", heading.id);
+    heading.focus();
   });
 }
 
@@ -410,7 +466,7 @@ $("order-undo").addEventListener("click", () => {
   const planet = orderChoices.pop();
   updateOrderControls();
   if ($("order-undo").disabled) {
-    [...$("choices").children].find((button) => button.textContent === planet).focus();
+    [...$("choices").children].find((button) => button.dataset.planet === planet).focus();
   }
 });
 $("order-clear").addEventListener("click", () => {
@@ -425,15 +481,16 @@ $("order-submit").addEventListener("click", () => {
   updateOrderControls();
 });
 
-$("flip-card").addEventListener("click", () => {
+function flipLearnCard() {
   flipped = !flipped;
-  const id = learnCards[cardIndex].id;
-  if (flipped && !preferences.explored.includes(id)) {
-    preferences.explored.push(id);
-    storageAvailable = save();
-  }
   renderCard();
-});
+  if (flipped && document.activeElement === $("card-facts")) {
+    $("card-back").tabIndex = -1;
+    $("card-back").focus();
+  }
+}
+$("flip-card").addEventListener("click", flipLearnCard);
+$("card-facts").addEventListener("click", flipLearnCard);
 $("mastery").addEventListener("click", () => {
   const id = learnCards[cardIndex].id;
   const index = preferences.mastered.indexOf(id);
@@ -521,8 +578,7 @@ function renderFilters() {
   }
 }
 
-updatePools();
-renderFilters();
+renderImageCreditsIndex();
 
 function showFirstLaunchWelcome() {
   if (saved) return;
@@ -552,12 +608,15 @@ function showFirstLaunchWelcome() {
     } catch {
       // Continue into the game even when browser storage is unavailable.
     }
+    recordExploration();
     $("learn-title").focus({ preventScroll: true });
   }, { once: true });
   welcome.showModal();
 }
 
 showFirstLaunchWelcome();
+updatePools();
+renderFilters();
 
 const bottomNav = document.querySelector(".bottom-nav");
 new ResizeObserver(() => {

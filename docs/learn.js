@@ -161,3 +161,61 @@ function appendLearnFacts(back, card) {
     back.append(factRows([["Worth knowing", card.intro]]));
   }
 }
+
+const fullAdjacentCredits = new Set(["haumea", "makemake", "supernova"]);
+const shortCredits = {
+  mercury: "NASA / JHU APL / Carnegie Institution",
+  pluto: "NASA / JHU APL / SwRI",
+  charon: "NASA / JHU APL / SwRI",
+  phobos: "NASA / JPL-Caltech / UArizona",
+  deimos: "NASA / JPL-Caltech / UArizona",
+  io: "NASA / JPL / UArizona",
+  jupiter: "NASA / JPL / UArizona",
+  "black-hole": "NASA Goddard / Jeremy Schnittman"
+};
+
+function renderImageCredit(container, card) {
+  const [, , type, credit] = artwork[card.id];
+  container.replaceChildren(type);
+  if (!credit) return;
+  const button = make("button", shortCredits[card.id] || credit);
+  button.className = "credit-link";
+  button.setAttribute("aria-label", "Full image credit for " + card.title);
+  button.addEventListener("click", () => {
+    const index = $("image-credits");
+    const entry = $("image-credit-" + card.id);
+    $("settings").showModal();
+    index.open = true;
+    entry.open = true;
+    entry.querySelector("summary").focus();
+  });
+  if (fullAdjacentCredits.has(card.id)) {
+    button.textContent = "Full details";
+    container.append(" · ", credit, " · ", button);
+  } else {
+    container.append(" · ", button);
+  }
+}
+
+function renderImageCreditsIndex() {
+  const list = $("image-credit-list");
+  for (const card of allCards) {
+    const [, , type, credit, origin] = artwork[card.id];
+    const entry = make("details");
+    entry.id = "image-credit-" + card.id;
+    entry.append(make("summary", card.title), make("p", type), make("p", credit || "Original Cosmic Quest diagram"));
+    if (origin) entry.append(sourceLink("Original image", origin), " · ");
+    if (card.id === "comets") {
+      entry.append(sourceLink("CC BY 2.0 license", "https://creativecommons.org/licenses/by/2.0/"),
+        make("p", "Cropped and resized for the Learn card."));
+    } else if (origin?.includes("photojournal.jpl.nasa.gov") || card.id === "eris") {
+      entry.append(sourceLink("JPL image use policy", "https://www.jpl.nasa.gov/jpl-image-use-policy/"));
+    } else if (origin) {
+      entry.append(sourceLink("NASA image use guidelines", "https://www.nasa.gov/nasa-brand-center/images-and-media/"));
+      if (fullAdjacentCredits.has(card.id)) {
+        entry.append(" · ", sourceLink("STScI content use policy", "https://www.stsci.edu/copyright"));
+      }
+    }
+    list.append(entry);
+  }
+}

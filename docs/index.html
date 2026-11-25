@@ -31,10 +31,20 @@
         <button data-game="moons">Match the Moon to Its Planet</button>
       </div>
       <p id="game-availability"></p>
+      <p id="moon-availability"></p>
     </div>
     <div id="quiz" hidden>
+    <section id="round-results" class="panel" aria-labelledby="round-title" hidden>
+      <h1 id="round-title" tabindex="-1">Round complete</h1>
+      <p id="round-summary"></p>
+      <div class="actions">
+        <button id="review-answer">Review last answer</button>
+        <button id="round-games">Back to games</button>
+        <button id="play-again" class="primary">Play again</button>
+      </div>
+    </section>
     <div class="strip"><button id="quiz-menu">Games</button><span id="progress"></span><strong id="points">0 pts</strong></div>
-    <article class="panel">
+    <article id="question-card" class="panel">
       <p class="eyebrow" id="topic"></p>
       <h1 id="play-title" tabindex="-1">Cosmic Quest</h1>
       <figure id="quiz-image" hidden><img alt=""><figcaption hidden></figcaption></figure>
@@ -61,10 +71,11 @@
       <div class="learn-progress">
         <span id="learn-progress-label" role="status"></span>
         <progress id="learn-progress-bar" aria-labelledby="learn-progress-label"></progress>
+        <small id="learn-explored" hidden></small>
       </div>
       <article class="panel flashcard" id="flashcard">
         <header class="card-heading">
-          <p id="card-position" class="card-position"></p>
+          <div class="card-heading-label"><span>Flip &amp; Discover</span><p id="card-position" class="card-position"></p></div>
           <button id="open-explorer"><span class="wide-explorer-label">Solar System </span>Explorer</button>
         </header>
         <button id="flip-card" aria-expanded="false" aria-controls="card-back"></button>
@@ -72,12 +83,17 @@
         <p id="card-image-info" class="image-credit"></p>
         <div id="card-back" hidden></div>
         <div class="card-actions">
-          <button id="mastery">Mark as mastered</button>
+          <button id="mastery" aria-pressed="false" aria-label="Mark as mastered">
+            <span class="mastery-icon" aria-hidden="true">🏆</span>
+            <small id="mastery-label">Mark as mastered</small>
+          </button>
+          <strong class="card-title" id="card-title"></strong>
+          <button id="card-facts" aria-expanded="false" aria-controls="card-back">More facts</button>
         </div>
         <div class="card-controls">
-          <button id="previous-card" aria-label="Previous card">‹</button>
+          <button id="previous-card" aria-label="Previous card">‹ Back</button>
           <label for="card-select"><span class="visually-hidden">Choose a Learn card</span><select id="card-select"></select></label>
-          <button id="next-card" aria-label="Next card">›</button>
+          <button id="next-card" aria-label="Next card">Next ›</button>
         </div>
       </article>
     </div>
@@ -144,7 +160,11 @@
         <p id="settings-status" role="status"></p>
       </fieldset>
     </div>
-    <p id="app-version">Version 0.10.0</p>
+    <details id="image-credits">
+      <summary>Image Credits</summary>
+      <div id="image-credit-list"></div>
+    </details>
+    <p id="app-version">Version 0.11.0</p>
   </dialog>
 </main>
 <nav class="bottom-nav" aria-label="Game mode">

@@ -3,13 +3,13 @@
 </p>
 <p align="center">
   <a href="https://natsteff.github.io/quiztrekker-cosmic-quest/">
-    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now, version 0.10.0" width="420">
+    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now, version 0.11.0" width="420">
   </a>
 </p>
 
 # QuizTrekker: Cosmic Quest
 
-**Current release · v0.10.0**
+**Current release · v0.11.0**
 
 Explore the Solar System and the science beyond it with illustrated flashcards, an interactive orbit map, and quizzes. On your first visit, a welcome screen explains the beginner setup: **Foundations** with **Solar System Basics** enabled. Start with the Sun, eight planets, and Earth’s Moon. Use Settings to add more moons, dwarf planets, and topics like black holes and time dilation, or switch to **Advanced** questions.
 
@@ -24,8 +24,8 @@ The first-visit welcome also shows these steps on supported phones and tablets. 
 
 ## How to play
 
-- **Learn** — Scan illustrated card fronts for key facts, then flip for details, size comparisons, and sources. Open the **Explorer** to browse orbits and moon systems, see distances on a linear scale, or compare worlds by size.
-- **Play** — Try Space Quiz, Planet Order, Match the Moon to Its Planet, Image Identification, Planet Size, or Orbital Distance. Available games depend on the topics you enable.
+- **Learn** — Scan illustrated card fronts for key facts, then flip for details and size comparisons. Short image credits open the full sources and usage terms in Settings. Open the **Explorer** to browse orbits and moon systems, see distances on a linear scale, or compare worlds by size.
+- **Play** — Try Space Quiz, Planet Order, Match the Moon to Its Planet, Image Identification, Planet Size, or Orbital Distance. Round results show correct answers and points earned. Moon matching requires the other moons pack to be enabled for practice.
 - **My Progress** — See your points, explored and mastered cards, correct answers, and best streak. The Learn progress bar switches to mastery after you mark a card as mastered. The game saves progress in your current browser.
 - **Settings** — Use the gear to add content packs, switch between Foundations and Advanced, or leave familiar topics out of practice while keeping their cards in Learn.
 
