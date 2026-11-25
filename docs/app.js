@@ -1,5 +1,9 @@
 "use strict";
 const $ = (id) => document.getElementById(id);
+const fullscreenLayout =
+  new URLSearchParams(window.location.search).get("fullscreen") === "1";
+document.documentElement.classList.toggle("tv-layout", fullscreenLayout);
+
 const key = "quiztrekker.cosmic-quest.v1";
 const topicIds = Object.keys(topics);
 const originalPacks = ["solar", "scale", "stars", "universe"];
@@ -34,7 +38,7 @@ if (!preferences.packs.some((id) => preferences.topics.includes(id))) {
 
 function save() {
   try {
-    localStorage.setItem(key, JSON.stringify(preferences));
+    localStorage.setItem(key, JSON.stringify({ ...saved, ...preferences }));
     return true;
   } catch {
     return false;
@@ -310,6 +314,7 @@ function renderCard() {
 
 function selectCard(index) {
   $("card-face").scrollTop = 0;
+  if (fullscreenLayout) $("flashcard").scrollTop = 0;
   cardIndex = (index + learnCards.length) % learnCards.length;
   flipped = false;
   recordExploration();
@@ -494,6 +499,7 @@ $("order-submit").addEventListener("click", () => {
 
 function flipLearnCard() {
   $("card-face").scrollTop = 0;
+  if (fullscreenLayout) $("flashcard").scrollTop = 0;
   flipped = !flipped;
   renderCard();
   if (flipped && document.activeElement === $("card-facts")) {
@@ -644,12 +650,13 @@ function fitVisibleLayout() {
 
   const showingLearn = !$("learn").hidden && !$("learn-cards").hidden;
   const showingPlay = !$("play").hidden;
-  document.body.classList.toggle("inner-scroll", height >= 460 && (showingLearn || showingPlay));
+  document.body.classList.toggle("inner-scroll", (fullscreenLayout || height >= 460) && (showingLearn || showingPlay));
   if (document.body.classList.contains("inner-scroll")) {
-    const scrollArea = showingLearn ? $("card-face") :
+    const compactTV = fullscreenLayout && matchMedia("(max-height: 28rem)").matches;
+    const scrollArea = showingLearn ? $(compactTV ? "flashcard" : "card-face") :
       !$("game-menu").hidden ? $("game-menu") :
       !$("round-results").hidden ? $("round-results") : $("question-card");
-    if (scrollArea.clientHeight < Math.min(112, scrollArea.scrollHeight)) {
+    if (scrollArea.clientHeight < Math.min(fullscreenLayout ? 64 : 112, scrollArea.scrollHeight)) {
       document.body.classList.remove("inner-scroll");
     }
   }

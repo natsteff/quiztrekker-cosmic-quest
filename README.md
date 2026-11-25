@@ -3,13 +3,13 @@
 </p>
 <p align="center">
   <a href="https://natsteff.github.io/quiztrekker-cosmic-quest/">
-    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now, version 0.13.4" width="420">
+    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now, version 0.13.5" width="420">
   </a>
 </p>
 
 # QuizTrekker: Cosmic Quest
 
-**Current release · v0.13.4**
+**Current release · v0.13.5**
 
 Explore the Solar System and the science beyond it with illustrated flashcards, an interactive orbit map, and quizzes. On your first visit, a welcome screen explains the beginner setup: **Foundations** with **Solar System Basics** enabled. Start with the Sun, eight planets, and Earth’s Moon. Use Settings to add more moons, dwarf planets, and topics like black holes and time dilation, or switch to **Advanced** questions.
 
@@ -21,6 +21,16 @@ Explore the Solar System and the science beyond it with illustrated flashcards, 
 4. Tap the **QT Cosmic Quest** icon on your Home Screen to open the game.
 
 The first-visit welcome also shows these steps on supported phones and tablets. An internet connection is required.
+
+## Play on a TV
+
+[Open Cosmic Quest in TV layout](https://natsteff.github.io/quiztrekker-cosmic-quest/?fullscreen=1) for larger text and controls and a Learn view focused on cards. Open the regular game link to return to the standard layout.
+
+To also hide browser controls on a computer running Chromium, launch it in kiosk mode.
+
+```sh
+chromium --kiosk "https://natsteff.github.io/quiztrekker-cosmic-quest/?fullscreen=1"
+```
 
 ## How to play
 

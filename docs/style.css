@@ -240,3 +240,71 @@ body.inner-scroll {
   outline: 2px solid var(--gold);
   outline-offset: -2px;
 }
+
+:root.tv-layout {
+  font-size: clamp(100%, min(2.1vw, 3.4vh), 175%);
+}
+
+.tv-layout .shell {
+  width: calc(100% - 2 * max(.7rem, env(safe-area-inset-left), env(safe-area-inset-right)));
+}
+
+.tv-layout .bottom-nav {
+  width: 100%;
+}
+
+.tv-layout #open-explorer {
+  display: none;
+}
+
+.tv-layout .bottom-nav button,
+.tv-layout .card-controls button,
+.tv-layout #mastery-label,
+.tv-layout #planet-position,
+.tv-layout .card-heading-label > span,
+.tv-layout .snapshot-facts,
+.tv-layout .snapshot-facts dt {
+  font-size: 1rem;
+}
+
+.tv-layout .inner-scroll > main,
+.tv-layout .inner-scroll #learn,
+.tv-layout .inner-scroll #learn-cards,
+.tv-layout .inner-scroll #flashcard,
+.tv-layout .inner-scroll #card-face,
+.tv-layout .inner-scroll #play,
+.tv-layout .inner-scroll #game-menu,
+.tv-layout .inner-scroll #quiz,
+.tv-layout .inner-scroll #question-card,
+.tv-layout .inner-scroll #round-results {
+  flex: 1;
+}
+
+.tv-layout #flip-card img {
+  height: max(8rem, min(58dvh, var(--learn-image-space, 58dvh)));
+}
+
+.tv-layout #quiz-image img {
+  height: max(9rem, 36dvh);
+}
+
+@media (max-height: 28rem) {
+  .tv-layout .inner-scroll #flashcard {
+    overflow: auto;
+    overscroll-behavior-y: contain;
+    scroll-padding-block-end: 4rem;
+  }
+
+  .tv-layout .inner-scroll #card-face {
+    flex: none;
+    overflow: visible;
+  }
+
+  .tv-layout .inner-scroll .card-controls {
+    position: sticky;
+    bottom: -.5rem;
+    margin-top: auto;
+    padding-bottom: .5rem;
+    background: var(--panel);
+  }
+}
