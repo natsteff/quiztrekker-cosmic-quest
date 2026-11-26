@@ -368,7 +368,7 @@ const allCards = [
 ];
 
 Object.assign(artwork, {
-  "sun": ["sun.jpg", "Full disk of the Sun with luminous loops and structures in its atmosphere", "Solar Dynamics Observatory extreme ultraviolet image, cropped to remove the timestamp margin", "NASA/GSFC/Solar Dynamics Observatory", "https://science.nasa.gov/photojournal/image-of-sun-from-nasas-solar-dynamics-observatory/"],
+  "sun": ["sun-sdo-closeup.jpg", "Close-up of glowing solar plasma and active regions", "Close-up cropped from a Solar Dynamics Observatory extreme ultraviolet image", "NASA/GSFC/Solar Dynamics Observatory", "https://science.nasa.gov/photojournal/image-of-sun-from-nasas-solar-dynamics-observatory/"],
   "mercury": ["mercury.jpg", "Mercury Globe: 0°N, 180°E", "MESSENGER image mosaic", "NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington", "https://photojournal.jpl.nasa.gov/catalog/PIA15162"],
   "venus": ["venus.jpg", "Venus - Computer Simulated Global View of the Northern Hemisphere", "Simulated view from Magellan radar data", "NASA/JPL", "https://photojournal.jpl.nasa.gov/catalog/PIA00271"],
   "earth": ["earth.jpg", "Earth", "Spacecraft image", "NASA", "https://photojournal.jpl.nasa.gov/catalog/PIA18033"],

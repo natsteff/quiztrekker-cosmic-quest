@@ -667,3 +667,15 @@ summary:focus-visible, [data-pad-focus]:focus {
   object-fit: contain;
   background: #000;
 }
+
+@media (orientation: landscape) and (min-width: 48rem) {
+  .tv-layout #flip-card[data-subject="sun"][data-scene="wide"] {
+    min-height: clamp(5rem, 40dvh, 27rem);
+  }
+
+  .tv-layout #flip-card[data-subject="sun"] img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+}

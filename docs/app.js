@@ -269,8 +269,12 @@ function start(previousId) {
   document.dispatchEvent(new Event("cq-round-state"));
 }
 
-const starfieldCards = new Set(["mercury", "earth", "moon", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"]);
-const immersiveCards = new Set(["supernova", "black-hole", "comets"]);
+const starfieldCards = new Set([
+  "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune",
+  "moon", "phobos", "deimos", "io", "europa", "ganymede", "callisto", "titan",
+  "enceladus", "titania", "triton", "ceres", "pluto", "makemake", "eris", "charon", "asteroids"
+]);
+const immersiveCards = new Set(["sun", "supernova", "black-hole", "comets"]);
 
 function renderCard() {
   const card = learnCards[cardIndex];
