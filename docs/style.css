@@ -319,3 +319,95 @@ body.inner-scroll {
 .controller-picker button{display:block;width:100%;margin:.4rem 0;text-align:left}
 .controller-picker [aria-pressed="true"]{border-color:var(--violet)}
 [data-pad-focus]:focus{outline:3px solid var(--gold);outline-offset:-3px}
+
+@media (orientation: landscape) {
+  :root.tv-layout {
+    font-size: clamp(100%, 2.1dvh, 137.5%);
+  }
+
+  .tv-layout .logo {
+    width: auto;
+    height: clamp(2.4rem, 6.5dvh, 4.5rem);
+  }
+
+  .tv-layout .gear {
+    width: 2.4rem;
+    min-height: 2.4rem;
+    font-size: 1.15rem;
+  }
+
+  .tv-layout .bottom-nav button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    min-height: 2.25rem;
+    font-size: .9rem;
+  }
+
+  .tv-layout .card-actions {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding-block: .25rem .4rem;
+  }
+
+  .tv-layout #mastery {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+  }
+
+  .tv-layout #mastery,
+  .tv-layout #card-facts,
+  .tv-layout .card-controls button,
+  .tv-layout .card-controls select {
+    min-height: 2.25rem;
+    font-size: .9rem;
+  }
+
+  .tv-layout #mastery-label,
+  .tv-layout #planet-position,
+  .tv-layout .card-heading-label > span {
+    font-size: .85rem;
+  }
+
+  .tv-layout .card-controls {
+    grid-template-columns: 1fr minmax(0, 18rem) 1fr;
+    align-items: center;
+  }
+
+  .tv-layout #previous-card { justify-self: start; }
+  .tv-layout #next-card { justify-self: end; }
+
+  .tv-layout #controller-help {
+    text-align: center;
+  }
+
+  .tv-layout #flip-card img {
+    height: clamp(5rem, 33dvh, 24rem);
+  }
+}
+
+@media (orientation: landscape) and (min-width: 48rem) {
+  .tv-layout #card-face:has(#flip-card img) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-content: safe center;
+    align-items: center;
+    gap: .35rem 1rem;
+    padding: .35rem;
+  }
+
+  .tv-layout #card-face:has(#flip-card img) #flip-card {
+    grid-row: 1 / 3;
+  }
+
+  .tv-layout #card-snapshot .snapshot-facts {
+    margin-block: 0;
+  }
+
+  .tv-layout #card-image-info {
+    margin: 0;
+    text-align: start;
+  }
+}
