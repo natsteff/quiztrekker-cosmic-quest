@@ -73,7 +73,7 @@ const artwork = {
   supernova: ["supernova.jpg", "Bright filaments and glowing gas in the Crab Nebula", "Crab Nebula supernova remnant, Webb infrared composite", "NASA, ESA, CSA, STScI, Tea Temim (Princeton University). Image processing by Joseph DePasquale (STScI)", "https://science.nasa.gov/asset/webb/crab-nebula-nircam-and-miri-image/"],
   "black-hole": ["black-hole.jpg", "A bright, warped disk of gas surrounds the dark center of a simulated black hole", "Black hole accretion disk visualization", "NASA’s Goddard Space Flight Center/Jeremy Schnittman", "https://svs.gsfc.nasa.gov/13326/"],
   time: ["time-dilation-trip.svg", "At reunion, the Earth clock shows ten years and the traveling clock shows six years for an idealized trip at 80 percent of light speed", "Illustrative clock comparison after a journey"],
-  expansion: ["expansion.svg", "The same galaxies are shown farther apart at a later time", "Schematic of expansion on large scales"]
+  expansion: ["galaxy-separation.svg", "Two snapshots show the same four galaxies. The marked separation between the gold and blue galaxies is greater in the later snapshot", "Schematic of expansion on large scales"]
 };
 
 const solarSystemCards = [

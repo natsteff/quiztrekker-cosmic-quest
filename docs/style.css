@@ -667,3 +667,19 @@ summary:focus-visible, [data-pad-focus]:focus {
   object-fit: contain;
   background: #000;
 }
+
+#flip-card[data-subject="comets"][data-scene="image"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #090f26 url("assets/comet-hale-bopp.jpg") center / cover no-repeat;
+  filter: blur(28px) brightness(.34);
+  transform: scale(1.12);
+}
+
+#flip-card[data-subject="comets"] img {
+  position: relative;
+  width: auto;
+  max-width: 100%;
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}

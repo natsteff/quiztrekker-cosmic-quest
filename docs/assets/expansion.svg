@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405">
-<rect width="720" height="405" fill="#000"/>
-<g font-family="system-ui,sans-serif" font-size="29" font-weight="600" text-anchor="middle" fill="#fff5ff"><g stroke="#73bbff" stroke-width="3" stroke-dasharray="5 6"><path d="M135 151h80m-80 112h80M135 151v112m80-112v112M432 126h158m-158 160h158M432 126v160m158-160v160"/></g>
-<g fill="#ffcc79"><circle cx="135" cy="151" r="12"/><circle cx="215" cy="263" r="12"/><circle cx="432" cy="126" r="12"/><circle cx="590" cy="286" r="12"/></g>
-<g fill="#7caaff"><circle cx="215" cy="151" r="12"/><circle cx="135" cy="263" r="12"/><circle cx="590" cy="126" r="12"/><circle cx="432" cy="286" r="12"/></g>
-<path d="M308 205h87m-22-15 22 15-22 15" fill="none" stroke="#ffcc79" stroke-width="5"/>
-<text x="175" y="322">Earlier</text><text x="511" y="339">Later</text><text x="360" y="383" fill="#b8d4ff">Distances between galaxies grow</text></g>
-</svg>

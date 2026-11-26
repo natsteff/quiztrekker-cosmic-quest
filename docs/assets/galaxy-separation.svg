@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405">
+  <defs>
+    <radialGradient id="core">
+      <stop stop-color="#fff"/>
+      <stop offset=".22" stop-color="currentColor"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="field">
+      <stop stop-color="#111c37"/>
+      <stop offset="1" stop-color="#050911"/>
+    </radialGradient>
+    <g id="galaxy">
+      <ellipse rx="33" ry="18" fill="url(#core)" opacity=".64"/>
+      <path d="M-24 8C-15-14 19-15 25-6M24-8C15 14-19 15-25 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".72"/>
+      <ellipse rx="16" ry="9" fill="url(#core)"/>
+      <circle r="2.6" fill="#fff"/>
+    </g>
+    <g id="snapshot">
+      <rect width="320" height="278" rx="19" fill="url(#field)" stroke="#344b77"/>
+      <g fill="#99b2db" opacity=".5">
+        <circle cx="40" cy="105" r="1.3"/><circle cx="80" cy="75" r="1"/>
+        <circle cx="234" cy="91" r="1.4"/><circle cx="269" cy="124" r="1"/>
+        <circle cx="39" cy="199" r="1"/><circle cx="283" cy="222" r="1.4"/>
+      </g>
+    </g>
+  </defs>
+  <rect width="720" height="405" fill="#000"/>
+  <use href="#snapshot" x="16" y="52"/>
+  <use href="#snapshot" x="384" y="52"/>
+  <g font-family="system-ui,sans-serif" text-anchor="middle" font-weight="680" fill="#f4f6ff">
+    <text x="176" y="94" font-size="30">Earlier</text>
+    <text x="544" y="94" font-size="30">Later</text>
+    <g stroke="#d0e4ff" stroke-width="2.5" stroke-dasharray="5 5" fill="none">
+      <path d="M132 153v29m0-14h88m0-15v29"/>
+      <path d="M453 153v29m0-14h182m0-15v29"/>
+    </g>
+    <g color="#ffd592">
+      <use href="#galaxy" transform="translate(132 168) rotate(-22) scale(.82)"/>
+      <use href="#galaxy" transform="translate(453 168) rotate(-22) scale(.82)"/>
+    </g>
+    <g color="#8dc8ff">
+      <use href="#galaxy" transform="translate(220 168) rotate(18) scale(.82)"/>
+      <use href="#galaxy" transform="translate(635 168) rotate(18) scale(.82)"/>
+    </g>
+    <g color="#e0a6f8">
+      <use href="#galaxy" transform="translate(154 231) rotate(35) scale(.75)"/>
+      <use href="#galaxy" transform="translate(500 256) rotate(35) scale(.75)"/>
+    </g>
+    <g color="#9ff1dd">
+      <use href="#galaxy" transform="translate(219 230) rotate(-38) scale(.69)"/>
+      <use href="#galaxy" transform="translate(634 254) rotate(-38) scale(.69)"/>
+    </g>
+    <text x="176" y="300" font-size="22" fill="#b8d4ff">Shorter separation</text>
+    <text x="544" y="300" font-size="22" fill="#b8d4ff">Greater separation</text>
+    <text x="360" y="378" font-size="25" fill="#cbdfff">Same galaxies, more space between them</text>
+  </g>
+  <path d="M345 191h30m-10-9 10 9-10 9" fill="none" stroke="#ffdd91" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
