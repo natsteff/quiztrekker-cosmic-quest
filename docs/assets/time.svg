@@ -1,4 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405">
-<rect width="720" height="405" fill="#000"/>
-<g font-family="system-ui,sans-serif" font-size="29" font-weight="600" text-anchor="middle" fill="#fff5ff"><circle cx="215" cy="191" r="64" fill="#14223d" stroke="#ffce73" stroke-width="7"/><path d="M215 146V191l34 12" fill="none" stroke="#fff5ff" stroke-linecap="round" stroke-width="6"/><circle cx="215" cy="191" r="6" fill="#ffce73"/><circle cx="505" cy="191" r="64" fill="#14223d" stroke="#7caaff" stroke-width="7"/><path d="M505 146V191l16 -24" fill="none" stroke="#fff5ff" stroke-linecap="round" stroke-width="6"/><circle cx="505" cy="191" r="6" fill="#7caaff"/><text x="215" y="292">Earth clock</text><text x="505" y="292">Traveling clock</text><text x="360" y="354" fill="#b8d4ff">Different journeys, different times</text></g>
-</svg>

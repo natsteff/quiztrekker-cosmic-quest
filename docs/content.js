@@ -68,11 +68,11 @@ const cards = [
 
 const artwork = {
   saturn: ["saturn.jpg", "Cassini image of Saturn and its rings", "Spacecraft image, color and contrast enhanced", "NASA/JPL/Space Science Institute", "https://science.nasa.gov/image-detail/pia05380-saturn-with-rings-16x9/"],
-  planets: ["planets.svg", "Jupiter shown about eleven times wider than Earth", "Diagram of approximate relative diameters"],
-  light: ["light.svg", "Light travels from a star ten light-years away to Earth in about ten years", "Distance diagram"],
+  planets: ["planetary-scale.svg", "Photographs of Jupiter and Earth with Jupiter shown about eleven times wider", "Diagram of approximate relative diameters"],
+  light: ["light-travel.svg", "Light travels from an example star ten light-years away to Earth in about ten years", "Distance diagram"],
   supernova: ["supernova.jpg", "Bright filaments and glowing gas in the Crab Nebula", "Crab Nebula supernova remnant, Webb infrared composite", "NASA, ESA, CSA, STScI, Tea Temim (Princeton University). Image processing by Joseph DePasquale (STScI)", "https://science.nasa.gov/asset/webb/crab-nebula-nircam-and-miri-image/"],
   "black-hole": ["black-hole.jpg", "A bright, warped disk of gas surrounds the dark center of a simulated black hole", "Black hole accretion disk visualization", "NASA’s Goddard Space Flight Center/Jeremy Schnittman", "https://svs.gsfc.nasa.gov/13326/"],
-  time: ["time.svg", "An Earth clock and a traveling clock record different elapsed times", "Illustrative clock comparison after a journey"],
+  time: ["time-dilation-trip.svg", "At reunion, the Earth clock shows ten years and the traveling clock shows six years for an idealized trip at 80 percent of light speed", "Illustrative clock comparison after a journey"],
   expansion: ["expansion.svg", "The same galaxies are shown farther apart at a later time", "Schematic of expansion on large scales"]
 };
 
@@ -368,7 +368,7 @@ const allCards = [
 ];
 
 Object.assign(artwork, {
-  "sun": ["sun-sdo-closeup.jpg", "Close-up of glowing solar plasma and active regions", "Close-up cropped from a Solar Dynamics Observatory extreme ultraviolet image", "NASA/GSFC/Solar Dynamics Observatory", "https://science.nasa.gov/photojournal/image-of-sun-from-nasas-solar-dynamics-observatory/"],
+  "sun": ["sun-soho-prominence.jpg", "Full orange solar disk and a bright prominence looping off its left edge", "Solar and Heliospheric Observatory ultraviolet image cropped from the NASA Sun overview header", "ESA/NASA/SOHO", "https://science.nasa.gov/sun/"],
   "mercury": ["mercury.jpg", "Mercury Globe: 0°N, 180°E", "MESSENGER image mosaic", "NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington", "https://photojournal.jpl.nasa.gov/catalog/PIA15162"],
   "venus": ["venus.jpg", "Venus - Computer Simulated Global View of the Northern Hemisphere", "Simulated view from Magellan radar data", "NASA/JPL", "https://photojournal.jpl.nasa.gov/catalog/PIA00271"],
   "earth": ["earth.jpg", "Earth", "Spacecraft image", "NASA", "https://photojournal.jpl.nasa.gov/catalog/PIA18033"],
@@ -383,18 +383,18 @@ Object.assign(artwork, {
   "europa": ["europa.jpg", "Europa's Stunning Surface", "Reprocessed Galileo image mosaic", "NASA/JPL-Caltech/SETI Institute", "https://photojournal.jpl.nasa.gov/catalog/PIA19048"],
   "ganymede": ["ganymede.jpg", "Ganymede Color Global", "Galileo image mosaic", "NASA/JPL", "https://photojournal.jpl.nasa.gov/catalog/PIA00716"],
   "callisto": ["callisto.jpg", "Global Callisto in Color", "Galileo image mosaic", "NASA/JPL/DLR", "https://photojournal.jpl.nasa.gov/catalog/PIA03456"],
-  "titan": ["titan.jpg", "A golden, hazy view of Titan from Cassini", "Cassini natural-color composite", "NASA/JPL/Space Science Institute", "https://science.nasa.gov/photojournal/cassinis-view-of-titan-natural-color-composite/"],
+  "titan": ["titan-infrared-cutout.webp", "False-color infrared view of Titan showing patches of surface terrain", "Cassini VIMS infrared composite, cropped to one hemisphere and masked", "NASA/JPL-Caltech/University of Nantes/University of Arizona", "https://science.nasa.gov/photojournal/seeing-titan-with-infrared-eyes/"],
   "enceladus": ["enceladus.jpg", "Approaching Enceladus", "Cassini image", "NASA/JPL-Caltech/Space Science Institute", "https://photojournal.jpl.nasa.gov/catalog/PIA17202"],
   "titania": ["titania.jpg", "Titania - Highest Resolution Voyager Picture", "Voyager 2 image", "NASA/JPL", "https://photojournal.jpl.nasa.gov/catalog/PIA00039"],
   "triton": ["triton.jpg", "Global Color Mosaic of Triton", "Voyager 2 image mosaic", "NASA/JPL/USGS", "https://photojournal.jpl.nasa.gov/catalog/PIA00317"],
   "charon": ["charon.jpg", "Charon in Enhanced Color", "New Horizons enhanced-color image", "NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Institute", "https://photojournal.jpl.nasa.gov/catalog/PIA19968"],
   "ceres": ["ceres.jpg", "Ceres in Color", "Dawn approximate-color composite", "NASA/JPL-Caltech/UCLA/MPS/DLR/IDA", "https://photojournal.jpl.nasa.gov/catalog/PIA21079"],
   "pluto": ["pluto.jpg", "Pluto in True Color", "New Horizons color composite", "NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Institute", "https://photojournal.jpl.nasa.gov/catalog/PIA19857"],
-  "haumea": ["haumea.jpg", "Three points of light, with Haumea brightest in the center and its two moons nearby", "Hubble observation of Haumea, Namaka, and Hiʻiaka; surface and ring are unresolved", "NASA, ESA, and D. Ragozzine (Brigham Young University); image processing: Gladys Kober (NASA/Catholic University of America)", "https://science.nasa.gov/dwarf-planets/haumea/"],
+  "haumea": ["haumea-gill-rings.jpg", "Artist’s impression of elongated Haumea with a thin tilted ring", "Artist’s impression of Haumea and its ring, resized", "Kevin M. Gill", "https://commons.wikimedia.org/wiki/File:Haumea_with_rings_(37641832331).jpg"],
   "makemake": ["makemake.jpg", "Artist’s concept of reddish Makemake", "Artist’s concept of Makemake, cropped from a Kuiper Belt illustration", "NASA", "https://science.nasa.gov/photojournal/transneptunian-object-sizes-artists-concept/"],
   "eris": ["eris.jpg", "Artist’s concept of pale, icy Eris", "Artist’s concept of Eris, cropped from a Kuiper Belt illustration", "NASA", "https://science.nasa.gov/photojournal/transneptunian-object-sizes-artists-concept/"],
   "asteroids": ["asteroids.jpg", "A diamond-shaped asteroid with a rocky, boulder-covered surface", "Asteroid Bennu · OSIRIS-REx spacecraft image mosaic", "NASA/Goddard/University of Arizona", "https://science.nasa.gov/resource/bennu-mosaic/"],
-  "comets": ["comets.jpg", "Bright comet head with a tapering golden tail against the dark sky", "Comet NEOWISE · stacked photograph, cropped and resized", "Hypatia Alexandria · CC BY 2.0", "https://commons.wikimedia.org/wiki/File:Comet_NEOWISE_Close_Up_(50079181406).jpg"]
+  "comets": ["comet-hale-bopp.jpg", "Comet Hale–Bopp with a bright coma and distinct white dust and blue ion tails", "Photograph of Comet Hale–Bopp, resized", "E. Kolmhofer and H. Raab, Johannes-Kepler Observatory", "https://science.nasa.gov/asset/webb/comet-hale-bopp-johannes-kepler-observatory/"]
 });
 
 // NASA Planetary Fact Sheet. Diameters are equatorial; orbital distances are
@@ -407,6 +407,11 @@ const planetMeasurements = {
 
 // Describe visible clues without revealing the answer. Only use distinctive,
 // clearly resolved objects whose pictures show the target on its own.
+const supplementalArtwork = {
+  titan: ["titan.jpg", "A golden, hazy view of Titan from Cassini", "Cassini natural-color composite", "NASA/JPL/Space Science Institute", "https://science.nasa.gov/photojournal/cassinis-view-of-titan-natural-color-composite/"],
+  haumea: ["haumea.jpg", "Three points of light, with Haumea brightest in the center and its two moons nearby", "Hubble observation of Haumea, Namaka, and Hiʻiaka; surface and ring are unresolved", "NASA, ESA, and D. Ragozzine (Brigham Young University); image processing: Gladys Kober (NASA/Catholic University of America)", "https://science.nasa.gov/dwarf-planets/haumea/"]
+};
+
 const identificationClues = {
   mercury: "A gray globe densely covered with impact craters.",
   earth: "A blue globe with white cloud swirls and visible land.",

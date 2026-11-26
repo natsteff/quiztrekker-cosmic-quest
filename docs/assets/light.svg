@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405">
-<defs><radialGradient id="gold" cx=".3" cy=".25"><stop stop-color="#fff4b3"/><stop offset=".55" stop-color="#f4a75d"/><stop offset="1" stop-color="#9c4264"/></radialGradient></defs>
-<rect width="720" height="405" fill="#000"/>
-<g font-family="system-ui,sans-serif" font-size="29" font-weight="600" text-anchor="middle" fill="#fff5ff"><path d="M133 206H587" stroke="#73bbff" stroke-width="3" stroke-dasharray="8 9"/>
-<path d="m556 194 31 12-31 12" fill="none" stroke="#ffdb84" stroke-width="5"/>
-<circle cx="125" cy="206" r="46" fill="url(#gold)"/><circle cx="600" cy="206" r="32" fill="#5aa9ed"/>
-<path d="m583 192 17-12 17 9-10 14-8 18-10-5z" fill="#75dfab"/>
-<text x="125" y="288">Star</text><text x="600" y="288">Earth</text><text x="360" y="162">10 light-years</text><text x="360" y="346" fill="#b8d4ff">Light travels for about 10 years</text></g>
-</svg>

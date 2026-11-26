@@ -170,7 +170,11 @@ function appendLearnFacts(back, card) {
   }
 }
 
-const fullAdjacentCredits = new Set(["haumea", "supernova"]);
+const fullAdjacentCredits = new Set(["haumea", "supernova", "comets"]);
+const artworkLicenses = {
+  haumea: ["CC BY 2.0", "https://creativecommons.org/licenses/by/2.0/"],
+  comets: ["CC BY-SA 3.0", "https://creativecommons.org/licenses/by-sa/3.0/"]
+};
 const shortCredits = {
   mercury: "NASA / JHU APL / Carnegie Institution",
   pluto: "NASA / JHU APL / SwRI",
@@ -185,22 +189,24 @@ const shortCredits = {
 const creditCaptions = {
   saturn: "Color and contrast enhanced",
   deimos: "Cropped HiRISE view",
-  titan: "Natural color",
+  titan: "Infrared composite · Natural-color view in More facts",
   sun: "Ultraviolet image",
   venus: "Radar simulation",
   charon: "Enhanced color",
   ceres: "Approximate color",
-  haumea: "Hubble observation · Surface and ring unresolved",
+  haumea: "Artist’s impression · Hubble observation in More facts",
   makemake: "Artist’s concept",
   eris: "Artist’s concept",
   supernova: "Webb infrared composite",
   "black-hole": "Visualization",
-  comets: "Comet NEOWISE · Cropped and resized"
+  comets: "Hale–Bopp · Dust and ion tails"
 };
 
-function renderImageCredit(container, card) {
-  const [, , , credit] = artwork[card.id];
-  const caption = creditCaptions[card.id] || (credit ? "" : "Illustration");
+function renderImageCredit(container, card, media = artwork[card.id]) {
+  const [, , type, credit] = media;
+  const isSupplemental = media === supplementalArtwork[card.id];
+  const caption = isSupplemental ? type : creditCaptions[card.id] || (credit ? "" : "Illustration");
+  const license = !isSupplemental && artworkLicenses[card.id];
   container.replaceChildren(caption);
   if (!credit) return;
   if (caption) container.append(" · ");
@@ -218,6 +224,7 @@ function renderImageCredit(container, card) {
   if (fullAdjacentCredits.has(card.id)) {
     button.textContent = "Full details";
     container.append(credit, " · ", button);
+    if (license) container.append(" · ", sourceLink(...license));
   } else {
     container.append(button);
   }
@@ -231,15 +238,30 @@ function renderImageCreditsIndex() {
     entry.id = "image-credit-" + card.id;
     entry.append(make("summary", card.title), make("p", type), make("p", credit || "Original Cosmic Quest diagram"));
     if (origin) entry.append(sourceLink("Original image", origin), " · ");
-    if (card.id === "comets") {
-      entry.append(sourceLink("CC BY 2.0 license", "https://creativecommons.org/licenses/by/2.0/"),
-        make("p", "Cropped and resized for the Learn card."));
+    const license = artworkLicenses[card.id];
+    if (license) {
+      entry.append(sourceLink(...license));
     } else if (origin?.includes("photojournal.jpl.nasa.gov") || card.id === "eris") {
       entry.append(sourceLink("JPL image use policy", "https://www.jpl.nasa.gov/jpl-image-use-policy/"));
     } else if (origin) {
       entry.append(sourceLink("NASA image use guidelines", "https://www.nasa.gov/nasa-brand-center/images-and-media/"));
-      if (fullAdjacentCredits.has(card.id)) {
+      if (card.id === "supernova") {
         entry.append(" · ", sourceLink("STScI content use policy", "https://www.stsci.edu/copyright"));
+      }
+    }
+    const extra = supplementalArtwork[card.id];
+    if (extra) {
+      const [, , caption, attribution, source] = extra;
+      entry.append(make("p", caption), make("p", attribution), sourceLink("Supplemental image source", source));
+      if (card.id === "haumea") {
+        entry.append(" · ", sourceLink("STScI content use policy", "https://www.stsci.edu/copyright"));
+      }
+    }
+    if (card.id === "planets" || card.id === "light") {
+      for (const subject of card.id === "planets" ? ["jupiter", "earth"] : ["sun", "earth"]) {
+        const [, , , photographer, source] = artwork[subject];
+        const name = allCards.find((item) => item.id === subject).title;
+        entry.append(make("p", name + " · " + photographer), sourceLink(name + " image source", source));
       }
     }
     list.append(entry);

@@ -274,7 +274,7 @@ const starfieldCards = new Set([
   "moon", "phobos", "deimos", "io", "europa", "ganymede", "callisto", "titan",
   "enceladus", "titania", "triton", "ceres", "pluto", "makemake", "eris", "charon", "asteroids"
 ]);
-const immersiveCards = new Set(["sun", "supernova", "black-hole", "comets"]);
+const immersiveCards = new Set(["supernova", "black-hole"]);
 
 function renderCard() {
   const card = learnCards[cardIndex];
@@ -284,11 +284,10 @@ function renderCard() {
   renderLearnProgress();
 
   const image = make("img");
-  const isHaumea = card.id === "haumea";
   const usesStarfield = starfieldCards.has(card.id);
-  const frontArt = isHaumea ? "haumea-concept.svg" : usesStarfield ? card.id + "-cutout.webp" : file;
+  const frontArt = usesStarfield && !file.endsWith("-cutout.webp") ? card.id + "-cutout.webp" : file;
   image.src = "assets/" + frontArt;
-  image.alt = isHaumea ? "Illustration of elongated Haumea and its ring, not to scale" : alt;
+  image.alt = alt;
   $("card-title").textContent = card.title;
   const orbitalPosition = planetIds.indexOf(card.id);
   const ordinal = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"][orbitalPosition];
@@ -312,8 +311,7 @@ function renderCard() {
 
   const imageInfo = $("card-image-info");
   if (!flipped) {
-    if (isHaumea) imageInfo.textContent = "Illustration · Hubble observation in More facts";
-    else renderImageCredit(imageInfo, card);
+    renderImageCredit(imageInfo, card);
     if (usesStarfield) {
       const skyCredit = make("span");
       skyCredit.className = "starfield-credit";
@@ -333,15 +331,17 @@ function renderCard() {
   back.hidden = !flipped;
   if (!flipped) return;
   appendLearnFacts(back, card);
-  if (isHaumea) {
+  const extraArtwork = supplementalArtwork[card.id];
+  if (extraArtwork) {
+    const [extraFile, extraAlt] = extraArtwork;
     const observation = make("figure");
     observation.className = "card-observation";
     const photograph = make("img");
-    photograph.src = "assets/" + file;
-    photograph.alt = alt;
+    photograph.src = "assets/" + extraFile;
+    photograph.alt = extraAlt;
     const caption = make("figcaption");
     caption.className = "image-credit";
-    renderImageCredit(caption, card);
+    renderImageCredit(caption, card, extraArtwork);
     observation.append(photograph, caption);
     back.append(observation);
   }

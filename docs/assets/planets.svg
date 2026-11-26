@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405">
-<defs><radialGradient id="gold" cx=".3" cy=".25"><stop stop-color="#fff4b3"/><stop offset=".55" stop-color="#f4a75d"/><stop offset="1" stop-color="#9c4264"/></radialGradient></defs>
-<rect width="720" height="405" fill="#000"/>
-<g font-family="system-ui,sans-serif" font-size="29" font-weight="600" text-anchor="middle" fill="#fff5ff"><circle cx="270" cy="175" r="117" fill="url(#gold)"/>
-<path d="M160 134Q270 172 380 134M154 166Q280 205 387 164M158 209Q275 251 381 207" fill="none" stroke="#a95165" opacity=".65" stroke-width="11"/>
-<ellipse cx="324" cy="213" rx="17" ry="9" fill="#ad4c62"/>
-<circle cx="535" cy="281" r="10.6" fill="#56baf8"/><path d="m530 276 6-3 5 4-4 5-4-2z" fill="#77e5a5"/>
-<text x="270" y="332">Jupiter</text><text x="535" y="332">Earth</text><text x="360" y="378" fill="#b8d4ff">Approximate relative diameters</text></g>
-</svg>

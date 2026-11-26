@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405">
+  <rect width="720" height="405" fill="#000"/>
+  <g font-family="system-ui,sans-serif" font-weight="650" text-anchor="middle" fill="#f6f7ff">
+
+    <text x="360" y="47" font-size="26" fill="#a9d5ff">Example trip at 80% of light speed</text>
+    <path d="M150 198H570" fill="none" stroke="#ffce73" stroke-width="4"/>
+    <path d="M150 198L360 93L570 198" fill="none" stroke="#7caaff" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="360" cy="93" r="6" fill="#7caaff"/>
+    <text x="360" y="79" font-size="19" fill="#a9d5ff">Turn around</text>
+    <circle cx="150" cy="198" r="7" fill="#a9d5ff"/>
+    <circle cx="570" cy="198" r="7" fill="#a9d5ff"/>
+    <text x="150" y="158" font-size="23">Depart together</text>
+    <text x="570" y="158" font-size="23">Reunite</text>
+    <rect x="136" y="241" width="215" height="111" rx="15" fill="#14223d" stroke="#ffce73"/>
+    <rect x="369" y="241" width="215" height="111" rx="15" fill="#14223d" stroke="#7caaff"/>
+    <text x="244" y="283" font-size="25" fill="#ffce73">Earth clock</text>
+    <text x="477" y="283" font-size="25" fill="#a9d5ff">Traveling clock</text>
+    <text x="244" y="329" font-size="37">10 years</text>
+    <text x="477" y="329" font-size="37">6 years</text>
+    <text x="360" y="388" font-size="20" fill="#a9d5ff">Elapsed time · Brief turnaround assumed</text>
+  </g>
+</svg>
