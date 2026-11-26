@@ -3,13 +3,13 @@
 </p>
 <p align="center">
   <a href="https://natsteff.github.io/quiztrekker-cosmic-quest/">
-    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now, version 0.14.0" width="420">
+    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now, version 0.14.1" width="420">
   </a>
 </p>
 
 # QuizTrekker: Cosmic Quest
 
-**Current release · v0.14.0**
+**Current release · v0.14.1**
 
 Explore the Solar System and the science beyond it with illustrated flashcards, an interactive orbit map, and quizzes. On your first visit, a welcome screen explains the beginner setup: **Foundations** with **Solar System Basics** enabled. Start with the Sun, eight planets, and Earth’s Moon. Use Settings to add more moons, dwarf planets, and topics like black holes and time dilation, or switch to **Advanced** questions.
 
@@ -55,6 +55,6 @@ Open **Settings → Controller controls** to see the device status, preview the 
 - The black hole is a visualization credited to NASA’s Goddard Space Flight Center/Jeremy Schnittman. [Visual source](https://svs.gsfc.nasa.gov/13326/) · [NASA SVS usage guidance](https://svs.gsfc.nasa.gov/help/)
 - The planetary scale, light-year, time dilation, and expansion diagrams were drawn for Cosmic Quest.
 
-The expanded Solar System cards show their individual [NASA Photojournal](https://science.nasa.gov/photojournal/) credits and source links beside each image. Resized JPEGs keep the game lightweight. Haumea uses a Hubble observation. Makemake and Eris use credited artist’s concepts. The Asteroids card shows the OSIRIS-REx mosaic of Bennu. The Comets card uses a cropped and resized photograph of Comet NEOWISE by Hypatia Alexandria. [Image source](https://commons.wikimedia.org/wiki/File:Comet_NEOWISE_Close_Up_%2850079181406%29.jpg) · [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+The expanded Solar System cards show their individual [NASA Photojournal](https://science.nasa.gov/photojournal/) credits and source links beside each image. Resized JPEGs keep the game lightweight. Haumea pairs an original illustration of its ring with a Hubble observation in More facts. Makemake and Eris use credited artist’s concepts. The Asteroids card shows the OSIRIS-REx mosaic of Bennu. The Comets card uses a cropped and resized photograph of Comet NEOWISE by Hypatia Alexandria. [Image source](https://commons.wikimedia.org/wiki/File:Comet_NEOWISE_Close_Up_%2850079181406%29.jpg) · [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
 
 Planet Size uses equatorial diameters. Orbital Distance compares orbital semimajor axes around the Sun. [NASA Planetary Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/index.html)

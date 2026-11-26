@@ -269,7 +269,7 @@ function start(previousId) {
   document.dispatchEvent(new Event("cq-round-state"));
 }
 
-const starfieldCards = new Set(["sun", "mercury", "earth", "moon", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"]);
+const starfieldCards = new Set(["mercury", "earth", "moon", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"]);
 const immersiveCards = new Set(["supernova", "black-hole", "comets"]);
 
 function renderCard() {
@@ -280,8 +280,11 @@ function renderCard() {
   renderLearnProgress();
 
   const image = make("img");
-  image.src = "assets/" + file;
-  image.alt = alt;
+  const isHaumea = card.id === "haumea";
+  const usesStarfield = starfieldCards.has(card.id);
+  const frontArt = isHaumea ? "haumea-concept.svg" : usesStarfield ? card.id + "-cutout.webp" : file;
+  image.src = "assets/" + frontArt;
+  image.alt = isHaumea ? "Illustration of elongated Haumea and its ring, not to scale" : alt;
   $("card-title").textContent = card.title;
   const orbitalPosition = planetIds.indexOf(card.id);
   const ordinal = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"][orbitalPosition];
@@ -290,7 +293,7 @@ function renderCard() {
   const hint = make("span", flipped ? "Show card front" : "Flip card");
   hint.className = "card-action";
   const front = $("flip-card");
-  front.dataset.scene = flipped ? "" : starfieldCards.has(card.id) ? "stars" :
+  front.dataset.scene = flipped ? "" : usesStarfield ? "stars" :
     immersiveCards.has(card.id) ? "wide" : "image";
   front.dataset.subject = card.id;
   front.replaceChildren(...(flipped ? [hint] : [image, hint]));
@@ -305,8 +308,9 @@ function renderCard() {
 
   const imageInfo = $("card-image-info");
   if (!flipped) {
-    renderImageCredit(imageInfo, card);
-    if (starfieldCards.has(card.id)) {
+    if (isHaumea) imageInfo.textContent = "Illustration · Hubble observation in More facts";
+    else renderImageCredit(imageInfo, card);
+    if (usesStarfield) {
       const skyCredit = make("span");
       skyCredit.className = "starfield-credit";
       skyCredit.append(
@@ -325,6 +329,18 @@ function renderCard() {
   back.hidden = !flipped;
   if (!flipped) return;
   appendLearnFacts(back, card);
+  if (isHaumea) {
+    const observation = make("figure");
+    observation.className = "card-observation";
+    const photograph = make("img");
+    photograph.src = "assets/" + file;
+    photograph.alt = alt;
+    const caption = make("figcaption");
+    caption.className = "image-credit";
+    renderImageCredit(caption, card);
+    observation.append(photograph, caption);
+    back.append(observation);
+  }
   appendSizeDetails(back, card);
   const references = make("div");
   references.className = "learn-references";

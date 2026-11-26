@@ -368,7 +368,7 @@ const allCards = [
 ];
 
 Object.assign(artwork, {
-  "sun": ["sun.jpg", "Handle-shaped Prominence", "SOHO ultraviolet observation", "ESA/NASA/SOHO", "https://photojournal.jpl.nasa.gov/catalog/PIA03149"],
+  "sun": ["sun.jpg", "Full disk of the Sun with luminous loops and structures in its atmosphere", "Solar Dynamics Observatory extreme ultraviolet image, cropped to remove the timestamp margin", "NASA/GSFC/Solar Dynamics Observatory", "https://science.nasa.gov/photojournal/image-of-sun-from-nasas-solar-dynamics-observatory/"],
   "mercury": ["mercury.jpg", "Mercury Globe: 0°N, 180°E", "MESSENGER image mosaic", "NASA/Johns Hopkins University Applied Physics Laboratory/Carnegie Institution of Washington", "https://photojournal.jpl.nasa.gov/catalog/PIA15162"],
   "venus": ["venus.jpg", "Venus - Computer Simulated Global View of the Northern Hemisphere", "Simulated view from Magellan radar data", "NASA/JPL", "https://photojournal.jpl.nasa.gov/catalog/PIA00271"],
   "earth": ["earth.jpg", "Earth", "Spacecraft image", "NASA", "https://photojournal.jpl.nasa.gov/catalog/PIA18033"],
@@ -377,13 +377,13 @@ Object.assign(artwork, {
   "uranus": ["uranus.jpg", "Uranus as seen by NASA's Voyager 2", "Voyager 2 image", "NASA/JPL-Caltech", "https://photojournal.jpl.nasa.gov/catalog/PIA18182"],
   "neptune": ["neptune.jpg", "Neptune Full Disk View", "Voyager 2 image", "NASA/JPL", "https://photojournal.jpl.nasa.gov/catalog/PIA01492"],
   "moon": ["moon.jpg", "Nearside of Earth's Moon as Seen by the Clementine Spacecraft", "Clementine image mosaic", "NASA/JPL/USGS", "https://photojournal.jpl.nasa.gov/catalog/PIA00302"],
-  "phobos": ["phobos.jpg", "Phobos from 6,800 Kilometers (Color)", "Mars Reconnaissance Orbiter image", "NASA/JPL-Caltech/University of Arizona", "https://photojournal.jpl.nasa.gov/catalog/PIA10368"],
-  "deimos": ["deimos.jpg", "Martian Moon Deimos in High Resolution", "Mars Reconnaissance Orbiter image", "NASA/JPL-Caltech/University of Arizona", "https://photojournal.jpl.nasa.gov/catalog/PIA11826"],
+  "phobos": ["phobos.jpg", "A full view of Phobos showing its irregular shape and cratered surface", "HiRISE color observation", "NASA/JPL-Caltech/University of Arizona", "https://science.nasa.gov/mars/moons/phobos/"],
+  "deimos": ["deimos.jpg", "Single view of Deimos showing its irregular shape and craters", "One view cropped from a HiRISE two-view montage", "NASA/JPL-Caltech/University of Arizona", "https://svs.gsfc.nasa.gov/11326"],
   "io": ["io.jpg", "Global image of Io (true color)", "Galileo image mosaic", "NASA/JPL/University of Arizona", "https://photojournal.jpl.nasa.gov/catalog/PIA02308"],
   "europa": ["europa.jpg", "Europa's Stunning Surface", "Reprocessed Galileo image mosaic", "NASA/JPL-Caltech/SETI Institute", "https://photojournal.jpl.nasa.gov/catalog/PIA19048"],
   "ganymede": ["ganymede.jpg", "Ganymede Color Global", "Galileo image mosaic", "NASA/JPL", "https://photojournal.jpl.nasa.gov/catalog/PIA00716"],
   "callisto": ["callisto.jpg", "Global Callisto in Color", "Galileo image mosaic", "NASA/JPL/DLR", "https://photojournal.jpl.nasa.gov/catalog/PIA03456"],
-  "titan": ["titan.jpg", "True Colors, Deceptive Sizes", "Cassini image of Titan and Dione", "NASA/JPL-Caltech/Space Science Institute", "https://photojournal.jpl.nasa.gov/catalog/PIA14912"],
+  "titan": ["titan.jpg", "A golden, hazy view of Titan from Cassini", "Cassini natural-color composite", "NASA/JPL/Space Science Institute", "https://science.nasa.gov/photojournal/cassinis-view-of-titan-natural-color-composite/"],
   "enceladus": ["enceladus.jpg", "Approaching Enceladus", "Cassini image", "NASA/JPL-Caltech/Space Science Institute", "https://photojournal.jpl.nasa.gov/catalog/PIA17202"],
   "titania": ["titania.jpg", "Titania - Highest Resolution Voyager Picture", "Voyager 2 image", "NASA/JPL", "https://photojournal.jpl.nasa.gov/catalog/PIA00039"],
   "triton": ["triton.jpg", "Global Color Mosaic of Triton", "Voyager 2 image mosaic", "NASA/JPL/USGS", "https://photojournal.jpl.nasa.gov/catalog/PIA00317"],
@@ -391,8 +391,8 @@ Object.assign(artwork, {
   "ceres": ["ceres.jpg", "Ceres in Color", "Dawn approximate-color composite", "NASA/JPL-Caltech/UCLA/MPS/DLR/IDA", "https://photojournal.jpl.nasa.gov/catalog/PIA21079"],
   "pluto": ["pluto.jpg", "Pluto in True Color", "New Horizons color composite", "NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Institute", "https://photojournal.jpl.nasa.gov/catalog/PIA19857"],
   "haumea": ["haumea.jpg", "Three points of light, with Haumea brightest in the center and its two moons nearby", "Hubble observation of Haumea, Namaka, and Hiʻiaka; surface and ring are unresolved", "NASA, ESA, and D. Ragozzine (Brigham Young University); image processing: Gladys Kober (NASA/Catholic University of America)", "https://science.nasa.gov/dwarf-planets/haumea/"],
-  "makemake": ["makemake.jpg", "A reddish dwarf planet with a smaller dark moon against a star field", "Artist’s concept of Makemake and its moon MK 2", "NASA, ESA, and A. Parker (SWRI)", "https://science.nasa.gov/image-detail/makemakemoon100mile/"],
-  "eris": ["eris.jpg", "An icy dwarf planet and its moon, with the distant Sun in the background", "Artist’s concept of Eris and Dysnomia", "NASA/JPL-Caltech", "https://science.nasa.gov/photojournal/eris-and-dysnomia-artist-concept/"],
+  "makemake": ["makemake.jpg", "Artist’s concept of reddish Makemake", "Artist’s concept of Makemake, cropped from a Kuiper Belt illustration", "NASA", "https://science.nasa.gov/photojournal/transneptunian-object-sizes-artists-concept/"],
+  "eris": ["eris.jpg", "Artist’s concept of pale, icy Eris", "Artist’s concept of Eris, cropped from a Kuiper Belt illustration", "NASA", "https://science.nasa.gov/photojournal/transneptunian-object-sizes-artists-concept/"],
   "asteroids": ["asteroids.jpg", "A diamond-shaped asteroid with a rocky, boulder-covered surface", "Asteroid Bennu · OSIRIS-REx spacecraft image mosaic", "NASA/Goddard/University of Arizona", "https://science.nasa.gov/resource/bennu-mosaic/"],
   "comets": ["comets.jpg", "Bright comet head with a tapering golden tail against the dark sky", "Comet NEOWISE · stacked photograph, cropped and resized", "Hypatia Alexandria · CC BY 2.0", "https://commons.wikimedia.org/wiki/File:Comet_NEOWISE_Close_Up_(50079181406).jpg"]
 });

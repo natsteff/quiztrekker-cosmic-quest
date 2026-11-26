@@ -544,10 +544,6 @@ summary:focus-visible, [data-pad-focus]:focus {
   background: transparent;
 }
 
-#flip-card[data-scene="stars"] img {
-  mix-blend-mode: screen;
-}
-
 #flip-card[data-scene="wide"] img {
   object-fit: cover;
 }
@@ -658,4 +654,16 @@ summary:focus-visible, [data-pad-focus]:focus {
   }
 
   .tv-layout #card-snapshot { padding-top: .3rem; }
+}
+
+.card-observation {
+  margin: .75rem 0;
+}
+
+.card-observation img {
+  display: block;
+  width: 100%;
+  max-height: 12rem;
+  object-fit: contain;
+  background: #000;
 }

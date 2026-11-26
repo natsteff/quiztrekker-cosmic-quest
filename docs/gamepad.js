@@ -227,13 +227,13 @@
       if (action === "y" && !fullscreenLayout) return click("open-explorer");
       if (action === "up" || action === "down") return scroll(action === "up" ? -1 : 1);
       if (action === "a") {
-        const items = [$("mastery"), $("card-select"), $("card-image-info").querySelector(".credit-link")].filter(visible);
+        const items = [$("mastery"), $("card-select"), $("card-face").querySelector(".credit-link")].filter(visible);
         const active = activeControl(items);
         if (active) return activate(active);
         return click("card-facts");
       }
       if (action === "left" || action === "right") {
-        const items = [$("mastery"), $("card-facts"), $("card-image-info").querySelector(".credit-link"), $("card-select")].filter(visible);
+        const items = [$("mastery"), $("card-facts"), $("card-face").querySelector(".credit-link"), $("card-select")].filter(visible);
         return navigate(action, items);
       }
     } else if (["b", "view", "y"].includes(action)) {

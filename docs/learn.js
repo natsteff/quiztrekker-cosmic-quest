@@ -170,7 +170,7 @@ function appendLearnFacts(back, card) {
   }
 }
 
-const fullAdjacentCredits = new Set(["haumea", "makemake", "supernova"]);
+const fullAdjacentCredits = new Set(["haumea", "supernova"]);
 const shortCredits = {
   mercury: "NASA / JHU APL / Carnegie Institution",
   pluto: "NASA / JHU APL / SwRI",
@@ -184,6 +184,8 @@ const shortCredits = {
 
 const creditCaptions = {
   saturn: "Color and contrast enhanced",
+  deimos: "Cropped HiRISE view",
+  titan: "Natural color",
   sun: "Ultraviolet image",
   venus: "Radar simulation",
   charon: "Enhanced color",
