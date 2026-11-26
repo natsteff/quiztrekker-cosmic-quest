@@ -215,8 +215,8 @@
         if (!answered && directions.includes(action)) return navigate(action, choices());
         if (answered && face.includes(action) && action !== "a") return;
         if (answered && action === "a") {
-          const study = $("study");
-          if (activeControl([study]) === study) activate(study);
+          const actions = [$("study"), $("quiz-image").querySelector(".credit-link")].filter(visible);
+          activate(activeControl(actions));
           return;
         }
       }
@@ -227,13 +227,13 @@
       if (action === "y" && !fullscreenLayout) return click("open-explorer");
       if (action === "up" || action === "down") return scroll(action === "up" ? -1 : 1);
       if (action === "a") {
-        const items = [$("mastery"), $("card-select")].filter(visible);
+        const items = [$("mastery"), $("card-select"), $("card-image-info").querySelector(".credit-link")].filter(visible);
         const active = activeControl(items);
         if (active) return activate(active);
         return click("card-facts");
       }
       if (action === "left" || action === "right") {
-        const items = [$("mastery"), $("card-facts"), $("card-select")].filter(visible);
+        const items = [$("mastery"), $("card-facts"), $("card-image-info").querySelector(".credit-link"), $("card-select")].filter(visible);
         return navigate(action, items);
       }
     } else if (["b", "view", "y"].includes(action)) {
@@ -422,7 +422,10 @@
       if (!fullscreenLayout) hint += " · Y: Explorer";
     } else if (view === "learn") hint = "D-pad / left stick: move · A: select · Y / B: back to cards";
     else if (quiz()) {
-      if (answered) hint = `RT: ${position + 1 === deck.length ? "round results" : "next question"} · A: open focused Learn card`;
+      if (answered) {
+        hint = `RT: ${position + 1 === deck.length ? "round results" : "next question"} · A: open selected Learn card`;
+        if (gameMode === "image") hint += " or credit";
+      }
       else if (direct) hint = face.slice(0, options.length).join(" / ").toUpperCase() + ": answer";
       else if (gameMode === "order") hint = "D-pad / left stick: move · A: add / remove · LT: undo · RT: check order";
       else hint = "D-pad / left stick: move · A: answer";

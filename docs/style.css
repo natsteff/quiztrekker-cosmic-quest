@@ -64,7 +64,7 @@ dialog::backdrop{background:#030416c9}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(8rem,1fr));gap:1.25rem;margin:0}
 .stats dt,#progress-note{color:var(--muted)}
 .stats dd{font-weight:800;font-size:1.5rem;color:var(--gold);margin:0}
-.image-credit{font-size:.85rem;color:var(--muted);margin:.5rem .25rem 0;text-align:center}
+.image-credit{font-size:.75rem;line-height:1.35;color:var(--muted);margin:.35rem .25rem 0;text-align:center}
 #quiz-menu{padding:.25rem .6rem;min-height:2.2rem}
 
 button:disabled{cursor:default}
@@ -78,7 +78,7 @@ button:disabled{cursor:default}
 #explorer-map{display:grid;gap:.65rem}
 #quiz-image{margin:0 0 .65rem}
 #quiz-image img{display:block;width:100%;height:clamp(9rem,40vw,15rem);object-fit:contain;background:#080a17;border-radius:.85rem}
-#quiz-image figcaption{font-size:.85rem;color:var(--muted);margin-top:.4rem}
+#quiz-image figcaption{font-size:.75rem;line-height:1.35;color:var(--muted);margin-top:.3rem}
 
 .card-position{font-size:.9rem;font-weight:750;color:var(--muted);margin:0}
 .learn-progress{display:flex;align-items:center;gap:.55rem;margin:0 .1rem .45rem;font-size:.85rem;color:var(--muted)}
@@ -410,4 +410,9 @@ body.inner-scroll {
     margin: 0;
     text-align: start;
   }
+}
+
+.tv-layout .image-credit,
+.tv-layout #quiz-image figcaption {
+  font-size: max(10px, .62rem);
 }

@@ -182,10 +182,26 @@ const shortCredits = {
   "black-hole": "NASA Goddard / Jeremy Schnittman"
 };
 
+const creditCaptions = {
+  saturn: "Color and contrast enhanced",
+  sun: "Ultraviolet image",
+  venus: "Radar simulation",
+  charon: "Enhanced color",
+  ceres: "Approximate color",
+  haumea: "Hubble observation · Surface and ring unresolved",
+  makemake: "Artist’s concept",
+  eris: "Artist’s concept",
+  supernova: "Webb infrared composite",
+  "black-hole": "Visualization",
+  comets: "Comet NEOWISE · Cropped and resized"
+};
+
 function renderImageCredit(container, card) {
-  const [, , type, credit] = artwork[card.id];
-  container.replaceChildren(type);
+  const [, , , credit] = artwork[card.id];
+  const caption = creditCaptions[card.id] || (credit ? "" : "Illustration");
+  container.replaceChildren(caption);
   if (!credit) return;
+  if (caption) container.append(" · ");
   const button = make("button", shortCredits[card.id] || credit);
   button.className = "credit-link";
   button.setAttribute("aria-label", "Full image credit for " + card.title);
@@ -199,9 +215,9 @@ function renderImageCredit(container, card) {
   });
   if (fullAdjacentCredits.has(card.id)) {
     button.textContent = "Full details";
-    container.append(" · ", credit, " · ", button);
+    container.append(credit, " · ", button);
   } else {
-    container.append(" · ", button);
+    container.append(button);
   }
 }
 
