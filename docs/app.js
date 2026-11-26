@@ -269,6 +269,9 @@ function start(previousId) {
   document.dispatchEvent(new Event("cq-round-state"));
 }
 
+const starfieldCards = new Set(["sun", "mercury", "earth", "moon", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"]);
+const immersiveCards = new Set(["supernova", "black-hole", "comets"]);
+
 function renderCard() {
   const card = learnCards[cardIndex];
   const [file, alt] = artwork[card.id];
@@ -287,6 +290,9 @@ function renderCard() {
   const hint = make("span", flipped ? "Show card front" : "Flip card");
   hint.className = "card-action";
   const front = $("flip-card");
+  front.dataset.scene = flipped ? "" : starfieldCards.has(card.id) ? "stars" :
+    immersiveCards.has(card.id) ? "wide" : "image";
+  front.dataset.subject = card.id;
   front.replaceChildren(...(flipped ? [hint] : [image, hint]));
   front.setAttribute("aria-label", `${hint.textContent}: ${card.title}`);
   $("card-facts").textContent = flipped ? "Card front" : "More facts";
@@ -294,12 +300,26 @@ function renderCard() {
   front.setAttribute("aria-expanded", String(flipped));
 
   const snapshot = $("card-snapshot");
-  snapshot.hidden = flipped;
+  $("card-details").hidden = flipped;
   if (!flipped) renderSnapshot(snapshot, card);
 
   const imageInfo = $("card-image-info");
-  imageInfo.hidden = flipped;
-  if (!flipped) renderImageCredit(imageInfo, card);
+  if (!flipped) {
+    renderImageCredit(imageInfo, card);
+    if (starfieldCards.has(card.id)) {
+      const skyCredit = make("span");
+      skyCredit.className = "starfield-credit";
+      skyCredit.append(
+        sourceLink("ESO and Digitized Sky Survey 2", "https://www.eso.org/public/images/eso0949l/"),
+        ". Acknowledgment: Davide De Martin and S. Guisard (",
+        sourceLink("www.eso.org/~sguisard", "https://www.eso.org/~sguisard"),
+        ") · ",
+        sourceLink("CC BY 4.0", "https://creativecommons.org/licenses/by/4.0/"),
+        " · Filtered and cropped"
+      );
+      imageInfo.append(skyCredit);
+    }
+  }
 
   const back = $("card-back");
   back.hidden = !flipped;

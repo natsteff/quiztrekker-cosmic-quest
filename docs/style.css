@@ -391,15 +391,9 @@ body.inner-scroll {
   .tv-layout #card-face:has(#flip-card img) {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    align-content: safe center;
     align-items: center;
     gap: .35rem 1rem;
     padding: .35rem;
-  }
-
-  .tv-layout #card-face:has(#flip-card img) #flip-card {
-    grid-row: 1 / 3;
   }
 
   .tv-layout #card-snapshot .snapshot-facts {
@@ -415,4 +409,253 @@ body.inner-scroll {
 .tv-layout .image-credit,
 .tv-layout #quiz-image figcaption {
   font-size: max(10px, .62rem);
+}
+
+/* Shared visual treatment for Learn, Play, and My Progress. */
+:root {
+  --bg: #0a1024;
+  --panel: #151e3a;
+  --edge: #40527e;
+  --muted: #bbc9ea;
+  --raised: linear-gradient(#28395f, #192442);
+  --ribbon: linear-gradient(110deg, #254aa1, #332e72);
+  --focus: #78e5ff;
+}
+
+body {
+  background: radial-gradient(ellipse at 50% 0%, #202e57, transparent 44rem), var(--bg);
+}
+
+@media (display-mode: standalone) {
+  body {
+    background: linear-gradient(var(--bg) env(safe-area-inset-top), transparent env(safe-area-inset-top)),
+      radial-gradient(ellipse at 50% 0%, #202e57, transparent 44rem), var(--bg);
+  }
+}
+
+button:not(.credit-link, .fact-compare, .orbit-world) {
+  background: var(--raised);
+  border-bottom: 3px solid #35466c;
+}
+
+button:not(.credit-link, .fact-compare, .orbit-world):enabled:active {
+  transform: translateY(1px);
+}
+
+button.primary, .bottom-nav button[aria-current], .explorer-tabs button[aria-pressed="true"] {
+  color: #161335;
+  background: linear-gradient(#efdeff, #c9adfb);
+  border-color: #e3d2ff #af99dd #8067b9;
+}
+
+.choices button[data-result="correct"] { background: #183f38; border-color: #82dcc4; }
+.choices button[data-result="wrong"] { background: #4f2946; border-color: #edacc6; }
+#choices button[data-planet][aria-pressed="true"] { background: #443377; border-color: #cab4fd; }
+
+button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible,
+summary:focus-visible, [data-pad-focus]:focus {
+  outline-color: var(--focus);
+}
+
+.bottom-nav {
+  background: #0b1126f5;
+}
+
+.bottom-nav button {
+  box-shadow: none;
+}
+
+.learn-progress progress {
+  background: #263353;
+  overflow: hidden;
+}
+
+.learn-progress progress::-webkit-progress-bar { background: #263353; }
+.learn-progress progress::-webkit-progress-value { background: linear-gradient(90deg, #5888ff, #72dbff); }
+
+.panel {
+  border-color: #435885;
+  box-shadow: 0 .2rem 0 #070c21;
+}
+
+.flashcard {
+  padding: 0;
+  border: 2px solid #52689c;
+  overflow: clip;
+}
+
+.card-heading {
+  color: #f3f5ff;
+  background: var(--ribbon);
+  border-radius: 0;
+  border-bottom: 1px solid #607aba;
+  margin: 0;
+  padding: .25rem .65rem;
+}
+
+.card-heading-label {
+  flex: 1;
+  justify-content: space-between;
+}
+
+.card-heading-label > span {
+  color: inherit;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.card-position {
+  padding: .08rem .45rem;
+  border-radius: 2rem;
+  background: #14244f;
+  color: #e3edff;
+}
+
+.card-actions {
+  padding: .45rem .55rem;
+}
+
+#mastery-label { color: #ffe1a0; }
+#planet-position { color: #a8ccff; }
+
+#flip-card {
+  border-radius: 0;
+  background: #121b35;
+}
+
+#flip-card:where([data-scene]:not([data-scene=""])) {
+  position: relative;
+  isolation: isolate;
+  padding: 0;
+  border: 0;
+  background: #000;
+}
+
+#flip-card[data-scene="stars"] {
+  background: #000 url("assets/milky-way-stars.png") center 42% / cover no-repeat;
+}
+
+#flip-card[data-scene="stars"][data-subject="saturn"] {
+  background-position: 32% 72%;
+}
+
+#flip-card img {
+  border-radius: 0;
+  background: transparent;
+}
+
+#flip-card[data-scene="stars"] img {
+  mix-blend-mode: screen;
+}
+
+#flip-card[data-scene="wide"] img {
+  object-fit: cover;
+}
+
+#flip-card[data-scene]:not([data-scene=""]) .card-action {
+  position: absolute;
+  inset: auto .5rem .5rem auto;
+  padding: .22rem .5rem;
+  border: 1px solid #7891bf;
+  border-radius: .55rem;
+  background: #101a36ed;
+  color: #f4f5ff;
+  font-size: .72rem;
+  font-weight: 750;
+}
+
+#card-snapshot {
+  padding: .4rem .65rem 0;
+}
+
+.snapshot-facts > div, .snapshot-facts > div:has(.fact-compare) {
+  padding: .27rem 0;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid #3b4b71;
+  border-radius: 0;
+}
+
+.snapshot-facts dt { color: #afc5f6; }
+.snapshot-facts dd { color: #f5f7ff; }
+
+#card-image-info {
+  text-align: start;
+  padding: 0 .65rem .4rem;
+  margin: .15rem 0 0;
+}
+
+.starfield-credit { display: block; }
+.starfield-credit a { color: inherit; }
+
+.card-controls {
+  align-items: center;
+  padding: .36rem .5rem;
+  background: #1c294b;
+  border-color: #425781;
+}
+
+.card-controls select {
+  background: #111c39;
+  text-align: center;
+}
+
+#quiz-strip {
+  border-bottom: 1px solid #3e5483;
+  padding-bottom: .45rem;
+}
+
+#question-card .eyebrow {
+  color: #adcaff;
+}
+
+#quiz-image img {
+  background: #000;
+}
+
+.stats > div {
+  padding-top: .5rem;
+  border-top: 1px solid #3b4b71;
+}
+
+@media (max-width: 25rem) {
+  .card-actions button {
+    padding-inline: .35rem;
+    font-size: .8rem;
+  }
+
+  #mastery { min-width: 0; }
+  #mastery-label { font-size: .7rem; }
+}
+
+@media (min-width: 56rem) {
+  :root:not(.tv-layout) .shell { width: min(calc(100% - 2rem), 65rem); }
+
+  :root:not(.tv-layout) .bottom-nav { width: min(100%, 66rem); }
+
+  :root:not(.tv-layout) #card-face:has(#flip-card img) {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: .55rem;
+  }
+
+}
+
+@media (orientation: landscape) and (min-width: 48rem) {
+  .tv-layout #card-face:has(#flip-card img) {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    padding: 0;
+  }
+
+  .tv-layout #flip-card:has(img) {
+    align-self: stretch;
+    align-items: center;
+  }
+
+  .tv-layout #flip-card img {
+    height: clamp(5rem, 40dvh, 27rem);
+  }
+
+  .tv-layout #card-snapshot { padding-top: .3rem; }
 }

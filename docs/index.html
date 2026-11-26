@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="cq-release" content="0.13.8">
+<meta name="cq-release" content="0.14.0">
 <meta name="theme-color" content="#0a0c20">
 <meta name="description" content="Explore the science of space in a bite-sized quiz game.">
 <title>QuizTrekker: Cosmic Quest</title>
@@ -12,13 +12,13 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
-<link rel="stylesheet" href="style.css?v=0.13.8">
-<script src="content.js?v=0.13.8" defer></script>
-<script src="explorer.js?v=0.13.8" defer></script>
-<script src="learn.js?v=0.13.8" defer></script>
-<script src="app.js?v=0.13.8" defer></script>
-<script src="gamepad.js?v=0.13.8" defer></script>
-<script src="updates.js?v=0.13.8" defer></script>
+<link rel="stylesheet" href="style.css?v=0.14.0">
+<script src="content.js?v=0.14.0" defer></script>
+<script src="explorer.js?v=0.14.0" defer></script>
+<script src="learn.js?v=0.14.0" defer></script>
+<script src="app.js?v=0.14.0" defer></script>
+<script src="gamepad.js?v=0.14.0" defer></script>
+<script src="updates.js?v=0.14.0" defer></script>
 <header class="shell">
   <img class="logo" src="assets/logo.png" alt="QuizTrekker: Cosmic Quest">
   <button id="settings-open" class="gear" aria-label="Open settings" title="Settings">⚙</button>
@@ -97,8 +97,10 @@
         </div>
         <div id="card-face" role="region" aria-label="Learn card content" tabindex="0">
           <button id="flip-card" aria-expanded="false" aria-controls="card-back"></button>
-          <div id="card-snapshot"></div>
-          <p id="card-image-info" class="image-credit"></p>
+          <div class="card-details" id="card-details">
+            <div id="card-snapshot"></div>
+            <p id="card-image-info" class="image-credit"></p>
+          </div>
           <div id="card-back" hidden></div>
         </div>
         <div class="card-controls">
@@ -199,7 +201,7 @@
       <button id="apply-update" type="button" class="primary" hidden>Update and reload</button>
       <p id="update-status" role="status"></p>
     </section>
-    <p id="app-version">Version 0.13.8</p>
+    <p id="app-version">Version 0.14.0</p>
   </dialog>
   <dialog id="planet-comparison" aria-labelledby="planet-comparison-title" aria-describedby="planet-comparison-note">
     <div class="dialog-header">
