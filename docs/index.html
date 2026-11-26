@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="cq-release" content="0.13.5">
+<meta name="cq-release" content="0.13.6">
 <meta name="theme-color" content="#0a0c20">
 <meta name="description" content="Explore the science of space in a bite-sized quiz game.">
 <title>QuizTrekker: Cosmic Quest</title>
@@ -12,12 +12,13 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
-<link rel="stylesheet" href="style.css?v=0.13.5">
-<script src="content.js?v=0.13.5" defer></script>
-<script src="explorer.js?v=0.13.5" defer></script>
-<script src="learn.js?v=0.13.5" defer></script>
-<script src="app.js?v=0.13.5" defer></script>
-<script src="updates.js?v=0.13.5" defer></script>
+<link rel="stylesheet" href="style.css?v=0.13.6">
+<script src="content.js?v=0.13.6" defer></script>
+<script src="explorer.js?v=0.13.6" defer></script>
+<script src="learn.js?v=0.13.6" defer></script>
+<script src="app.js?v=0.13.6" defer></script>
+<script src="gamepad.js?v=0.13.6" defer></script>
+<script src="updates.js?v=0.13.6" defer></script>
 <header class="shell">
   <img class="logo" src="assets/logo.png" alt="QuizTrekker: Cosmic Quest">
   <button id="settings-open" class="gear" aria-label="Open settings" title="Settings">⚙</button>
@@ -170,6 +171,25 @@
         <p id="settings-status" role="status"></p>
       </fieldset>
     </div>
+    <details id="controller-options">
+      <summary>Controller controls</summary>
+      <p id="controller-status">Checking for a controller…</p>
+      <label><input id="controller-preview" type="checkbox"> Always show controller controls</label>
+      <details>
+        <summary>Input diagnostics and button assignments</summary>
+        <p id="controller-inputs"></p>
+        <label><input id="controller-fallback" type="checkbox" disabled> Use standard-layout fallback for this unmapped controller</label>
+        <p>Enable fallback only if the controls match, or assign the controls you need.</p>
+        <label for="controller-action">Action</label>
+        <select id="controller-action" disabled></select>
+        <div class="actions">
+          <button id="controller-assign" disabled>Assign control</button>
+          <button id="controller-cancel" disabled>Cancel assignment</button>
+          <button id="controller-reset" disabled>Reset this controller</button>
+        </div>
+        <p id="controller-assignment" role="status"></p>
+      </details>
+    </details>
     <details id="image-credits">
       <summary>Image Credits</summary>
       <div id="image-credit-list"></div>
@@ -179,7 +199,7 @@
       <button id="apply-update" type="button" class="primary" hidden>Update and reload</button>
       <p id="update-status" role="status"></p>
     </section>
-    <p id="app-version">Version 0.13.5</p>
+    <p id="app-version">Version 0.13.6</p>
   </dialog>
   <dialog id="planet-comparison" aria-labelledby="planet-comparison-title" aria-describedby="planet-comparison-note">
     <div class="dialog-header">
@@ -195,5 +215,6 @@
   <button data-view="learn" aria-current="page"><span aria-hidden="true">▣</span>Learn</button>
   <button data-view="play"><span aria-hidden="true">▶</span>Play</button>
   <button data-view="my-progress"><span aria-hidden="true">★</span>My Progress</button>
+  <p id="controller-help" hidden></p>
 </nav>
 </html>

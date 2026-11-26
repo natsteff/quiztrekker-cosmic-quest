@@ -650,10 +650,12 @@ function fitVisibleLayout() {
 
   const showingLearn = !$("learn").hidden && !$("learn-cards").hidden;
   const showingPlay = !$("play").hidden;
-  document.body.classList.toggle("inner-scroll", (fullscreenLayout || height >= 460) && (showingLearn || showingPlay));
+  const showingProgress = !$("my-progress").hidden;
+  document.body.classList.toggle("inner-scroll", (fullscreenLayout || height >= 460) && (showingLearn || showingPlay || showingProgress));
   if (document.body.classList.contains("inner-scroll")) {
     const compactTV = fullscreenLayout && matchMedia("(max-height: 28rem)").matches;
     const scrollArea = showingLearn ? $(compactTV ? "flashcard" : "card-face") :
+      showingProgress ? $("my-progress") :
       !$("game-menu").hidden ? $("game-menu") :
       !$("round-results").hidden ? $("round-results") : $("question-card");
     if (scrollArea.clientHeight < Math.min(fullscreenLayout ? 64 : 112, scrollArea.scrollHeight)) {

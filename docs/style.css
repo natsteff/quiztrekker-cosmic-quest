@@ -228,7 +228,7 @@ body.inner-scroll {
 }
 
 .inner-scroll #card-face, .inner-scroll #game-menu,
-.inner-scroll #question-card, .inner-scroll #round-results {
+.inner-scroll #question-card, .inner-scroll #round-results, .inner-scroll #my-progress {
   min-height: 0;
   overflow: auto;
   overscroll-behavior-y: contain;
@@ -308,3 +308,14 @@ body.inner-scroll {
     background: var(--panel);
   }
 }
+
+#controller-options{margin-top:.85rem}
+#controller-options summary{cursor:pointer;font-weight:750}
+#controller-status,#controller-inputs,#controller-assignment{overflow-wrap:anywhere}
+#controller-help{grid-column:1/-1;margin:.15rem 0 0;color:var(--muted);font-size:.76rem;line-height:1.3}
+.pad-badge{padding:.12rem .35rem;border-radius:.35rem;background:var(--violet);color:#1b1037;font-weight:800}
+.controller-ready #choices button:has(.pad-badge)>strong{display:none}
+.controller-ready #choices [data-planet]>strong{display:grid}
+.controller-picker button{display:block;width:100%;margin:.4rem 0;text-align:left}
+.controller-picker [aria-pressed="true"]{border-color:var(--violet)}
+[data-pad-focus]:focus{outline:3px solid var(--gold);outline-offset:-3px}
