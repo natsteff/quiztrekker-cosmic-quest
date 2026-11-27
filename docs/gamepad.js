@@ -55,7 +55,7 @@
     return true;
   }
 
-  const controls = (root) => [...root.querySelectorAll("button,a[href],input:not([type=hidden]),select,summary")].filter(visible);
+  const controls = (root) => [...root.querySelectorAll("button:not(.orbit-world),a[href],input:not([type=hidden]),select,summary")].filter(visible);
   const modal = () => [...document.querySelectorAll("dialog:modal")].at(-1);
   const currentTab = () => tabs.find((tab) => tab.hasAttribute("aria-current")).dataset.view;
   const onCards = () => currentTab() === "learn" && !$("learn-cards").hidden;

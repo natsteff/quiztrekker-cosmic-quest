@@ -163,7 +163,7 @@ function openExplorer() {
   $("open-explorer").hidden = true;
   $("explorer").hidden = false;
   const button = explorerCardButton?.isConnected ? explorerCardButton :
-    [...$("explorer-map").querySelectorAll("[data-world]")].find((item) => item.dataset.world === explorerCardId);
+    [...$("explorer-map").querySelectorAll("[data-world]:not(.orbit-world)")].find((item) => item.dataset.world === explorerCardId);
   if (explorerReturn && button) {
     button.focus({ preventScroll: true });
     window.scrollTo(0, explorerScroll);
@@ -197,13 +197,16 @@ function renderSizeLineup(map) {
   function lineup(ids, maximum, title) {
     const heading = make("h3", title);
     const list = make("ol");
-    for (const id of ids) {
+    list.setAttribute("role", "list");
+    for (const [index, id] of ids.entries()) {
       const item = make("li");
       const [diameter, kind] = measure(id);
       const row = makeWorldButton(id);
       const measurement = make("span", numberLabel(diameter, 0) + " km");
       if (id === "moon") measurement.append(make("small", kind));
-      row.replaceChildren(make("strong", worldLabel(id)), measurement, make("span", numberLabel(diameter / earthDiameter, 2) + "× Earth"));
+      const rank = make("span", String(index + 1));
+      rank.className = "size-rank";
+      row.replaceChildren(rank, make("strong", worldLabel(id)), measurement, make("span", numberLabel(diameter / earthDiameter, 2) + "× Earth"));
       const graphic = make("span");
       graphic.className = "lineup-graphic";
       graphic.append(coloredDisk(id, diameter / maximum * 92));
@@ -236,24 +239,125 @@ function orbitSVG(radii) {
   return svg;
 }
 
-function fitDistanceMarkers(canvas) {
-  const markers = [...canvas.querySelectorAll(".orbit-world")];
+function fitOrbitLabels(canvas) {
   const width = canvas.offsetWidth;
-  const positions = markers.map((marker) => [
-    parseFloat(marker.style.left) * width / 100,
-    parseFloat(marker.style.top) * width / 100
-  ]);
-  for (const [index, marker] of markers.entries()) {
-    const [x, y] = positions[index];
-    const closest = Math.min(...positions.map(([otherX, otherY], other) =>
-      other === index ? Infinity : Math.hypot(x - otherX, y - otherY)));
-    const hitSize = Math.min(44, Math.max(2, (closest - 1) / Math.SQRT2));
-    marker.style.setProperty("--orbit-hit-size", hitSize + "px");
-    // At overview scale, move tightly clustered worlds to the full-size list.
-    const crowded = hitSize < 24;
-    marker.classList.toggle("orbit-crowded", crowded);
-    if (marker instanceof HTMLButtonElement) marker.tabIndex = crowded ? -1 : 0;
+  if (!width) return;
+  const layer = canvas.querySelector(".orbit-label-layer");
+  const markers = [...canvas.querySelectorAll(".orbit-world")].map((marker) => {
+    const id = marker.dataset.orbitId;
+    return {
+      id, marker,
+      x: parseFloat(marker.style.left) * width / 100,
+      y: parseFloat(marker.style.top) * width / 100
+    };
+  });
+  const focused = layer.contains(document.activeElement) ? document.activeElement.dataset.world : null;
+  layer.replaceChildren();
+
+  const inside = ({ x, y, w, h }) => x >= 6 && y >= 6 && x + w <= width - 6 && y + h <= width - 6;
+  const intersects = (a, b) => a.x < b.x + b.w + 4 && a.x + a.w + 4 > b.x &&
+    a.y < b.y + b.h + 4 && a.y + a.h + 4 > b.y;
+  const obstacles = markers.map(({ x, y }) => ({ x: x - 8, y: y - 8, w: 16, h: 16 }));
+  const crowded = new Set();
+
+  for (const entry of markers) {
+    const closest = Math.min(...markers.map((other) => other === entry ? Infinity :
+      Math.hypot(entry.x - other.x, entry.y - other.y)));
+    const hitSize = Math.min(36, Math.max(2, (closest - 1) / Math.SQRT2));
+    entry.marker.style.setProperty("--orbit-hit-size", hitSize + "px");
+    entry.marker.classList.toggle("orbit-crowded", closest < 23);
+    if (closest < 23) crowded.add(entry);
   }
+
+  function label(entry) {
+    const node = explorerPlanets.has(entry.id) ? makeWorldButton(entry.id) : make("span", worldLabel(entry.id));
+    node.className = "orbit-caption";
+    if (entry.marker.title) node.title = entry.marker.title;
+    return node;
+  }
+
+  function position(node, box) {
+    node.style.left = box.x + "px";
+    node.style.top = box.y + "px";
+  }
+
+  const ns = "http://www.w3.org/2000/svg";
+  const leaders = document.createElementNS(ns, "svg");
+  leaders.classList.add("orbit-leaders");
+  leaders.setAttribute("viewBox", `0 0 ${width} ${width}`);
+  leaders.setAttribute("aria-hidden", "true");
+  layer.append(leaders);
+
+  function placeGroup() {
+    if (!crowded.size) return null;
+    const group = make("div");
+    group.className = "orbit-callout";
+    group.setAttribute("role", "group");
+    group.setAttribute("aria-label", "Crowded worlds");
+    for (const entry of crowded) group.append(label(entry));
+    layer.append(group);
+    const w = group.offsetWidth, h = group.offsetHeight;
+    const entries = [...crowded];
+    const average = (axis) => entries.reduce((sum, entry) => sum + entry[axis], 0) / entries.length;
+    const x = average("x"), y = average("y");
+    const fit = (value, extent) => Math.max(6, Math.min(width - extent - 6, value));
+    const gap = Math.max(34, Math.min(76, width * .13));
+    const candidates = [
+      [Math.max(...entries.map((entry) => entry.x)) + gap, y - h / 2],
+      [Math.min(...entries.map((entry) => entry.x)) - gap - w, y - h / 2],
+      [x - w / 2, Math.min(...entries.map((entry) => entry.y)) - gap - h],
+      [x - w / 2, Math.max(...entries.map((entry) => entry.y)) + gap],
+      [width - w - 6, y - h / 2], [6, y - h / 2]
+    ].map(([left, top]) => ({ x: fit(left, w), y: fit(top, h), w, h }));
+    const box = candidates.find((candidate) => !obstacles.some((obstacle) => intersects(candidate, obstacle))) ?? candidates[0];
+    position(group, box);
+
+    const endX = Math.max(box.x, Math.min(box.x + w, x));
+    const endY = Math.max(box.y, Math.min(box.y + h, y));
+    const angle = Math.atan2(endY - y, endX - x);
+    const point = document.createElementNS(ns, "path");
+    const fromX = x + 10 * Math.cos(angle), fromY = y + 10 * Math.sin(angle);
+    point.setAttribute("d", `M${fromX} ${fromY}L${endX} ${endY} M${endX - 7 * Math.cos(angle - .55)} ${endY - 7 * Math.sin(angle - .55)}L${endX} ${endY}L${endX - 7 * Math.cos(angle + .55)} ${endY - 7 * Math.sin(angle + .55)}`);
+    leaders.append(point);
+    return { group, box };
+  }
+
+  let group = placeGroup();
+  let changed;
+  do {
+    changed = false;
+    const occupied = group ? [...obstacles, group.box] : [...obstacles];
+    for (const entry of markers) {
+      if (crowded.has(entry)) continue;
+      const node = label(entry);
+      layer.append(node);
+      const w = node.offsetWidth, h = node.offsetHeight;
+      const { x, y } = entry;
+      const candidates = [
+        [x + 12, y - h / 2], [x - 12 - w, y - h / 2],
+        [x - w / 2, y - 12 - h], [x - w / 2, y + 12],
+        [x + 9, y - 10 - h], [x - 9 - w, y + 10]
+      ].map(([left, top]) => ({ x: left, y: top, w, h }));
+      const box = candidates.find((candidate) => inside(candidate) &&
+        !occupied.some((obstacle) => intersects(candidate, obstacle)));
+      if (box) {
+        position(node, box);
+        occupied.push(box);
+      } else {
+        node.remove();
+        crowded.add(entry);
+        changed = true;
+      }
+    }
+    if (changed) {
+      for (const node of layer.querySelectorAll(":scope > .orbit-caption")) node.remove();
+      group?.group.remove();
+      leaders.replaceChildren();
+      group = placeGroup();
+    }
+  } while (changed);
+
+  if (focused) [...layer.querySelectorAll("[data-world]")].find((node) => node.dataset.world === focused)?.focus({ preventScroll: true });
 }
 
 function applyZoom(zoom, center) {
@@ -269,7 +373,7 @@ function applyZoom(zoom, center) {
   canvas.style.width = base * explorerZoom + "px";
   viewport.scrollLeft = midpoint[0] * canvas.offsetWidth - viewport.clientWidth / 2;
   viewport.scrollTop = midpoint[1] * canvas.offsetHeight - viewport.clientHeight / 2;
-  if (viewport.classList.contains("orbit-distance")) fitDistanceMarkers(canvas);
+  fitOrbitLabels(canvas);
   $("orbit-zoom-level").textContent = numberLabel(explorerZoom, 2) + "×";
 }
 
@@ -319,6 +423,8 @@ function renderOrbits(map, center, ids) {
     const py = (400 + radius * Math.sin(angle)) / 8;
     const node = explorerPlanets.has(id) ? makeWorldButton(id) : make("span", worldLabel(id));
     node.className = "orbit-world";
+    node.dataset.orbitId = id;
+    if (node instanceof HTMLButtonElement) node.tabIndex = -1;
     node.style.left = px + "%";
     node.style.top = py + "%";
     node.style.setProperty("--world-color", colors[id] || "#c6b9e8");
@@ -333,17 +439,17 @@ function renderOrbits(map, center, ids) {
     }
     explorerCanvas.append(node);
   }
-  explorerViewport.classList.toggle("orbit-distance", distance);
+  const labels = make("div");
+  labels.className = "orbit-label-layer";
+  explorerCanvas.append(labels);
   explorerViewport.append(explorerCanvas);
   map.append(tools, explorerViewport);
   const viewport = explorerViewport;
-  if (distance) {
-    const canvas = explorerCanvas;
-    markerObserver = new ResizeObserver(() => {
-      if (canvas.offsetWidth) fitDistanceMarkers(canvas);
-    });
-    markerObserver.observe(canvas);
-  }
+  const canvas = explorerCanvas;
+  markerObserver = new ResizeObserver(() => {
+    if (canvas.offsetWidth) fitOrbitLabels(canvas);
+  });
+  markerObserver.observe(canvas);
   let drag;
   viewport.addEventListener("pointerdown", (event) => {
     if (event.pointerType !== "mouse" || event.button !== 0 || event.target.closest("button")) return;
@@ -410,8 +516,18 @@ function renderExplorer() {
   const ids = explorerSystem ? explorerMoons(explorerSystem).map((card) => card.id) :
     [...planetIds, ...Object.keys(dwarfOrbits)].filter((id) => explorerPlanets.has(id))
       .sort((a, b) => (planetMeasurements[a]?.[1] || dwarfOrbits[a]) - (planetMeasurements[b]?.[1] || dwarfOrbits[b]));
-  if (explorerSystem) note.textContent = "Moon system schematic. Orbit spacing, positions, and icon sizes are illustrative.";
-  else if (explorerMode === "distance") note.textContent = "Each ring radius represents the orbit’s semimajor axis on one linear distance scale. Orbits are drawn as circles. Icon sizes and positions along the rings are illustrative. Zoom in or use the world list to choose a crowded marker.";
+  if (explorerSystem) {
+    note.textContent = "Moon system schematic. Orbit spacing, positions, and icon sizes are illustrative.";
+    const confirmed = explorerSystem === "pluto" ? 5 : planetFacts[explorerSystem]?.[4];
+    if (confirmed > ids.length) {
+      const coverage = make("p", `Showing ${ids.length} of ${confirmed} confirmed moons. `);
+      coverage.className = "orbit-sources";
+      const source = explorerSystem === "pluto" ? "https://science.nasa.gov/dwarf-planets/pluto/moons/" : moonCountSource;
+      coverage.append(sourceLink("Moon count source", source));
+      map.append(coverage);
+    }
+  }
+  else if (explorerMode === "distance") note.textContent = "Each ring radius represents the orbit’s semimajor axis on one linear distance scale. Orbits are drawn as circles. Icon sizes and positions along the rings are illustrative. Zoom in to separate crowded markers or choose a name in the callout.";
   else note.textContent = "Schematic orbit map. Sizes, spacing, and positions are illustrative. Rotate to landscape for more room.";
 
   if (ids.length || explorerPlanets.has("sun")) {

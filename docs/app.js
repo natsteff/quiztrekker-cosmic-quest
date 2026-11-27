@@ -709,7 +709,9 @@ function fitVisibleLayout() {
   const face = $("card-face");
   const overflow = Math.max(0, face.scrollHeight - face.clientHeight);
   const cardBottom = flashcard.getBoundingClientRect().bottom + window.scrollY + overflow;
-  const reservedBottom = parseFloat(getComputedStyle(document.body).paddingBottom);
+  const navInFlow = getComputedStyle(bottomNav).position === "sticky";
+  const reservedBottom = parseFloat(getComputedStyle(document.body).paddingBottom) +
+    (navInFlow ? bottomNav.offsetHeight + parseFloat(getComputedStyle(bottomNav).marginTop) : 0);
   const imageSpace = height - reservedBottom - (cardBottom - image.getBoundingClientRect().height);
   flashcard.style.setProperty("--learn-image-space", Math.max(0, Math.floor(imageSpace)) + "px");
 }
