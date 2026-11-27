@@ -492,6 +492,53 @@ $("study").addEventListener("click", () => {
   show("learn", false);
   $("flip-card").focus();
 });
+const gameShareUrl = "https://natsteff.github.io/quiztrekker-cosmic-quest/";
+const about = $("about");
+const shareFallback = $("share-fallback");
+const shareUrl = $("share-url");
+const shareStatus = $("share-status");
+$("about-version").textContent = "Version " + document.querySelector('meta[name="cq-release"]').content;
+shareUrl.value = gameShareUrl;
+
+$("about-open").addEventListener("click", () => {
+  shareFallback.hidden = true;
+  shareStatus.textContent = "";
+  about.showModal();
+});
+
+let sharing = false;
+async function shareGame() {
+  if (sharing) return;
+  if (typeof navigator.share === "function") {
+    sharing = true;
+    try {
+      await navigator.share({ title: document.title, url: gameShareUrl });
+      return;
+    } catch (error) {
+      if (error.name === "AbortError") return;
+    } finally {
+      sharing = false;
+    }
+  }
+  shareFallback.hidden = false;
+  shareStatus.textContent = "";
+  if (!about.open) about.showModal();
+  $("copy-share-url").focus();
+}
+
+$("about-share").addEventListener("click", shareGame);
+$("settings-share").addEventListener("click", shareGame);
+$("copy-share-url").addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(gameShareUrl);
+    shareStatus.textContent = "Link copied.";
+  } catch {
+    shareUrl.focus();
+    shareUrl.select();
+    shareStatus.textContent = "Copy the selected link using your browser’s controls.";
+  }
+});
+
 $("settings-open").addEventListener("click", () => $("settings").showModal());
 $("settings").addEventListener("close", recordExploration);
 for (const button of document.querySelectorAll("[data-game]")) {

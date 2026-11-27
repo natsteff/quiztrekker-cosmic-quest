@@ -3,13 +3,13 @@
 </p>
 <p align="center">
   <a href="https://natsteff.github.io/quiztrekker-cosmic-quest/">
-    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now, version 0.14.5" width="420">
+    <img src="assets/play-now.svg" alt="Play QuizTrekker: Cosmic Quest now, version 0.14.6" width="420">
   </a>
 </p>
 
 # QuizTrekker: Cosmic Quest
 
-**Current release · v0.14.5**
+**Current release · v0.14.6**
 
 Explore the Solar System and the science beyond it with illustrated flashcards, an interactive orbit map, and quizzes. On your first visit, a welcome screen explains the beginner setup: **Foundations** with **Solar System Basics** enabled. Start with the Sun, eight planets, and Earth’s Moon. Use Settings to add more moons, dwarf planets, and topics like black holes and time dilation, or switch to **Advanced** questions.
 
@@ -37,6 +37,10 @@ chromium --kiosk "https://natsteff.github.io/quiztrekker-cosmic-quest/?fullscree
 Connect a controller and press and release a button while the game is focused. Standard-mapped controllers work in the regular game and TV layout. The on-screen guide uses Xbox-style button names. Use LB and RB to switch tabs, Menu for Settings, and View to return to the game list during Play. For short answer lists, press the button shown next to an answer. For planet ordering and longer lists, highlight a choice with the D-pad or left stick and press A. Use the right stick to scroll.
 
 Open **Settings → Controller controls** to see the device status, preview the guide, or assign buttons and axes. Unmapped controllers require the explicit fallback setting. A controller that emulates a keyboard will only appear as a gamepad if the browser exposes it through the Gamepad API.
+
+## Share Cosmic Quest
+
+Select the game logo to see the current version and **Share game**. You can also share from **Settings**. If your browser has no share sheet, use **Copy link** or select the game URL.
 
 ## How to play
 

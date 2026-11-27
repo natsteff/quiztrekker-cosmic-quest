@@ -702,3 +702,36 @@ summary:focus-visible, [data-pad-focus]:focus {
     border-radius: .85rem;
   }
 }
+
+#about-open {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+#about-open:focus-visible { outline: 3px solid var(--focus); }
+#about-title { margin: 0; }
+#about-version { margin: 0 0 .8rem; color: var(--muted); }
+#settings-share { margin: 0 0 .65rem; }
+
+#share-fallback {
+  display: grid;
+  gap: .45rem;
+  margin-top: .85rem;
+}
+
+#share-fallback label { min-height: 0; }
+#share-url {
+  width: 100%;
+  height: auto;
+  padding: .6rem;
+  border: 1px solid var(--edge);
+  border-radius: .55rem;
+  background: #111c39;
+  color: var(--text);
+  font: inherit;
+}
+#copy-share-url { justify-self: start; }
+#share-status { margin: 0; color: var(--muted); }
+#share-status:empty { display: none; }

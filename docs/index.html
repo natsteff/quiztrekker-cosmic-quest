@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="cq-release" content="0.14.5">
+<meta name="cq-release" content="0.14.6">
 <meta name="theme-color" content="#0a0c20">
 <meta name="description" content="Explore the science of space in a bite-sized quiz game.">
 <title>QuizTrekker: Cosmic Quest</title>
@@ -12,15 +12,17 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
-<link rel="stylesheet" href="style.css?v=0.14.5">
-<script src="content.js?v=0.14.5" defer></script>
-<script src="explorer.js?v=0.14.5" defer></script>
-<script src="learn.js?v=0.14.5" defer></script>
-<script src="app.js?v=0.14.5" defer></script>
-<script src="gamepad.js?v=0.14.5" defer></script>
-<script src="updates.js?v=0.14.5" defer></script>
+<link rel="stylesheet" href="style.css?v=0.14.6">
+<script src="content.js?v=0.14.6" defer></script>
+<script src="explorer.js?v=0.14.6" defer></script>
+<script src="learn.js?v=0.14.6" defer></script>
+<script src="app.js?v=0.14.6" defer></script>
+<script src="gamepad.js?v=0.14.6" defer></script>
+<script src="updates.js?v=0.14.6" defer></script>
 <header class="shell">
-  <img class="logo" src="assets/logo.png" alt="QuizTrekker: Cosmic Quest">
+  <button id="about-open" type="button" aria-label="About QuizTrekker Cosmic Quest" aria-haspopup="dialog">
+    <img class="logo" src="assets/logo.png" alt="">
+  </button>
   <button id="settings-open" class="gear" aria-label="Open settings" title="Settings">⚙</button>
 </header>
 <main class="shell">
@@ -155,6 +157,7 @@
       <h1 id="settings-title">Settings</h1>
       <form method="dialog"><button aria-label="Close settings">✕</button></form>
     </div>
+    <button id="settings-share" type="button">Share game</button>
     <div class="panel">
       <fieldset>
         <legend>Learning level</legend>
@@ -201,7 +204,21 @@
       <button id="apply-update" type="button" class="primary" hidden>Update and reload</button>
       <p id="update-status" role="status"></p>
     </section>
-    <p id="app-version">Version 0.14.5</p>
+    <p id="app-version">Version 0.14.6</p>
+  </dialog>
+  <dialog id="about" aria-labelledby="about-title">
+    <div class="dialog-header">
+      <h2 id="about-title">QuizTrekker: Cosmic Quest</h2>
+      <form method="dialog"><button aria-label="Close About">✕</button></form>
+    </div>
+    <p id="about-version"></p>
+    <button id="about-share" class="primary" type="button" autofocus>Share game</button>
+    <div id="share-fallback" hidden>
+      <label for="share-url">Game link</label>
+      <input id="share-url" type="url" readonly>
+      <button id="copy-share-url" type="button">Copy link</button>
+      <p id="share-status" role="status"></p>
+    </div>
   </dialog>
   <dialog id="planet-comparison" aria-labelledby="planet-comparison-title" aria-describedby="planet-comparison-note">
     <div class="dialog-header">
